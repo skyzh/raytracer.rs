@@ -1,11 +1,8 @@
-extern crate rand;
-use self::rand::Rng;
-use self::rand::ThreadRng;
-
 use tracer::Hitable;
 use tracer::HitRecord;
 use tracer::Ray;
 use tracer::Vec3;
+use tracer::Randomizer;
 use std;
 
 pub struct World {
@@ -20,42 +17,42 @@ impl World {
     }
 
     pub fn color(&self, ray: &Ray) -> Vec3 {
-        let mut frag = Fragment {
-            rng: rand::thread_rng(),
+        let fragment = Fragment {
             world: self
         };
-        frag.color(&ray)
+        let mut randomizer = Randomizer::new();
+        fragment.color(&ray, &mut randomizer, 0)
     }
 }
 
 struct Fragment <'a> {
-    rng: ThreadRng,
     world: &'a World
 }
- 
+
 impl <'a> Fragment <'a> {
-    fn color(&mut self, ray: &Ray) -> Vec3 {
-        match self.world.hit(&ray, 0.0, std::f64::MAX) {
-            Some(t) => {
-                let new_ray = Ray::new(t.p, t.normal + self.random_in_unit_sphere());
-                self.color(&new_ray) * 0.5
+    fn color(&self, ray: &Ray, randomizer: &mut Randomizer, depth: u32) -> Vec3 {
+        match self.world.hit(&ray, 0.001, std::f64::MAX) {
+            Some(hit_record) => {
+                if depth < 50 {
+                    let material = &*hit_record.material;
+                    match material.scatter(&ray, &hit_record, randomizer) {
+                        Some((scattered, attenuation)) => {
+                            self.color(&scattered, randomizer, depth + 1) * attenuation
+                        },
+                        None => {
+                            Vec3::new(0.0, 0.0, 0.0)
+                        }
+                    }
+                } else {
+                    Vec3::new(0.0, 0.0, 0.0)
+                } 
             },
             None => {
-                let unit = ray.destination.unit();
+                let unit = ray.direction.unit();
                 let t: f64 = (unit.y + 1.0) * 0.5;
                 Vec3::new(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t
             }
         }
-    }
-    
-    fn random_in_unit_sphere(&mut self) -> Vec3 {
-        let mut direction = Vec3::new(1.0, 1.0, 1.0);
-        let one_vec = Vec3::new(1.0, 1.0, 1.0);
-        while direction.length() >= 1.0 {
-            direction = Vec3::new(self.rng.gen_range(0.0, 2.0), self.rng.gen_range(0.0, 2.0), self.rng.gen_range(0.0, 2.0));
-            direction = direction - one_vec;
-        }
-        direction
     }
 }
 
