@@ -5,7 +5,7 @@ use self::rand::ThreadRng;
 use tracer::Vec3;
 
 pub struct Randomizer {
-    rng: ThreadRng
+    pub rng: ThreadRng
 }
 
 impl Randomizer {
@@ -17,6 +17,10 @@ impl Randomizer {
             direction = direction - one_vec;
         }
         direction
+    }
+
+    pub fn gen_range(&mut self, a: f64, b: f64) -> f64 {
+        self.rng.gen_range(a, b)
     }
 
     pub fn new() -> Randomizer {

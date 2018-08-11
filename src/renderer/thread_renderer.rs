@@ -49,6 +49,7 @@ impl Renderer for ThreadRenderer {
             for y_row in 0..self.row {
                 let tx = tx.clone();
                 pool.execute(move|| {
+                    println!("({},{}) Started", y_row, x_col);
                     let renderer = BasicRenderer {
                         width: width,
                         height: height,

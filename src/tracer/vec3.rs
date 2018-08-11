@@ -1,5 +1,5 @@
 extern crate image;
-use std::ops::{Add, Div, Mul, Sub};
+use std::ops::{Add, Div, Mul, Sub, Neg};
 
 #[derive(Clone, Copy, Default)]
 pub struct Vec3 {
@@ -66,6 +66,18 @@ impl Div<f64> for Vec3 {
             z: self.z / other
         }
     }
+}
+
+impl Neg for Vec3 {
+    type Output = Vec3;
+
+    fn neg(self) -> Vec3 {
+        Vec3 {
+            x: -self.x,
+            y: -self.y,
+            z: -self.z
+        }
+    }  
 }
 
 impl Vec3 {
