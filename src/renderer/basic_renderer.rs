@@ -9,6 +9,7 @@ use tracer::World;
 use tracer::Camera;
 use tracer::Ray;
 use tracer::Hitable;
+use tracer::Randomizer;
 
 use renderer::RenderProvider;
 
@@ -39,7 +40,9 @@ impl BasicRenderer {
 impl Renderer for BasicRenderer {
     fn render <T: RenderProvider> (&self) -> image::RgbaImage {
         let mut imgbuf = image::RgbaImage::new(self.b_width, self.b_height);
-        let mut rng = rand::thread_rng();
+        let mut rng = Randomizer{
+            rng: rand::thread_rng()
+        };
         let camera = T::camera();
         let world = T::world();
 
@@ -48,7 +51,7 @@ impl Renderer for BasicRenderer {
             for _i in 0..self.antialiasing {
                 let u: f64 = ((x + self.x) as f64 + rng.gen_range(0.0, 1.0)) / self.width as f64;
                 let v: f64 = 1.0 - ((y + self.y) as f64 + rng.gen_range(0.0, 1.0)) / self.height as f64;
-                let ray = camera.get_ray(u, v);
+                let ray = camera.get_ray(u, v, &mut rng);
                 let color_f = world.color(&ray);
                 color_sum = color_sum + color_f;
             }

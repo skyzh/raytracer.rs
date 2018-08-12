@@ -25,18 +25,22 @@ struct MainRenderProvider {
 
 impl RenderProvider for MainRenderProvider {
     fn camera() -> Camera {
-        Camera::new(90.0, 2.0, Vec3::new(-2.0, 2.0, 1.0), Vec3::new(0.0, 0.0, -1.0), Vec3::new(0.0, 1.0, 0.0))
+        let from = Vec3::new(-2.0, 0.3, 0.5);
+        let to = Vec3::new(0.0, 0.0, -1.0);
+        let dist_to_focus = (from - to).length();
+        Camera::new(45.0, 2.0, from, to, Vec3::new(0.0, 1.0, 0.0), 0.3, dist_to_focus)
     }
     fn world() -> World {
         let mut world_items: Vec<Box<Hitable>> = Vec::new();
         world_items.push(
             Box::new(Sphere::new(
-                Vec3::new(0.0, 0.0, -1.0), 0.5,
-                Rc::new(Lambertian::new(Vec3::new(0.8, 0.6, 0.3))))));
+                Vec3::new(0.0, -100.5, -1.0), 100.0,
+                Rc::new(Lambertian::new(Vec3::new(0.4, 0.4, 0.4))))));
+        
         world_items.push(
             Box::new(Sphere::new(
-                Vec3::new(0.0, -100.5, -1.0), 100.0,
-                Rc::new(Lambertian::new(Vec3::new(0.8, 0.8, 0.0))))));
+                Vec3::new(0.0, 0.0, -1.0), 0.5,
+                Rc::new(Lambertian::new(Vec3::new(0.8, 0.6, 0.3))))));
         world_items.push(
             Box::new(Sphere::new(
                 Vec3::new(1.0, 0.0, -1.0), 0.3,
@@ -45,11 +49,12 @@ impl RenderProvider for MainRenderProvider {
             Box::new(Sphere::new(
                 Vec3::new(-1.0, 0.0, -1.0), 0.3,
                 Rc::new(Dielectric::new(1.5)))));
+        
         let seed = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4];
         let mut rng: StdRng = SeedableRng::from_seed(seed);
-        for _i in 0..20 {
-            let size = rng.gen_range(0.03, 0.1);
-            let pos = Vec3::new(rng.gen_range(-1.0, 1.0), size - 0.5, rng.gen_range(0.0, 1.0));
+        for _i in 0..200 {
+            let size = rng.gen_range(0.05, 0.2);
+            let pos = Vec3::new(rng.gen_range(-3.0, 3.0), size - 0.5, rng.gen_range(-4.0, 2.0));
             let color = Vec3::new(rng.gen_range(0.1, 0.9), rng.gen_range(0.1, 0.9), rng.gen_range(0.1, 0.9));
             let s = rng.gen_range(0, 3);
             let material: Rc<Material>;
@@ -76,12 +81,12 @@ fn main() {
     let start_time = time::get_time();
 
     let renderer = ThreadRenderer {
-        width: 800,
-        height: 400,
+        width: 1600,
+        height: 800,
         antialiasing: 256,
-        workers: 8,
-        row: 5,
-        col: 5
+        workers: 4,
+        row: 10,
+        col: 10
     };
     
 
