@@ -100,6 +100,14 @@ impl Vec3 {
         A.x * B.x + A.y * B.y + A.z * B.z
     }
 
+    pub fn cross(A: Vec3, B: Vec3) -> Vec3 {
+        Vec3 {
+            x: A.y * B.z - A.z * B.y,
+            y: A.z * B.x - A.x * B.z,
+            z: A.x * B.y - A.y * B.x
+        }
+    }
+
     pub fn rgba(&self) -> image::Rgba<u8> {
         image::Rgba([
             (self.x * 255.99) as u8,

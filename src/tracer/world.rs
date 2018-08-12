@@ -69,8 +69,3 @@ impl Hitable for World {
         hit_record
     }
 }
-
-unsafe impl Send for World {
-}
-unsafe impl Sync for World {
-}

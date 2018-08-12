@@ -10,6 +10,7 @@ use tracer::Vec3;
 use tracer::Sphere;
 use tracer::World;
 use tracer::Hitable;
+use tracer::materials::Material;
 use tracer::materials::Lambertian;
 use tracer::materials::Metal;
 use tracer::materials::Dielectric;
@@ -24,12 +25,7 @@ struct MainRenderProvider {
 
 impl RenderProvider for MainRenderProvider {
     fn camera() -> Camera {
-        Camera {
-            origin: Vec3::new(0.0, 0.0, 0.0),
-            lower_left_corner: Vec3::new(-2.0, -1.0, -1.0),
-            horizontal: Vec3::new(4.0, 0.0, 0.0),
-            vertical: Vec3::new(0.0, 2.0, 0.0)
-        }
+        Camera::new(90.0, 2.0, Vec3::new(-2.0, 2.0, 1.0), Vec3::new(0.0, 0.0, -1.0), Vec3::new(0.0, 1.0, 0.0))
     }
     fn world() -> World {
         let mut world_items: Vec<Box<Hitable>> = Vec::new();
@@ -52,14 +48,23 @@ impl RenderProvider for MainRenderProvider {
         let seed = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4];
         let mut rng: StdRng = SeedableRng::from_seed(seed);
         for _i in 0..20 {
-            let size = rng.gen_range(0.1, 0.3);
-            let pos = Vec3::new(rng.gen_range(-3.0, 3.0), rng.gen_range(-3.0, 3.0), rng.gen_range(-3.0, -2.0));
+            let size = rng.gen_range(0.03, 0.1);
+            let pos = Vec3::new(rng.gen_range(-1.0, 1.0), size - 0.5, rng.gen_range(0.0, 1.0));
             let color = Vec3::new(rng.gen_range(0.1, 0.9), rng.gen_range(0.1, 0.9), rng.gen_range(0.1, 0.9));
+            let s = rng.gen_range(0, 3);
+            let material: Rc<Material>;
+            if s == 0 {
+                material = Rc::new(Lambertian::new(color));
+            } else if s == 1 {
+                material = Rc::new(Metal::new(color, rng.gen_range(0.0, 0.5)));
+            } else {
+                material = Rc::new(Dielectric::new(rng.gen_range(0.0, 0.5)));
+            }
             world_items.push(
                 Box::new(Sphere::new(
                     pos,
                     size,
-                    Rc::new(Lambertian::new(color))
+                    material
                 ))
             );
         }
