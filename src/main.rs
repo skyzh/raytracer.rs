@@ -28,7 +28,7 @@ impl RenderProvider for MainRenderProvider {
         let from = Vec3::new(-2.0, 0.3, 0.5);
         let to = Vec3::new(0.0, 0.0, -1.0);
         let dist_to_focus = (from - to).length();
-        Camera::new(45.0, 2.0, from, to, Vec3::new(0.0, 1.0, 0.0), 0.3, dist_to_focus)
+        Camera::new(45.0, 2.0, from, to, Vec3::new(0.0, 1.0, 0.0), 0.05, dist_to_focus)
     }
     fn world() -> World {
         let mut world_items: Vec<Box<Hitable>> = Vec::new();
