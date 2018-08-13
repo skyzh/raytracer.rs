@@ -1,7 +1,7 @@
 use tracer::Camera;
 use tracer::World;
-
+use std::sync::Arc;
 pub trait RenderProvider {
-    fn camera() -> Camera;
-    fn world() -> World;
+    fn camera() -> Arc<Camera>;
+    fn world() -> Arc<World>;
 }

@@ -10,6 +10,7 @@ use tracer::Camera;
 use tracer::Ray;
 use tracer::Hitable;
 use tracer::Randomizer;
+use std::sync::Arc;
 
 use renderer::RenderProvider;
 
@@ -20,11 +21,13 @@ pub struct BasicRenderer {
     pub x: u32,
     pub y: u32,
     pub b_width: u32,
-    pub b_height: u32
+    pub b_height: u32,
+    pub camera: Arc<Camera>,
+    pub world: Arc<World>
 }
 
 impl BasicRenderer {
-    pub fn new(width: u32, height: u32, antialiasing: u32) -> BasicRenderer {
+    pub fn new <T: RenderProvider> (width: u32, height: u32, antialiasing: u32) -> BasicRenderer {
         BasicRenderer {
             width: width,
             height: height,
@@ -32,19 +35,34 @@ impl BasicRenderer {
             x: 0,
             y: 0,
             b_width: width,
-            b_height: height
+            b_height: height,
+            camera: T::camera(),
+            world: T::world()
         }
     }
 }
 
+fn range(x: f64) -> f64 {
+    if x < 0.0 {
+        return 0.0;
+    }
+    if x > 1.0 {
+        return 1.0;
+    }
+    x
+}
+fn colorize(c: Vec3) -> Vec3 {
+    Vec3::new(range(c.x), range(c.y), range(c.z))
+}
+
 impl Renderer for BasicRenderer {
-    fn render <T: RenderProvider> (&self) -> image::RgbaImage {
+    fn render(&self) -> image::RgbaImage {
         let mut imgbuf = image::RgbaImage::new(self.b_width, self.b_height);
         let mut rng = Randomizer{
             rng: rand::thread_rng()
         };
-        let camera = T::camera();
-        let world = T::world();
+        let camera = &*self.camera;
+        let world = &*self.world;
 
         for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
             let mut color_sum = Vec3::zero();
@@ -55,7 +73,7 @@ impl Renderer for BasicRenderer {
                 let color_f = world.color(&ray);
                 color_sum = color_sum + color_f;
             }
-            color_sum = color_sum / (self.antialiasing as f64);
+            color_sum = colorize(color_sum / (self.antialiasing as f64));
             color_sum = Vec3::new(color_sum.x.sqrt(), color_sum.y.sqrt(), color_sum.z.sqrt());
             *pixel = color_sum.rgba();
         }

@@ -1,4 +1,4 @@
-use std::rc::Rc;
+use std::sync::Arc;
 use tracer::hitable::Hitable;
 use tracer::HitRecord;
 use tracer::Vec3;
@@ -8,11 +8,11 @@ use tracer::materials::Material;
 pub struct Sphere <'a> {
     pub center: Vec3,
     pub radius: f64,
-    pub material: Rc<Material + 'a>
+    pub material: Arc<Material + 'a>
 }
 
 impl <'a> Sphere <'a> {
-    pub fn new(center: Vec3, radius: f64, material: Rc<Material>) -> Sphere <'a> {
+    pub fn new(center: Vec3, radius: f64, material: Arc<Material>) -> Sphere <'a> {
         Sphere {
             center: center,
             radius: radius,
@@ -35,7 +35,7 @@ impl <'a> Hitable for Sphere <'a> {
                     t: t,
                     p: point,
                     normal: (point - self.center) / self.radius,
-                    material: Rc::clone(&self.material)
+                    material: Arc::clone(&self.material)
                 });
             }
             let t: f64 = (-b + delta.sqrt()) / 2.0 / a;
@@ -45,7 +45,7 @@ impl <'a> Hitable for Sphere <'a> {
                     t: t,
                     p: point,
                     normal: (point - self.center) / self.radius,
-                    material: Rc::clone(&self.material)
+                    material: Arc::clone(&self.material)
                 });
             }
             return None;

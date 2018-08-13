@@ -4,13 +4,14 @@ use tracer::Ray;
 use tracer::Vec3;
 use tracer::Randomizer;
 use std;
+use std::sync::Arc;
 
 pub struct World {
-    pub hitable_list: Vec<Box<Hitable>>
+    pub hitable_list: Vec<Arc<Hitable>>
 }
 
 impl World {
-    pub fn new (hitable_list: Vec<Box<Hitable>>) -> World {
+    pub fn new (hitable_list: Vec<Arc<Hitable>>) -> World {
         World {
             hitable_list: hitable_list
         }
@@ -37,10 +38,10 @@ impl <'a> Fragment <'a> {
                     let material = &*hit_record.material;
                     match material.scatter(&ray, &hit_record, randomizer) {
                         Some((scattered, attenuation)) => {
-                            self.color(&scattered, randomizer, depth + 1) * attenuation
+                            self.color(&scattered, randomizer, depth + 1) * attenuation + material.emitted(0.0, 0.0, hit_record.p)
                         },
                         None => {
-                            Vec3::new(0.0, 0.0, 0.0)
+                            material.emitted(0.0, 0.0, hit_record.p)
                         }
                     }
                 } else {
@@ -48,9 +49,12 @@ impl <'a> Fragment <'a> {
                 } 
             },
             None => {
+                Vec3::new(0.0, 0.0, 0.0)
+                /*
                 let unit = ray.direction.unit();
                 let t: f64 = (unit.y + 1.0) * 0.5;
                 Vec3::new(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t
+                */
             }
         }
     }

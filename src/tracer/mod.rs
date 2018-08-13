@@ -5,6 +5,7 @@ mod sphere;
 mod world;
 mod camera;
 pub mod materials;
+pub mod textures;
 mod randomize;
 
 pub use self::ray::Ray;

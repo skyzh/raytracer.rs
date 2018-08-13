@@ -4,26 +4,23 @@ use tracer::Ray;
 use tracer::HitRecord;
 use tracer::Vec3;
 
-pub struct Lambertian {
-    albedo: Vec3
+pub struct DiffuseLight {
+    pub albedo: Vec3
 }
 
-impl Lambertian {
-    pub fn new(albedo: Vec3) -> Lambertian {
-        Lambertian {
+impl DiffuseLight {
+    pub fn new(albedo: Vec3) -> DiffuseLight {
+        DiffuseLight {
             albedo: albedo
         }
     }
 }
 
-impl Material for Lambertian {
+impl Material for DiffuseLight {
     fn scatter(&self, ray: &Ray, hit_record: &HitRecord, randomizer: &mut Randomizer) -> Option<(Ray, Vec3)> {
-        Some((
-            Ray::new(hit_record.p, hit_record.normal + randomizer.random_in_unit_sphere()),
-            self.albedo
-        ))
+        None
     }
     fn emitted(&self, u: f64, v: f64, p: Vec3) -> Vec3 {
-        Vec3::new(0.0, 0.0, 0.0)
+        self.albedo
     }
 }

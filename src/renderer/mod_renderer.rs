@@ -6,5 +6,5 @@ use tracer::Camera;
 use renderer::RenderProvider;
 
 pub trait Renderer {
-    fn render<T: RenderProvider>(&self) -> image::RgbaImage;
+    fn render(&self) -> image::RgbaImage;
 }

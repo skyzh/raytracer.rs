@@ -48,4 +48,7 @@ impl Material for Dielectric {
             None => Some((Ray::new(hit_record.p, reflected), attenuation))
         }
     }
+    fn emitted(&self, u: f64, v: f64, p: Vec3) -> Vec3 {
+        Vec3::new(0.0, 0.0, 0.0)
+    }
 }
