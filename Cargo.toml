@@ -1,12 +1,7 @@
 [package]
 name = "raytracer"
-version = "0.1.0"
-authors = ["SkyZH <iskyzh@gmail.com>"]
+version = "0.2.0"
+authors = ["Alex Chi <iskyzh@gmail.com>"]
+edition = "2018"
 
 [dependencies]
-rand = "0.5.5"
-image = "0.19.0"
-time = "0.1.40"
-threadpool = "1.7.1"
-num-traits = "0.2.5"
-lazy_static = "1.1.0"
