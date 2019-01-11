@@ -1,5 +1,9 @@
 mod tracer;
+mod renderer;
 
-fn main() {
-    println!("Hello, world!");
+use self::renderer::{ GradientRenderer, render_to_file };
+
+fn main() -> Result<(), std::io::Error> {
+    render_to_file(GradientRenderer {}, "output/test_gradient.png")?;
+    Ok(())
 }
