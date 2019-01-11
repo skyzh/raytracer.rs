@@ -14,7 +14,7 @@ impl Hitable for Sphere {
         let discriminant = b * b - 4.0 * a * c;
 
         if discriminant > 0.0 {
-            let temp = (-b - (b * b - 4.0 * a * c).sqrt()) / a / 2.0;
+            let temp = (-b - discriminant.sqrt()) / a / 2.0;
             if temp < t_max && temp > t_min {
                 let ray_at = ray.at(temp);
                 return Some(HitRecord {
@@ -23,7 +23,7 @@ impl Hitable for Sphere {
                     normal: (ray_at - self.center) / self.radius
                 })
             }
-            let temp = (-b + (b * b - 4.0 * a * c).sqrt()) / a / 2.0;
+            let temp = (-b + discriminant.sqrt()) / a / 2.0;
             if temp < t_max && temp > t_min {
                let ray_at = ray.at(temp);
                 return Some(HitRecord {

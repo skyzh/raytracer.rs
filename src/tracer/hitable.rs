@@ -24,4 +24,3 @@ impl HitableList {
         hit_record
     }
 }
-

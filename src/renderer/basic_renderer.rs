@@ -8,7 +8,7 @@ pub struct BasicRenderer {
 
 impl BasicRenderer {
     fn color(&self, ray: &Ray) -> Vec3 {
-        match self.world.hit(ray, 0.001, std::f64::MAX) {
+        match self.world.hit(ray, 0.0, std::f64::MAX) {
             Some(hit_record) => {
                 Vec3::new(hit_record.normal.x + 1.0, hit_record.normal.y + 1.0, hit_record.normal.z + 1.0) * 0.5
             },

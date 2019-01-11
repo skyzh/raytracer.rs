@@ -25,6 +25,6 @@ fn main() -> Result<(), std::io::Error> {
                 })
             ]
         }
-    }, "test_render_sphere.png")?;
+    }, "test_render.png")?;
     Ok(())
 }
