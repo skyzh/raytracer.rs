@@ -1,18 +1,27 @@
 use super::Renderer;
 use crate::tracer::{ Ray, Vec3 };
+use crate::tracer::HitableList;
 
-pub struct GradientRenderer {
+pub struct BasicRenderer {
+    pub world: HitableList
 }
 
-impl GradientRenderer {
+impl BasicRenderer {
     fn color(&self, ray: &Ray) -> Vec3 {
-        let unit_direction = ray.direction.unit();
-        let t = 0.5 * (unit_direction.y + 1.0);
-        return Vec3::new(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t;
+        match self.world.hit(ray, 0.001, std::f64::MAX) {
+            Some(hit_record) => {
+                Vec3::new(hit_record.normal.x + 1.0, hit_record.normal.y + 1.0, hit_record.normal.z + 1.0) * 0.5
+            },
+            None => {
+                let unit_direction = ray.direction.unit();
+                let t = 0.5 * (unit_direction.y + 1.0);
+                Vec3::new(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t
+            }
+        }
     }
 }
 
-impl Renderer for GradientRenderer {
+impl Renderer for BasicRenderer {
     fn render(&self) -> image::RgbaImage {
         let width = 800;
         let height = 400;
