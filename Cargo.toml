@@ -7,3 +7,4 @@ edition = "2018"
 [dependencies]
 rand = "0.6.4"
 image = "0.20.1"
+time = "0.1.42"
