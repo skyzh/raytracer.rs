@@ -4,7 +4,7 @@ use crate::tracer::{Ray, Vec3};
 pub struct SphereRenderer {}
 
 impl SphereRenderer {
-    fn hit_sphere(&self, center: Vec3, radius: f64, ray: &Ray) -> f64 {
+    fn hit_sphere(&self, center: Vec3, radius: f32, ray: &Ray) -> f32 {
         let oc = ray.origin - center;
         let a = Vec3::dot(ray.direction, ray.direction);
         let b = 2.0 * Vec3::dot(oc, ray.direction);
@@ -39,8 +39,8 @@ impl Renderer for SphereRenderer {
         let vertical = Vec3::new(0.0, 2.0, 0.0);
         let origin = Vec3::new(0.0, 0.0, 0.0);
         for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
-            let u = x as f64 / width as f64;
-            let v = (height - y) as f64 / height as f64;
+            let u = x as f32 / width as f32;
+            let v = (height - y) as f32 / height as f32;
             let ray = Ray {
                 origin,
                 direction: corner + horizontal * u + vertical * v,

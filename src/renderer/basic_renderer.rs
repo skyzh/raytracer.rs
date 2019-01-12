@@ -9,7 +9,7 @@ pub struct BasicRenderer {
 
 impl BasicRenderer {
     fn color(&self, ray: &Ray) -> Vec3 {
-        match self.world.hit(ray, 0.0, std::f64::MAX) {
+        match self.world.hit(ray, 0.0, std::f32::MAX) {
             Some(hit_record) => {
                 Vec3::new(
                     hit_record.normal.x + 1.0,
@@ -40,15 +40,15 @@ impl Renderer for BasicRenderer {
         for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
             let mut color = Vec3::zero();
             for _i in 0..ns {
-                let u = (x as f64 + rng.gen::<f64>()) / width as f64;
-                let v = ((height - y) as f64 + rng.gen::<f64>()) / height as f64;
+                let u = (x as f32 + rng.gen::<f32>()) / width as f32;
+                let v = ((height - y) as f32 + rng.gen::<f32>()) / height as f32;
                 let ray = Ray {
                     origin,
                     direction: corner + horizontal * u + vertical * v,
                 };
                 color = color + self.color(&ray);
             }
-            *pixel = (color / ns as f64).rgba()
+            *pixel = (color / ns as f32).rgba()
         }
         imgbuf
     }

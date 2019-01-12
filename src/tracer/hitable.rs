@@ -1,7 +1,7 @@
 use super::{HitRecord, Ray};
 
 pub trait Hitable: Send + Sync {
-    fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord>;
+    fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord>;
 }
 
 pub struct HitableList {
@@ -9,7 +9,7 @@ pub struct HitableList {
 }
 
 impl HitableList {
-    pub fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
+    pub fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let mut closest_so_far = t_max;
         let mut hit_record: Option<HitRecord> = None;
         for hitable in &self.hitables {
