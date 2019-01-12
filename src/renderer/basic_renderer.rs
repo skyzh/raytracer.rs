@@ -1,19 +1,22 @@
 use super::Renderer;
-use crate::tracer::{ Ray, Vec3 };
 use crate::tracer::HitableList;
+use crate::tracer::{Ray, Vec3};
 use rand::Rng;
-use rand::ThreadRng;
 
 pub struct BasicRenderer {
-    pub world: HitableList
+    pub world: HitableList,
 }
 
 impl BasicRenderer {
     fn color(&self, ray: &Ray) -> Vec3 {
         match self.world.hit(ray, 0.0, std::f64::MAX) {
             Some(hit_record) => {
-                Vec3::new(hit_record.normal.x + 1.0, hit_record.normal.y + 1.0, hit_record.normal.z + 1.0) * 0.5
-            },
+                Vec3::new(
+                    hit_record.normal.x + 1.0,
+                    hit_record.normal.y + 1.0,
+                    hit_record.normal.z + 1.0,
+                ) * 0.5
+            }
             None => {
                 let unit_direction = ray.direction.unit();
                 let t = 0.5 * (unit_direction.y + 1.0);
@@ -41,11 +44,11 @@ impl Renderer for BasicRenderer {
                 let v = ((height - y) as f64 + rng.gen::<f64>()) / height as f64;
                 let ray = Ray {
                     origin,
-                    direction: corner + horizontal * u + vertical * v
+                    direction: corner + horizontal * u + vertical * v,
                 };
                 color = color + self.color(&ray);
             }
-            *pixel = (color / ns as f64).rgba()  
+            *pixel = (color / ns as f64).rgba()
         }
         imgbuf
     }

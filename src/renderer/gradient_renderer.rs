@@ -1,8 +1,7 @@
 use super::Renderer;
-use crate::tracer::{ Ray, Vec3 };
+use crate::tracer::{Ray, Vec3};
 
-pub struct GradientRenderer {
-}
+pub struct GradientRenderer {}
 
 impl GradientRenderer {
     fn color(&self, ray: &Ray) -> Vec3 {
@@ -26,7 +25,7 @@ impl Renderer for GradientRenderer {
             let v = (height - y) as f64 / height as f64;
             let ray = Ray {
                 origin,
-                direction: corner + horizontal * u + vertical * v
+                direction: corner + horizontal * u + vertical * v,
             };
             *pixel = self.color(&ray).rgba()
         }

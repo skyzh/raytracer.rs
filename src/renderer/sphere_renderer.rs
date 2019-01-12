@@ -1,8 +1,7 @@
 use super::Renderer;
-use crate::tracer::{ Ray, Vec3 };
+use crate::tracer::{Ray, Vec3};
 
-pub struct SphereRenderer {
-}
+pub struct SphereRenderer {}
 
 impl SphereRenderer {
     fn hit_sphere(&self, center: Vec3, radius: f64, ray: &Ray) -> f64 {
@@ -13,7 +12,7 @@ impl SphereRenderer {
         let discriminant = b * b - 4.0 * a * c;
         match discriminant < 0.0 {
             true => -1.0,
-            false => (-b - discriminant.sqrt()) / (2.0 * a)
+            false => (-b - discriminant.sqrt()) / (2.0 * a),
         }
     }
 
@@ -21,7 +20,7 @@ impl SphereRenderer {
         let t = self.hit_sphere(Vec3::new(0.0, 0.0, -1.0), 0.5, &ray);
         if t > 0.0 {
             let n = (ray.at(t) - Vec3::new(0.0, 0.0, -1.0)).unit();
-            return Vec3::new(n.x + 1.0, n.y + 1.0, n.z + 1.0) * 0.5
+            return Vec3::new(n.x + 1.0, n.y + 1.0, n.z + 1.0) * 0.5;
         } else {
             let unit_direction = ray.direction.unit();
             let t = 0.5 * (unit_direction.y + 1.0);
@@ -44,7 +43,7 @@ impl Renderer for SphereRenderer {
             let v = (height - y) as f64 / height as f64;
             let ray = Ray {
                 origin,
-                direction: corner + horizontal * u + vertical * v
+                direction: corner + horizontal * u + vertical * v,
             };
             *pixel = self.color(&ray).rgba()
         }

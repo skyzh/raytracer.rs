@@ -1,8 +1,8 @@
-use super::{ Vec3, HitRecord, Hitable, Ray };
+use super::{HitRecord, Hitable, Ray, Vec3};
 
 pub struct Sphere {
     pub center: Vec3,
-    pub radius: f64
+    pub radius: f64,
 }
 
 impl Hitable for Sphere {
@@ -20,17 +20,17 @@ impl Hitable for Sphere {
                 return Some(HitRecord {
                     t: temp,
                     p: ray_at,
-                    normal: (ray_at - self.center) / self.radius
-                })
+                    normal: (ray_at - self.center) / self.radius,
+                });
             }
             let temp = (-b + discriminant.sqrt()) / a / 2.0;
             if temp < t_max && temp > t_min {
-               let ray_at = ray.at(temp);
+                let ray_at = ray.at(temp);
                 return Some(HitRecord {
                     t: temp,
                     p: ray_at,
-                    normal: (ray_at - self.center) / self.radius
-                })
+                    normal: (ray_at - self.center) / self.radius,
+                });
             }
         }
 
