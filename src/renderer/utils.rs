@@ -1,6 +1,4 @@
-pub trait Renderer {
-    fn render(&self) -> image::RgbaImage;
-}
+use super::Renderer;
 
 pub fn render_to_file(renderer: impl Renderer, path: &'static str) -> Result<(), std::io::Error> {
     let start_time = time::get_time();

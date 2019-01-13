@@ -1,6 +1,8 @@
 use super::Renderer;
-use crate::tracer::HitableList;
-use crate::tracer::{Ray, Vec3};
+use crate::tracer::{
+    utils::{gamma_correct, random_in_unit_sphere},
+    HitableList, Ray, Vec3,
+};
 use rand::Rng;
 
 pub struct BasicRenderer {
@@ -8,14 +10,19 @@ pub struct BasicRenderer {
 }
 
 impl BasicRenderer {
-    fn color(&self, ray: &Ray) -> Vec3 {
-        match self.world.hit(ray, 0.0, std::f32::MAX) {
+    fn color(&self, ray: &Ray, depth: u32) -> Vec3 {
+        match self.world.hit(ray, 0.001, std::f32::MAX) {
             Some(hit_record) => {
-                Vec3::new(
-                    hit_record.normal.x + 1.0,
-                    hit_record.normal.y + 1.0,
-                    hit_record.normal.z + 1.0,
-                ) * 0.5
+                if depth > 0 {
+                    match hit_record.material.scatter(&ray, &hit_record) {
+                        Some((attenuation, scattered)) => {
+                            Vec3::elemul(attenuation, self.color(&scattered, depth - 1))
+                        }
+                        None => Vec3::zero(),
+                    }
+                } else {
+                    Vec3::zero()
+                }
             }
             None => {
                 let unit_direction = ray.direction.unit();
@@ -46,9 +53,9 @@ impl Renderer for BasicRenderer {
                     origin,
                     direction: corner + horizontal * u + vertical * v,
                 };
-                color = color + self.color(&ray);
+                color = color + self.color(&ray, 200);
             }
-            *pixel = (color / ns as f32).rgba()
+            *pixel = gamma_correct(color / ns as f32).rgba()
         }
         imgbuf
     }

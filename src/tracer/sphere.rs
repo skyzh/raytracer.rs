@@ -1,8 +1,10 @@
-use super::{HitRecord, Hitable, Ray, Vec3};
+use super::{HitRecord, Hitable, Material, Ray, Vec3};
+use std::sync::Arc;
 
 pub struct Sphere {
     pub center: Vec3,
     pub radius: f32,
+    pub material: Arc<dyn Material>,
 }
 
 impl Hitable for Sphere {
@@ -21,6 +23,7 @@ impl Hitable for Sphere {
                     t: temp,
                     p: ray_at,
                     normal: (ray_at - self.center) / self.radius,
+                    material: self.material.clone(),
                 });
             }
             let temp = (-b + discriminant.sqrt()) / a / 2.0;
@@ -30,6 +33,7 @@ impl Hitable for Sphere {
                     t: temp,
                     p: ray_at,
                     normal: (ray_at - self.center) / self.radius,
+                    material: self.material.clone(),
                 });
             }
         }

@@ -79,15 +79,15 @@ impl Vec3 {
         }
     }
 
-    pub fn dot(A: Vec3, B: Vec3) -> f32 {
-        A.x * B.x + A.y * B.y + A.z * B.z
+    pub fn dot(a: Vec3, b: Vec3) -> f32 {
+        a.x * b.x + a.y * b.y + a.z * b.z
     }
 
-    pub fn cross(A: Vec3, B: Vec3) -> Vec3 {
+    pub fn cross(a: Vec3, b: Vec3) -> Vec3 {
         Vec3 {
-            x: A.y * B.z - A.z * B.y,
-            y: A.z * B.x - A.x * B.z,
-            z: A.x * B.y - A.y * B.x,
+            x: a.y * b.z - a.z * b.y,
+            y: a.z * b.x - a.x * b.z,
+            z: a.x * b.y - a.y * b.x,
         }
     }
 
@@ -104,9 +104,17 @@ impl Vec3 {
         (self.x * self.x + self.y * self.y + self.z * self.z).sqrt()
     }
 
+    pub fn squared_length(&self) -> f32 {
+        (self.x * self.x + self.y * self.y + self.z * self.z)
+    }
+
     pub fn unit(&self) -> Vec3 {
         let length = self.length();
         Vec3::new(self.x / length, self.y / length, self.z / length)
+    }
+
+    pub fn elemul(a: Vec3, b: Vec3) -> Vec3 {
+        Vec3::new(a.x * b.x, a.y * b.y, a.z * b.z)
     }
 }
 
@@ -171,6 +179,11 @@ mod tests {
     }
 
     #[test]
+    fn test_squared_length() {
+        assert_eq!(Vec3::new(2.0, -2.0, 1.0).squared_length(), 9.0);
+    }
+
+    #[test]
     fn test_unit() {
         assert_eq!(
             Vec3::new(2.0, -2.0, 1.0).unit(),
@@ -183,6 +196,14 @@ mod tests {
         assert_eq!(
             Vec3::new(0.0, 1.0, 0.5).rgba(),
             image::Rgba([0 as u8, 255 as u8, 127 as u8, 255 as u8])
+        );
+    }
+
+    #[test]
+    fn test_elemul() {
+        assert_eq!(
+            Vec3::elemul(Vec3::new(1.0, 2.0, 3.0), Vec3::new(1.0, 2.0, 3.0)),
+            Vec3::new(1.0, 4.0, 9.0)
         );
     }
 }
