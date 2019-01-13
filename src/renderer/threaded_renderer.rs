@@ -37,7 +37,7 @@ impl Renderer for ThreadedRenderer {
                 let world = self.world.clone();
                 let camera = self.camera.clone();
                 pool.execute(move || {
-                    println!("-> ({}, {}) begin rendering", col, row);
+                    info!("-> ({}, {}) begin rendering", col, row);
                     let start_time = time::get_time();
                     let renderer = BasicRenderer {
                         world: &world,
@@ -62,7 +62,7 @@ impl Renderer for ThreadedRenderer {
         for (i, result) in rx.iter().enumerate().take(n_jobs) {
             let result = result as ThreadedRendererResult;
             let percentage = (i as f64 / n_jobs as f64 * 100.0) as u32;
-            println!(
+            info!(
                 "<- {}% complete: ({},{}) rendered in {}ms",
                 percentage,
                 result.row,
@@ -75,7 +75,7 @@ impl Renderer for ThreadedRenderer {
                 img.put_pixel(base_x + x, base_y + y, *pixel)
             }
         }
-        println!("render complete");
+        info!("render complete");
 
         img
     }

@@ -5,7 +5,17 @@ authors = ["Alex Chi <iskyzh@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-rand = "0.6.4"
-image = "0.20.1"
-time = "0.1.42"
-threadpool = "1.7.1"
+rand = "0.6"
+image = "0.20"
+time = "0.1"
+threadpool = "1.7"
+criterion = "0.2"
+log = "0.4"
+pretty_env_logger = "0.3"
+
+[lib]
+bench = false
+
+[[bench]]
+name = "raytracer_benchmark"
+harness = false
