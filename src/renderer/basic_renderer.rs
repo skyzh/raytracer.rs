@@ -1,8 +1,5 @@
 use super::Renderer;
-use crate::tracer::{
-    utils::{gamma_correct, random_in_unit_sphere},
-    Camera, World, Ray, Vec3,
-};
+use crate::tracer::{utils::gamma_correct, Camera, Ray, Vec3, World};
 use rand::Rng;
 
 pub struct BasicRenderer<'a> {
@@ -10,6 +7,7 @@ pub struct BasicRenderer<'a> {
     pub camera: &'a Camera,
     pub size: (u32, u32),
     pub anti_aliasing: u32,
+    pub crop_region: ((u32, u32), (u32, u32))
 }
 
 impl BasicRenderer<'_> {
@@ -38,13 +36,18 @@ impl BasicRenderer<'_> {
 
 impl Renderer for BasicRenderer<'_> {
     fn render(&self) -> image::RgbaImage {
-        let mut imgbuf = image::RgbaImage::new(self.size.0, self.size.1);
+        let (render_width, render_height) = self.size;
+        let ((crop_x, crop_y), (crop_width, crop_height)) = self.crop_region;
+        let mut imgbuf = image::RgbaImage::new(crop_width, crop_height);
         let mut rng = rand::thread_rng();
+        
         for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
             let mut color = Vec3::zero();
             for _i in 0..self.anti_aliasing {
-                let u = (x as f32 + rng.gen::<f32>()) / self.size.0 as f32;
-                let v = ((self.size.1 - y) as f32 + rng.gen::<f32>()) / self.size.1 as f32;
+                let target_x : f32 = x as f32 + crop_x as f32 + rng.gen_range(0.0, 1.0);
+                let u = target_x / render_width as f32;
+                let target_y : f32 = y as f32 + crop_y as f32 + rng.gen_range(0.0, 1.0);
+                let v = 1.0 - target_y / render_height as f32;
                 let ray = self.camera.get_ray(u, v);
                 color = color + self.color(&ray, 200);
             }

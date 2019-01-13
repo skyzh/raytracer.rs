@@ -17,6 +17,7 @@ fn main() -> Result<(), std::io::Error> {
             camera: &camera,
             size: (800, 400),
             anti_aliasing: 100,
+            crop_region: ((0, 0), (800, 400))
         },
         "simple_scene_1.png",
     )?;
