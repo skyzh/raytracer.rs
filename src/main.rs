@@ -6,13 +6,13 @@ mod scenes;
 mod tracer;
 
 use self::renderer::{utils::render_to_file, ThreadedRenderer};
-use self::scenes::complex_scene::complex_scene_1;
+use self::scenes::complex_scene::complex_scene_2;
 use std::sync::Arc;
 
 fn main() -> Result<(), std::io::Error> {
     pretty_env_logger::init();
     info!("generating scene...");
-    let (world, camera) = complex_scene_1();
+    let (world, camera) = complex_scene_2();
     info!("rendering in progress...");
     render_to_file(
         ThreadedRenderer {
@@ -23,7 +23,7 @@ fn main() -> Result<(), std::io::Error> {
             block_count: (16, 16),
             workers: 4,
         },
-        "complex_scene_1.png",
+        "complex_scene_2.png",
     )?;
     Ok(())
 }
