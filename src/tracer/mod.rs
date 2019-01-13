@@ -9,7 +9,7 @@ mod vec3;
 
 pub use self::camera::Camera;
 pub use self::hit_record::HitRecord;
-pub use self::hitable::{Hitable, HitableList};
+pub use self::hitable::{Hitable, World};
 pub use self::materials::Material;
 pub use self::ray::Ray;
 pub use self::sphere::Sphere;

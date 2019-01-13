@@ -3,11 +3,26 @@ use rand::Rng;
 
 pub fn random_in_unit_sphere() -> Vec3 {
     let mut rng = rand::thread_rng();
-    let mut vec = Vec3::zero();
-    while vec.squared_length() < 1.0 {
-        vec = Vec3::new(rng.gen(), rng.gen(), rng.gen()) * 2.0 - Vec3::new(1.0, 1.0, 1.0);
+    loop {
+        let vec = Vec3::new(
+            rng.gen_range(-1.0, 1.0),
+            rng.gen_range(-1.0, 1.0),
+            rng.gen_range(-1.0, 1.0),
+        );
+        if vec.squared_length() < 1.0 {
+            break vec;
+        }
     }
-    vec
+}
+
+pub fn random_in_unit_disk() -> Vec3 {
+    let mut rng = rand::thread_rng();
+    loop {
+        let vec = Vec3::new(rng.gen_range(-1.0, 1.0), rng.gen_range(-1.0, 1.0), 0.0);
+        if vec.squared_length() < 1.0 {
+            break vec;
+        }
+    }
 }
 
 pub fn gamma_correct(color: Vec3) -> Vec3 {
@@ -51,11 +66,17 @@ pub fn ramp(color: f32) -> f32 {
 
 #[cfg(test)]
 mod tests {
-    use super::random_in_unit_sphere;
+    use super::{random_in_unit_disk, random_in_unit_sphere};
 
     #[test]
     fn test_random_in_unit_shpere() {
         let vec = random_in_unit_sphere();
-        assert!(vec.squared_length() >= 1.0);
+        assert!(vec.squared_length() < 1.0);
+    }
+
+    #[test]
+    fn test_random_in_unit_disk() {
+        let vec = random_in_unit_disk();
+        assert!(vec.squared_length() < 1.0 && vec.z == 0.0);
     }
 }

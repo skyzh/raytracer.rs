@@ -1,15 +1,15 @@
 use super::Renderer;
 use crate::tracer::{
     utils::{gamma_correct, random_in_unit_sphere},
-    Camera, HitableList, Ray, Vec3,
+    Camera, World, Ray, Vec3,
 };
 use rand::Rng;
 
 pub struct BasicRenderer<'a> {
-    pub world: &'a HitableList,
+    pub world: &'a World,
     pub camera: &'a Camera,
     pub size: (u32, u32),
-    pub anti_aliasing: u32
+    pub anti_aliasing: u32,
 }
 
 impl BasicRenderer<'_> {

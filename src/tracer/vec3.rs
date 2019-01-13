@@ -79,6 +79,14 @@ impl Vec3 {
         }
     }
 
+    pub fn ones() -> Vec3 {
+        Vec3 {
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
+        }
+    }
+
     pub fn dot(a: Vec3, b: Vec3) -> f32 {
         a.x * b.x + a.y * b.y + a.z * b.z
     }

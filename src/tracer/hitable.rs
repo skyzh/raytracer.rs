@@ -4,11 +4,11 @@ pub trait Hitable: Send + Sync {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord>;
 }
 
-pub struct HitableList {
+pub struct World {
     pub hitables: Vec<Box<dyn Hitable>>,
 }
 
-impl HitableList {
+impl World {
     pub fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let mut closest_so_far = t_max;
         let mut hit_record: Option<HitRecord> = None;
