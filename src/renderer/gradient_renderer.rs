@@ -23,10 +23,7 @@ impl Renderer for GradientRenderer {
         for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
             let u = x as f32 / width as f32;
             let v = (height - y) as f32 / height as f32;
-            let ray = Ray {
-                origin,
-                direction: corner + horizontal * u + vertical * v,
-            };
+            let ray = Ray::new(origin, corner + horizontal * u + vertical * v);
             *pixel = self.color(&ray).rgba()
         }
         imgbuf

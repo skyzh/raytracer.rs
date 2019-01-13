@@ -9,16 +9,20 @@ use self::renderer::{
 
 use self::tracer::{
     materials::{Dielectric, Lambertian, Metal},
-    HitableList, Sphere, Vec3,
+    Camera, HitableList, Sphere, Vec3,
 };
 use std::sync::Arc;
 
 fn main() -> Result<(), std::io::Error> {
+    /*
     render_to_file(GradientRenderer {}, "test_gradient.png")?;
     render_to_file(SphereRenderer {}, "test_sphere.png")?;
+    */
     render_to_file(
         BasicRenderer {
-            world: HitableList {
+            size: (800, 400),
+            anti_aliasing: 200,
+            world: &HitableList {
                 hitables: vec![
                     Box::new(Sphere {
                         center: Vec3::new(1.0, 0.0, -1.0),
@@ -49,6 +53,13 @@ fn main() -> Result<(), std::io::Error> {
                     }),
                 ],
             },
+            camera: &Camera::new(
+                Vec3::new(-1.0, 1.0, 3.0),
+                Vec3::new(0.0, 0.0, -1.0),
+                Vec3::new(0.0, 1.0, 0.0),
+                30.0,
+                2.0,
+            ),
         },
         "test_render.png",
     )?;

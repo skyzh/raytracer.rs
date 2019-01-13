@@ -17,8 +17,7 @@ impl Material for Dielectric {
         if discriminant > 0.0 {
             outward_normal = -hit_record.normal;
             ratio = self.ref_idx;
-            cosine = discriminant * self.ref_idx
-                / ray_in.direction.length();
+            cosine = discriminant * self.ref_idx / ray_in.direction.length();
         } else {
             outward_normal = hit_record.normal;
             ratio = 1.0 / self.ref_idx;
@@ -28,30 +27,12 @@ impl Material for Dielectric {
             Some(refracted) => {
                 let reflect_prob = schlick(cosine, self.ref_idx);
                 if rand::thread_rng().gen::<f32>() < reflect_prob {
-                    Some((
-                        attenuation,
-                        Ray {
-                            origin: hit_record.p,
-                            direction: reflected,
-                        },
-                    ))
+                    Some((attenuation, Ray::new(hit_record.p, reflected)))
                 } else {
-                    Some((
-                        attenuation,
-                        Ray {
-                            origin: hit_record.p,
-                            direction: refracted,
-                        },
-                    ))
+                    Some((attenuation, Ray::new(hit_record.p, refracted)))
                 }
             }
-            None => Some((
-                attenuation,
-                Ray {
-                    origin: hit_record.p,
-                    direction: reflected,
-                },
-            )),
+            None => Some((attenuation, Ray::new(hit_record.p, reflected))),
         }
     }
 }

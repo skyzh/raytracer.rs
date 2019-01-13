@@ -12,10 +12,10 @@ impl Material for Metal {
         if Vec3::dot(reflected, hit_record.normal) > 0.0 {
             return Some((
                 self.albedo,
-                Ray {
-                    origin: hit_record.p,
-                    direction: reflected + random_in_unit_sphere() * self.fuzz,
-                },
+                Ray::new(
+                    hit_record.p,
+                    reflected + random_in_unit_sphere() * self.fuzz,
+                ),
             ));
         } else {
             return None;

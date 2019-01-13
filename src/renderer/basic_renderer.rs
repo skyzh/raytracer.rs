@@ -1,15 +1,18 @@
 use super::Renderer;
 use crate::tracer::{
     utils::{gamma_correct, random_in_unit_sphere},
-    HitableList, Ray, Vec3,
+    Camera, HitableList, Ray, Vec3,
 };
 use rand::Rng;
 
-pub struct BasicRenderer {
-    pub world: HitableList,
+pub struct BasicRenderer<'a> {
+    pub world: &'a HitableList,
+    pub camera: &'a Camera,
+    pub size: (u32, u32),
+    pub anti_aliasing: u32
 }
 
-impl BasicRenderer {
+impl BasicRenderer<'_> {
     fn color(&self, ray: &Ray, depth: u32) -> Vec3 {
         match self.world.hit(ray, 0.001, std::f32::MAX) {
             Some(hit_record) => {
@@ -33,29 +36,19 @@ impl BasicRenderer {
     }
 }
 
-impl Renderer for BasicRenderer {
+impl Renderer for BasicRenderer<'_> {
     fn render(&self) -> image::RgbaImage {
-        let width = 800;
-        let height = 400;
-        let mut imgbuf = image::RgbaImage::new(width, height);
-        let corner = Vec3::new(-2.0, -1.0, -1.0);
-        let horizontal = Vec3::new(4.0, 0.0, 0.0);
-        let vertical = Vec3::new(0.0, 2.0, 0.0);
-        let origin = Vec3::new(0.0, 0.0, 0.0);
+        let mut imgbuf = image::RgbaImage::new(self.size.0, self.size.1);
         let mut rng = rand::thread_rng();
-        let ns = 100;
         for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
             let mut color = Vec3::zero();
-            for _i in 0..ns {
-                let u = (x as f32 + rng.gen::<f32>()) / width as f32;
-                let v = ((height - y) as f32 + rng.gen::<f32>()) / height as f32;
-                let ray = Ray {
-                    origin,
-                    direction: corner + horizontal * u + vertical * v,
-                };
+            for _i in 0..self.anti_aliasing {
+                let u = (x as f32 + rng.gen::<f32>()) / self.size.0 as f32;
+                let v = ((self.size.1 - y) as f32 + rng.gen::<f32>()) / self.size.1 as f32;
+                let ray = self.camera.get_ray(u, v);
                 color = color + self.color(&ray, 200);
             }
-            *pixel = gamma_correct(color / ns as f32).rgba()
+            *pixel = gamma_correct(color / self.anti_aliasing as f32).rgba()
         }
         imgbuf
     }

@@ -1,3 +1,4 @@
+mod camera;
 mod hit_record;
 mod hitable;
 pub mod materials;
@@ -6,6 +7,7 @@ mod sphere;
 pub mod utils;
 mod vec3;
 
+pub use self::camera::Camera;
 pub use self::hit_record::HitRecord;
 pub use self::hitable::{Hitable, HitableList};
 pub use self::materials::Material;

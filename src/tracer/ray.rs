@@ -6,6 +6,9 @@ pub struct Ray {
 }
 
 impl Ray {
+    pub fn new(origin: Vec3, direction: Vec3) -> Self {
+        Self { origin, direction }
+    }
     pub fn at(&self, t: f32) -> Vec3 {
         self.origin + self.direction * t
     }
@@ -18,10 +21,7 @@ mod tests {
 
     #[test]
     fn test_at() {
-        let ray = Ray {
-            origin: Vec3::new(1.0, 1.0, 1.0),
-            direction: Vec3::new(1.0, 2.0, 3.0),
-        };
+        let ray = Ray::new(Vec3::new(1.0, 1.0, 1.0), Vec3::new(1.0, 2.0, 3.0));
         assert_eq!(ray.at(3.0), Vec3::new(4.0, 7.0, 10.0));
     }
 }

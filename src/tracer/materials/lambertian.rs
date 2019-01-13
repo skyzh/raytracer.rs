@@ -8,12 +8,6 @@ pub struct Lambertian {
 impl Material for Lambertian {
     fn scatter(&self, _: &Ray, hit_record: &HitRecord) -> Option<(Vec3, Ray)> {
         let direction = hit_record.normal + random_in_unit_sphere();
-        Some((
-            self.albedo,
-            Ray {
-                origin: hit_record.p,
-                direction,
-            },
-        ))
+        Some((self.albedo, Ray::new(hit_record.p, direction)))
     }
 }
