@@ -28,7 +28,7 @@ Parameters: `1600x1600`, anti-aliasing `256`, workers `4`.
 
 Write your scene in `main.rs`, and then run:    
 ```bash
-RUST_LOG="raytracer=info" cargo run --release
+cargo run --release
 ```
 
 ## Run Tests and Benchmarks
