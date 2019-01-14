@@ -1,4 +1,6 @@
-use super::Renderer;
+use super::{Renderer, ThreadedRenderer};
+use crate::tracer::{Camera, World};
+use std::sync::Arc;
 
 pub fn render_to_file(renderer: impl Renderer, path: &'static str) -> Result<(), std::io::Error> {
     let start_time = time::get_time();
@@ -11,4 +13,40 @@ pub fn render_to_file(renderer: impl Renderer, path: &'static str) -> Result<(),
         (end_time - start_time).num_milliseconds()
     );
     Ok(())
+}
+
+pub fn render_high_quality(
+    world: World,
+    camera: Camera,
+    path: &'static str,
+) -> Result<(), std::io::Error> {
+    render_to_file(
+        ThreadedRenderer {
+            world: Arc::new(world),
+            camera: Arc::new(camera),
+            size: (1600, 1600),
+            anti_aliasing: 256,
+            block_count: (16, 16),
+            workers: 4,
+        },
+        path,
+    )
+}
+
+pub fn render_preview(
+    world: World,
+    camera: Camera,
+    path: &'static str,
+) -> Result<(), std::io::Error> {
+    render_to_file(
+        ThreadedRenderer {
+            world: Arc::new(world),
+            camera: Arc::new(camera),
+            size: (600, 600),
+            anti_aliasing: 16,
+            block_count: (5, 5),
+            workers: 4,
+        },
+        path,
+    )
 }
