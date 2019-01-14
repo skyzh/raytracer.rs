@@ -12,16 +12,20 @@ For previous version, refer to [Legacy](https://github.com/SkyZH/raytracer.rs/tr
 
 ## Screenshots
 
-### World of Spheres 
-
-`scenes/complex_scene.rs:complex_scene_1`
+### Sphere Sea 
 
 Generate 300 spheres (no overlap) in the space with different materials and settings.
 
 It takes about *800 secs* to render.    
 Parameters: `1600x1600`, anti-aliasing `256`, workers `4`.
 
+`scenes/complex_scene.rs:complex_scene_1`
+
 ![complex_scene_1](https://user-images.githubusercontent.com/4198311/51087070-38a7f300-1789-11e9-9b84-d96f9bb1d556.png)
+
+`scenes/complex_scene.rs:complex_scene_2`
+
+![complex_scene_2](https://user-images.githubusercontent.com/4198311/51087490-17e29c00-178f-11e9-88fc-996f642859d0.png)
 
 
 ## Usage
