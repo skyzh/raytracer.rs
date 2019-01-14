@@ -27,6 +27,15 @@ Parameters: `1600x1600`, anti-aliasing `256`, workers `4`.
 
 ![complex_scene_2](https://user-images.githubusercontent.com/4198311/51087490-17e29c00-178f-11e9-88fc-996f642859d0.png)
 
+### Cover Scene
+
+The scene from legacy version and the cover of "Ray Tracing in One Weekend". It takes about *1500 secs* to render.
+
+`scenes/complex_scene.rs:legacy_scene_`
+
+![image](https://user-images.githubusercontent.com/4198311/51119409-bcc3ae80-184d-11e9-8986-9ff48cf80e9d.png)
+
+
 
 ## Usage
 
