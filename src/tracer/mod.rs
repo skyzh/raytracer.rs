@@ -1,3 +1,4 @@
+mod aabb;
 mod camera;
 mod hit_record;
 mod hitable;
@@ -6,6 +7,9 @@ mod ray;
 mod sphere;
 pub mod utils;
 mod vec3;
+pub use self::aabb::AABB;
+mod bvh_node;
+pub use self::bvh_node::BVHNode;
 
 pub use self::camera::Camera;
 pub use self::hit_record::HitRecord;

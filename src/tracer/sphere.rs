@@ -1,4 +1,4 @@
-use super::{HitRecord, Hitable, Material, Ray, Vec3};
+use super::{HitRecord, Hitable, Material, Ray, Vec3, AABB};
 use std::sync::Arc;
 
 pub struct Sphere {
@@ -39,5 +39,12 @@ impl Hitable for Sphere {
         }
 
         None
+    }
+
+    fn bounding_box(&self) -> Option<AABB> {
+        Some(AABB {
+            min: self.center - Vec3::new(self.radius, self.radius, self.radius),
+            max: self.center + Vec3::new(self.radius, self.radius, self.radius),
+        })
     }
 }

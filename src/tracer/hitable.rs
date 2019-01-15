@@ -1,7 +1,8 @@
-use super::{HitRecord, Ray};
+use super::{HitRecord, Ray, AABB};
 
 pub trait Hitable: Send + Sync {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord>;
+    fn bounding_box(&self) -> Option<AABB>;
 }
 
 pub struct World {
@@ -22,5 +23,24 @@ impl World {
             }
         }
         hit_record
+    }
+
+    pub fn bounding_box(&self) -> Option<AABB> {
+        if self.hitables.is_empty() {
+            None
+        } else {
+            self.hitables
+                .iter()
+                .fold(
+                    self.hitables[0].bounding_box(),
+                    |bounding_box, hitable| match bounding_box {
+                        Some(bounding_box) => match hitable.bounding_box() {
+                            Some(this_box) => Some(AABB::surrounding_box(&bounding_box, &this_box)),
+                            None => None,
+                        },
+                        None => None,
+                    },
+                )
+        }
     }
 }

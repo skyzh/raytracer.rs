@@ -1,4 +1,4 @@
-use std::ops::{Add, Div, Mul, Neg, Sub};
+use std::ops::{Add, Div, Index, Mul, Neg, Sub};
 
 #[derive(Clone, Copy, Default, Debug, PartialEq)]
 pub struct Vec3 {
@@ -63,6 +63,18 @@ impl Neg for Vec3 {
             x: -self.x,
             y: -self.y,
             z: -self.z,
+        }
+    }
+}
+
+impl Index<usize> for Vec3 {
+    type Output = f32;
+    fn index(&self, idx: usize) -> &f32 {
+        match idx {
+            0 => &self.x,
+            1 => &self.y,
+            2 => &self.z,
+            _ => panic!("out of range"),
         }
     }
 }
@@ -205,5 +217,20 @@ mod tests {
             Vec3::elemul(Vec3::new(1.0, 2.0, 3.0), Vec3::new(1.0, 2.0, 3.0)),
             Vec3::new(1.0, 4.0, 9.0)
         );
+    }
+
+    #[test]
+    fn test_index() {
+        let vec = Vec3::new(1.0, 2.0, 3.0);
+        assert_eq!(vec[0], 1.0);
+        assert_eq!(vec[1], 2.0);
+        assert_eq!(vec[2], 3.0);
+    }
+
+    #[test]
+    fn test_index_panic() {
+        let vec = Vec3::new(1.0, 2.0, 3.0);
+        let result = std::panic::catch_unwind(|| vec[5]);
+        assert!(result.is_err());
     }
 }

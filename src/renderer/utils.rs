@@ -1,5 +1,5 @@
 use super::{Renderer, ThreadedRenderer};
-use crate::tracer::{Camera, World};
+use crate::tracer::{Camera, World, BVHNode};
 use std::sync::Arc;
 
 pub fn render_to_file(renderer: impl Renderer, path: &'static str) -> Result<(), std::io::Error> {
@@ -20,13 +20,17 @@ pub fn render_high_quality(
     camera: Camera,
     path: &'static str,
 ) -> Result<(), std::io::Error> {
+    info!("constructing bvh node..");
+    let world = World {
+        hitables: vec![BVHNode::new(world)]
+    };
     render_to_file(
         ThreadedRenderer {
             world: Arc::new(world),
             camera: Arc::new(camera),
             size: (1600, 1600),
             anti_aliasing: 256,
-            block_count: (16, 16),
+            block_count: (8, 8),
             workers: 4,
         },
         path,
@@ -38,6 +42,10 @@ pub fn render_preview(
     camera: Camera,
     path: &'static str,
 ) -> Result<(), std::io::Error> {
+    info!("constructing bvh node...");
+    let world = World {
+        hitables: vec![BVHNode::new(world)]
+    };
     render_to_file(
         ThreadedRenderer {
             world: Arc::new(world),
