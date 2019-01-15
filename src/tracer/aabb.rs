@@ -34,9 +34,9 @@ impl AABB {
             box0.min.z.min(box1.min.z),
         );
         let big = Vec3::new(
-            box0.max.x.min(box1.max.x),
-            box0.max.y.min(box1.max.y),
-            box0.max.z.min(box1.max.z),
+            box0.max.x.max(box1.max.x),
+            box0.max.y.max(box1.max.y),
+            box0.max.z.max(box1.max.z),
         );
         Self {
             min: small,
@@ -63,5 +63,21 @@ mod tests {
             0.0,
             5.0
         ));
+    }
+
+    #[test]
+    fn test_surrounding_box() {
+        let aabb1 = AABB {
+            min: Vec3::new(0.0, 0.0, 0.0),
+            max: Vec3::new(1.0, 1.0, 1.0),
+        };
+        let aabb2 = AABB {
+            min: Vec3::new(0.5, 0.5, 0.5),
+            max: Vec3::new(2.0, 2.0, 2.0),
+        };
+        assert_eq!(AABB::surrounding_box(&aabb1, &aabb2), AABB {
+            min: Vec3::new(0.0, 0.0, 0.0),
+            max: Vec3::new(2.0, 2.0, 2.0)
+        })
     }
 }

@@ -52,7 +52,7 @@ pub fn render_preview(
             camera: Arc::new(camera),
             size: (600, 600),
             anti_aliasing: 16,
-            block_count: (5, 5),
+            block_count: (3, 3),
             workers: 4,
         },
         path,
