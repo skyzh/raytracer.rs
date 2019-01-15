@@ -24,12 +24,7 @@ The scene from legacy version and the cover of "Ray Tracing in One Weekend". It 
 
 Generate 300 spheres (no overlap) in the space with different materials and settings.
 
-It takes about *800 secs* to render.    
-Parameters: `1600x1600`, anti-aliasing `256`, workers `4`.
-
-`scenes/complex_scene.rs:complex_scene_1`
-
-![complex_scene_1](https://user-images.githubusercontent.com/4198311/51087070-38a7f300-1789-11e9-9b84-d96f9bb1d556.png)
+It takes about *560 secs* to render.
 
 `scenes/complex_scene.rs:complex_scene_2`
 
