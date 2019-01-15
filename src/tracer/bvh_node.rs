@@ -1,4 +1,4 @@
-use super::{HitRecord, Hitable, Ray, Vec3, World, AABB};
+use super::{HitRecord, Hitable, Ray, World, AABB};
 use rand::Rng;
 
 pub struct BVHNode {

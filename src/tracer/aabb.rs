@@ -1,5 +1,5 @@
 use super::{Ray, Vec3};
-use std::{cmp, mem};
+use std::{mem};
 
 #[derive(Clone, Copy, Default, Debug, PartialEq)]
 pub struct AABB {
@@ -12,10 +12,10 @@ impl AABB {
         let mut tmin = tmin;
         let mut tmax = tmax;
         for a in 0..3 {
-            let invD = 1.0 / ray.direction[a];
-            let mut t0 = (self.min[a] - ray.origin[a]) * invD;
-            let mut t1 = (self.max[a] - ray.origin[a]) * invD;
-            if invD < 0.0 {
+            let inv_d = 1.0 / ray.direction[a];
+            let mut t0 = (self.min[a] - ray.origin[a]) * inv_d;
+            let mut t1 = (self.max[a] - ray.origin[a]) * inv_d;
+            if inv_d < 0.0 {
                 mem::swap(&mut t0, &mut t1);
             }
             tmin = if t0 > tmin { t0 } else { tmin };

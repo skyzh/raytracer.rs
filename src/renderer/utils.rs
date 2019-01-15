@@ -20,17 +20,18 @@ pub fn render_high_quality(
     camera: Camera,
     path: &'static str,
 ) -> Result<(), std::io::Error> {
-    info!("constructing bvh node..");
+    info!("constructing bvh node...");
     let world = World {
         hitables: vec![BVHNode::new(world)]
     };
+    info!("rendering in progress...");
     render_to_file(
         ThreadedRenderer {
             world: Arc::new(world),
             camera: Arc::new(camera),
             size: (1600, 1600),
             anti_aliasing: 256,
-            block_count: (8, 8),
+            block_count: (16, 16),
             workers: 4,
         },
         path,
@@ -46,6 +47,7 @@ pub fn render_preview(
     let world = World {
         hitables: vec![BVHNode::new(world)]
     };
+    info!("rendering in progress...");
     render_to_file(
         ThreadedRenderer {
             world: Arc::new(world),
