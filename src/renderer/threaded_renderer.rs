@@ -10,6 +10,7 @@ pub struct ThreadedRenderer {
     pub anti_aliasing: u32,
     pub workers: usize,
     pub block_count: (u32, u32),
+    pub ambient_light: bool,
 }
 
 struct ThreadedRendererResult {
@@ -24,6 +25,7 @@ impl Renderer for ThreadedRenderer {
         let (render_width, render_height) = self.size;
         let (block_col, block_row) = self.block_count;
         let antialiasing = self.anti_aliasing;
+        let ambient_light = self.ambient_light;
         let mut img = image::RgbaImage::new(render_width, render_height);
         let n_jobs = (block_row * block_col) as usize;
         let block_width = render_width / block_col;
@@ -47,6 +49,7 @@ impl Renderer for ThreadedRenderer {
                             (col * block_width, row * block_height),
                             (block_width, block_height),
                         ),
+                        ambient_light,
                     };
                     tx.send(ThreadedRendererResult {
                         img: renderer.render(),

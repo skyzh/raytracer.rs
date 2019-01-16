@@ -25,12 +25,34 @@ pub fn random_in_unit_disk() -> Vec3 {
     }
 }
 
+use std::f32::consts::PI;
+
+pub fn get_sphere_uv(p: Vec3) -> (f32, f32) {
+    let phi = p.z.atan2(p.x);
+    let theta = p.y.asin();
+    let u = 1.0 - (phi + PI) / (2.0 * PI);
+    let v = (theta + PI / 2.0) / PI;
+    (u, v)
+}
+
 pub fn gamma_correct(color: Vec3) -> Vec3 {
-    Vec3::new(
-        color.x.sqrt(),
-        color.y.sqrt(),
-        color.z.sqrt(),
-    )
+    Vec3::new(color.x.sqrt(), color.y.sqrt(), color.z.sqrt())
+}
+
+pub fn in_range(color: Vec3) -> Vec3 {
+    Vec3::new(channel_in_range(color.x), channel_in_range(color.y), channel_in_range(color.z))
+}
+
+fn channel_in_range(channel: f32) -> f32 {
+    if channel < 0.0 {
+        warn!("negative pixel");
+        0.0
+    } else if channel > 1.0 {
+        warn!("too bright pixel");
+        1.0
+    } else {
+        channel
+    }
 }
 
 pub fn reflect(v: Vec3, n: Vec3) -> Vec3 {

@@ -1,5 +1,8 @@
 use super::Renderer;
-use crate::tracer::{utils::gamma_correct, Camera, Ray, Vec3, World};
+use crate::tracer::{utils::{
+    gamma_correct,
+    in_range
+}, Camera, Ray, Vec3, World};
 use rand::Rng;
 
 pub struct BasicRenderer<'a> {
@@ -8,27 +11,35 @@ pub struct BasicRenderer<'a> {
     pub size: (u32, u32),
     pub anti_aliasing: u32,
     pub crop_region: ((u32, u32), (u32, u32)),
+    pub ambient_light: bool,
 }
 
 impl BasicRenderer<'_> {
     fn color(&self, ray: &Ray, depth: u32) -> Vec3 {
         match self.world.hit(ray, 0.001, std::f32::MAX) {
             Some(hit_record) => {
+                let emitted = hit_record
+                    .material
+                    .emitted(hit_record.u, hit_record.v, hit_record.p);
                 if depth > 0 {
                     match hit_record.material.scatter(&ray, &hit_record) {
                         Some((attenuation, scattered)) => {
-                            Vec3::elemul(attenuation, self.color(&scattered, depth - 1))
+                            emitted + Vec3::elemul(attenuation, self.color(&scattered, depth - 1))
                         }
-                        None => Vec3::zero(),
+                        None => emitted,
                     }
                 } else {
                     Vec3::zero()
                 }
             }
             None => {
-                let unit_direction = ray.direction.unit();
-                let t = 0.5 * (unit_direction.y + 1.0);
-                Vec3::new(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t
+                if self.ambient_light {
+                    let unit_direction = ray.direction.unit();
+                    let t = 0.5 * (unit_direction.y + 1.0);
+                    Vec3::new(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t
+                } else {
+                    Vec3::zero()
+                }
             }
         }
     }
@@ -51,7 +62,7 @@ impl Renderer for BasicRenderer<'_> {
                 let ray = self.camera.get_ray(u, v);
                 color = color + self.color(&ray, 200);
             }
-            *pixel = gamma_correct(color / self.anti_aliasing as f32).rgba()
+            *pixel = in_range(gamma_correct(color / self.anti_aliasing as f32)).rgba()
         }
         imgbuf
     }

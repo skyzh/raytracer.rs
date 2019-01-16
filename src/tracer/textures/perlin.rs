@@ -51,7 +51,7 @@ impl Perlin {
         let i = p.x.floor() as i32;
         let j = p.y.floor() as i32;
         let k = p.z.floor() as i32;
-        let mut accum : f32 = 0.0;
+        let mut accum: f32 = 0.0;
         for di in 0..2 {
             for dj in 0..2 {
                 for dk in 0..2 {

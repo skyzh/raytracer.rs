@@ -19,6 +19,7 @@ pub fn render_high_quality(
     world: World,
     camera: Camera,
     path: &'static str,
+    ambient_light: bool,
 ) -> Result<(), std::io::Error> {
     info!("constructing bvh node...");
     let world = World {
@@ -33,6 +34,7 @@ pub fn render_high_quality(
             anti_aliasing: 256,
             block_count: (16, 16),
             workers: 4,
+            ambient_light,
         },
         path,
     )
@@ -42,6 +44,7 @@ pub fn render_preview(
     world: World,
     camera: Camera,
     path: &'static str,
+    ambient_light: bool,
 ) -> Result<(), std::io::Error> {
     info!("constructing bvh node...");
     let world = World {
@@ -56,6 +59,7 @@ pub fn render_preview(
             anti_aliasing: 64,
             block_count: (3, 3),
             workers: 4,
+            ambient_light,
         },
         path,
     )

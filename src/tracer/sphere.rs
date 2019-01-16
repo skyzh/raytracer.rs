@@ -1,4 +1,4 @@
-use super::{HitRecord, Hitable, Material, Ray, Vec3, AABB};
+use super::{utils::get_sphere_uv, HitRecord, Hitable, Material, Ray, Vec3, AABB};
 use std::sync::Arc;
 
 pub struct Sphere {
@@ -19,20 +19,28 @@ impl Hitable for Sphere {
             let temp = (-b - discriminant.sqrt()) / a / 2.0;
             if temp < t_max && temp > t_min {
                 let ray_at = ray.at(temp);
+                let normal = (ray_at - self.center) / self.radius;
+                let (u, v) = get_sphere_uv(normal);
                 return Some(HitRecord {
                     t: temp,
                     p: ray_at,
-                    normal: (ray_at - self.center) / self.radius,
+                    normal,
+                    u,
+                    v,
                     material: self.material.clone(),
                 });
             }
             let temp = (-b + discriminant.sqrt()) / a / 2.0;
             if temp < t_max && temp > t_min {
                 let ray_at = ray.at(temp);
+                let normal = (ray_at - self.center) / self.radius;
+                let (u, v) = get_sphere_uv(normal);
                 return Some(HitRecord {
                     t: temp,
                     p: ray_at,
-                    normal: (ray_at - self.center) / self.radius,
+                    normal,
+                    u,
+                    v,
                     material: self.material.clone(),
                 });
             }
