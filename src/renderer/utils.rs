@@ -53,7 +53,7 @@ pub fn render_preview(
             world: Arc::new(world),
             camera: Arc::new(camera),
             size: (600, 600),
-            anti_aliasing: 16,
+            anti_aliasing: 64,
             block_count: (3, 3),
             workers: 4,
         },

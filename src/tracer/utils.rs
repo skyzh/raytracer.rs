@@ -27,9 +27,9 @@ pub fn random_in_unit_disk() -> Vec3 {
 
 pub fn gamma_correct(color: Vec3) -> Vec3 {
     Vec3::new(
-        ramp(color.x.sqrt()),
-        ramp(color.y.sqrt()),
-        ramp(color.z.sqrt()),
+        color.x.sqrt(),
+        color.y.sqrt(),
+        color.z.sqrt(),
     )
 }
 
@@ -52,16 +52,6 @@ pub fn schlick(cosine: f32, ref_idx: f32) -> f32 {
     let r0 = (1.0 - ref_idx) / (1.0 + ref_idx);
     let r0 = r0 * r0;
     r0 + (1.0 - r0) * (1.0 - cosine).powf(5.0)
-}
-
-pub fn ramp(color: f32) -> f32 {
-    if color > 1.0 {
-        return 1.0;
-    } else if color < 0.0 {
-        return 0.0;
-    } else {
-        return color;
-    }
 }
 
 #[cfg(test)]

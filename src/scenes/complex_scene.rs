@@ -2,7 +2,7 @@ use super::utils::overlap;
 use crate::tracer::{
     materials::{Dielectric, Lambertian, Material, Metal},
     textures::ConstantTexture,
-    Camera, Hitable, Sphere, Texture, Vec3, World,
+    Camera, Hitable, Sphere, Vec3, World,
 };
 use rand::Rng;
 use std::sync::Arc;
