@@ -2,13 +2,9 @@
 
 [![Build Status](https://travis-ci.com/SkyZH/raytracer.rs.svg?branch=master)](https://travis-ci.com/SkyZH/raytracer.rs)
 
-_The "Ray Tracing in One Weekend" implemented in Rust 2018_
+_"Ray Tracing in One Weekend ([Amazon](https://www.amazon.com/Ray-Tracing-Weekend-Minibooks-Book-ebook/dp/B01B5AODD8/))" implemented in Rust 2018_
 
-[Ray Tracing in One Weekend (Ray Tracing Minibooks Book 1) on Amazon](https://www.amazon.com/Ray-Tracing-Weekend-Minibooks-Book-ebook/dp/B01B5AODD8/)
-
-This is the new branch implemented in Rust 2018.
-
-For previous version, refer to [Legacy](https://github.com/SkyZH/raytracer.rs/tree/legacy)
+This is the new branch implemented in Rust 2018. For previous version, refer to [legacy](https://github.com/SkyZH/raytracer.rs/tree/legacy) branch.
 
 ## Usage
 
@@ -18,11 +14,13 @@ use self::renderer::utils::render_high_quality as render;
 use self::scenes::simple_scene::simple_scene_perlin_noise as scene;
 ```    
 Here you can change `render_high_quality` to `render_preview` to render faster. And you can select from examples scenes by changing `self::scenes::****::****`.    
+
 ```rust
-render(world, camera, "simple_scene_perlin_noise.png")?;
+render(world, camera, "scene.png")?;
 ```    
-The third parameter indicates that with previous rendering settings, the image will be rendered to `output/simple_scene_perlin_noise.png`.    
-And then run:    
+The third parameter indicates that with previous rendering settings, the image will be rendered to `output/scene.png`. 
+
+Finally run:    
 ```bash
 cargo run --release
 ```
@@ -31,7 +29,7 @@ cargo run --release
 
 ### Cover Scene
 
-The scene from legacy version and the cover of "Ray Tracing in One Weekend". It takes about *450 secs* to render.
+The scene from the cover of "Ray Tracing in One Weekend". It takes *~450 secs* to render.
 
 `scenes/legacy_scene.rs:legacy_scene`
 
@@ -41,7 +39,7 @@ The scene from legacy version and the cover of "Ray Tracing in One Weekend". It 
 
 Generate 300 spheres (no overlap) in the space with different materials and settings.
 
-It takes about *560 secs* to render.
+It takes *~560 secs* to render.
 
 `scenes/complex_scene.rs:complex_scene_2`
 
@@ -50,13 +48,10 @@ It takes about *560 secs* to render.
 
 ### Textures
 
-Checker Texture
-
-`scenes/legacy_scene.rs:legacy_scene_texture`
+**Checker Texture** `scenes/legacy_scene.rs:legacy_scene_texture`    
 ![legacy_scene_texture](https://user-images.githubusercontent.com/4198311/51223750-1b884580-197e-11e9-93c8-f4c8779d1958.png)
 
-Perlin Noise
-`scenes/simple_scene.rs:simple_scene_perlin_noise`
+**Perlin Noise** `scenes/simple_scene.rs:simple_scene_perlin_noise`    
 ![simple_scene_perlin_noise](https://user-images.githubusercontent.com/4198311/51226964-f9e28a80-198c-11e9-95ee-374e3598adc2.png)
 
 ## Run Tests and Benchmarks
