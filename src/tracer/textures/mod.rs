@@ -1,5 +1,7 @@
 mod constant_texture;
 pub use self::constant_texture::ConstantTexture;
+mod checker_texture;
+pub use self::checker_texture::CheckerTexture;
 
 use super::Vec3;
 
