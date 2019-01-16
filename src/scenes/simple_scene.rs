@@ -1,6 +1,7 @@
 use crate::tracer::{
     materials::{Dielectric, Lambertian, Metal},
-    Camera, Sphere, Vec3, World,
+    textures::ConstantTexture,
+    Camera, Sphere, Texture, Vec3, World,
 };
 
 use std::sync::Arc;
@@ -25,16 +26,16 @@ pub fn simple_scene_1() -> (World, Camera) {
                 Box::new(Sphere {
                     center: Vec3::new(-1.0, 0.0, -1.0),
                     radius: 0.3,
-                    material: Arc::new(Lambertian {
-                        albedo: Vec3::new(0.5, 0.5, 1.0),
-                    }),
+                    material: Arc::new(Lambertian::new(ConstantTexture::new(Vec3::new(
+                        0.5, 0.5, 1.0,
+                    )))),
                 }),
                 Box::new(Sphere {
                     center: Vec3::new(0.0, -100.5, -1.0),
                     radius: 100.0,
-                    material: Arc::new(Lambertian {
-                        albedo: Vec3::new(0.5, 0.5, 0.5),
-                    }),
+                    material: Arc::new(Lambertian::new(ConstantTexture::new(Vec3::new(
+                        0.5, 0.5, 0.5,
+                    )))),
                 }),
             ],
         },
@@ -70,16 +71,16 @@ pub fn simple_scene_2() -> (World, Camera) {
                 Box::new(Sphere {
                     center: Vec3::new(-1.0, 0.0, -1.0),
                     radius: 0.3,
-                    material: Arc::new(Lambertian {
-                        albedo: Vec3::new(0.5, 0.5, 1.0),
-                    }),
+                    material: Arc::new(Lambertian::new(ConstantTexture::new(Vec3::new(
+                        0.5, 0.5, 1.0,
+                    )))),
                 }),
                 Box::new(Sphere {
                     center: Vec3::new(0.0, -100.5, -1.0),
                     radius: 100.0,
-                    material: Arc::new(Lambertian {
-                        albedo: Vec3::new(0.5, 0.5, 0.5),
-                    }),
+                    material: Arc::new(Lambertian::new(ConstantTexture::new(Vec3::new(
+                        0.5, 0.5, 0.5,
+                    )))),
                 }),
             ],
         },

@@ -1,4 +1,4 @@
-use super::{HitRecord, Ray, Vec3};
+use super::{HitRecord, Ray, Texture, Vec3};
 
 mod lambertian;
 pub use self::lambertian::Lambertian;

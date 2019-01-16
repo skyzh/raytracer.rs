@@ -1,5 +1,5 @@
 use super::{Ray, Vec3};
-use std::{mem};
+use std::mem;
 
 #[derive(Clone, Copy, Default, Debug, PartialEq)]
 pub struct AABB {
@@ -75,9 +75,12 @@ mod tests {
             min: Vec3::new(0.5, 0.5, 0.5),
             max: Vec3::new(2.0, 2.0, 2.0),
         };
-        assert_eq!(AABB::surrounding_box(&aabb1, &aabb2), AABB {
-            min: Vec3::new(0.0, 0.0, 0.0),
-            max: Vec3::new(2.0, 2.0, 2.0)
-        })
+        assert_eq!(
+            AABB::surrounding_box(&aabb1, &aabb2),
+            AABB {
+                min: Vec3::new(0.0, 0.0, 0.0),
+                max: Vec3::new(2.0, 2.0, 2.0)
+            }
+        )
     }
 }

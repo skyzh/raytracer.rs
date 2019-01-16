@@ -1,6 +1,7 @@
 use crate::tracer::{
     materials::{Dielectric, Lambertian, Material, Metal},
-    Camera, Hitable, Sphere, Vec3, World,
+    textures::ConstantTexture,
+    Camera, Hitable, Sphere, Texture, Vec3, World,
 };
 use rand::Rng;
 use std::sync::Arc;
@@ -36,13 +37,11 @@ pub fn complex_scene_1() -> (World, Camera) {
                 fuzz: rng.gen_range(0.1, 0.5),
             }) as Arc<dyn Material>,
             1 => Arc::new(Dielectric { ref_idx: 1.5 }) as Arc<dyn Material>,
-            _ => Arc::new(Lambertian {
-                albedo: Vec3::new(
-                    rng.gen_range(0.1, 0.9),
-                    rng.gen_range(0.1, 0.9),
-                    rng.gen_range(0.1, 0.9),
-                ),
-            }) as Arc<dyn Material>,
+            _ => Arc::new(Lambertian::new(ConstantTexture::new(Vec3::new(
+                rng.gen_range(0.1, 0.9),
+                rng.gen_range(0.1, 0.9),
+                rng.gen_range(0.1, 0.9),
+            )))) as Arc<dyn Material>,
         };
 
         items.push(Box::new(Sphere {
@@ -98,13 +97,11 @@ pub fn complex_scene_2() -> (World, Camera) {
                 fuzz: rng.gen_range(0.1, 0.5),
             }) as Arc<dyn Material>,
             1 => Arc::new(Dielectric { ref_idx: 1.5 }) as Arc<dyn Material>,
-            _ => Arc::new(Lambertian {
-                albedo: Vec3::new(
-                    rng.gen_range(0.1, 0.9),
-                    rng.gen_range(0.1, 0.9),
-                    rng.gen_range(0.1, 0.9),
-                ),
-            }) as Arc<dyn Material>,
+            _ => Arc::new(Lambertian::new(ConstantTexture::new(Vec3::new(
+                rng.gen_range(0.1, 0.9),
+                rng.gen_range(0.1, 0.9),
+                rng.gen_range(0.1, 0.9),
+            )))) as Arc<dyn Material>,
         };
 
         items.push(Box::new(Sphere {
@@ -148,16 +145,16 @@ pub fn legacy_scene() -> (World, Camera) {
     world_items.push(Box::new(Sphere {
         center: Vec3::new(0.0, -100.5, -1.0),
         radius: 100.0,
-        material: Arc::new(Lambertian {
-            albedo: Vec3::new(0.3, 0.3, 0.3),
-        }),
+        material: Arc::new(Lambertian::new(ConstantTexture::new(Vec3::new(
+            0.3, 0.3, 0.3,
+        )))),
     }));
     world_items.push(Box::new(Sphere {
         center: Vec3::new(0.0, 0.0, -1.0),
         radius: 0.5,
-        material: Arc::new(Lambertian {
-            albedo: Vec3::new(0.8, 0.6, 0.3),
-        }),
+        material: Arc::new(Lambertian::new(ConstantTexture::new(Vec3::new(
+            0.8, 0.6, 0.3,
+        )))),
     }));
     world_items.push(Box::new(Sphere {
         center: Vec3::new(1.0, 0.0, -1.0),
@@ -195,7 +192,7 @@ pub fn legacy_scene() -> (World, Camera) {
         );
         let s = rng.gen_range(0, 3);
         let material = match s {
-            0 => Arc::new(Lambertian { albedo: color }) as Arc<dyn Material>,
+            0 => Arc::new(Lambertian::new(ConstantTexture::new(color))) as Arc<dyn Material>,
             1 => Arc::new(Metal {
                 albedo: color,
                 fuzz: rng.gen_range(0.0, 0.5),

@@ -10,6 +10,7 @@ mod vec3;
 pub use self::aabb::AABB;
 mod bvh_node;
 pub use self::bvh_node::BVHNode;
+pub mod textures;
 
 pub use self::camera::Camera;
 pub use self::hit_record::HitRecord;
@@ -17,4 +18,5 @@ pub use self::hitable::{Hitable, World};
 pub use self::materials::Material;
 pub use self::ray::Ray;
 pub use self::sphere::Sphere;
+pub use self::textures::Texture;
 pub use self::vec3::Vec3;
