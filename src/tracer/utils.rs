@@ -49,10 +49,10 @@ pub fn in_range(color: Vec3) -> Vec3 {
 
 fn channel_in_range(channel: f32) -> f32 {
     if channel < 0.0 {
-        warn!("negative pixel");
+        // warn!("negative pixel");
         0.0
     } else if channel > 1.0 {
-        warn!("too bright pixel");
+        // warn!("too bright pixel");
         1.0
     } else {
         channel

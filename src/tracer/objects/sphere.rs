@@ -1,4 +1,4 @@
-use super::{utils::get_sphere_uv, HitRecord, Hitable, Material, Ray, Vec3, AABB};
+use crate::tracer::{utils::get_sphere_uv, HitRecord, Hitable, Material, Ray, Vec3, AABB};
 use std::sync::Arc;
 
 pub struct Sphere {
