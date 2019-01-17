@@ -50,6 +50,9 @@ It takes *~560 secs* to render.
 
 ### Textures
 
+**Light Scene** `scenes/legacy_scene.rs:legacy_scene_light`    
+![legacy_scene_light](https://user-images.githubusercontent.com/4198311/51253655-e9a4cc80-19d9-11e9-9ea4-ddec4e4208eb.png)
+
 **Checker Texture** `scenes/legacy_scene.rs:legacy_scene_texture`    
 ![legacy_scene_texture](https://user-images.githubusercontent.com/4198311/51223750-1b884580-197e-11e9-93c8-f4c8779d1958.png)
 

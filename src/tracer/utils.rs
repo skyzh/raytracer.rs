@@ -40,7 +40,11 @@ pub fn gamma_correct(color: Vec3) -> Vec3 {
 }
 
 pub fn in_range(color: Vec3) -> Vec3 {
-    Vec3::new(channel_in_range(color.x), channel_in_range(color.y), channel_in_range(color.z))
+    Vec3::new(
+        channel_in_range(color.x),
+        channel_in_range(color.y),
+        channel_in_range(color.z),
+    )
 }
 
 fn channel_in_range(channel: f32) -> f32 {

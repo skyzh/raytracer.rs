@@ -1,8 +1,8 @@
 use super::Renderer;
-use crate::tracer::{utils::{
-    gamma_correct,
-    in_range
-}, Camera, Ray, Vec3, World};
+use crate::tracer::{
+    utils::{gamma_correct, in_range},
+    Camera, Ray, Vec3, World,
+};
 use rand::Rng;
 
 pub struct BasicRenderer<'a> {
