@@ -1,5 +1,6 @@
 use super::{HitRecord, Material, Ray, Texture, Vec3};
 use crate::tracer::utils::random_in_unit_sphere;
+use std::sync::Arc;
 
 pub struct Lambertian {
     pub albedo: Box<dyn Texture>,
@@ -8,6 +9,9 @@ pub struct Lambertian {
 impl Lambertian {
     pub fn new(albedo: Box<dyn Texture>) -> Self {
         Self { albedo }
+    }
+    pub fn new_arc(albedo: Box<dyn Texture>) -> Arc<Self> {
+        Arc::new(Self { albedo })
     }
 }
 
