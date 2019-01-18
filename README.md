@@ -59,6 +59,11 @@ It takes *~560 secs* to render.
 **Perlin Noise** `scenes/simple_scene.rs:simple_scene_perlin_noise`    
 ![simple_scene_perlin_noise](https://user-images.githubusercontent.com/4198311/51226964-f9e28a80-198c-11e9-95ee-374e3598adc2.png)
 
+### Cornell Box
+**Cornell Box** `scenes/cornell_box.rs:cornell_box`    
+![cornell_box](https://user-images.githubusercontent.com/4198311/51380265-4922e980-1b4c-11e9-85e2-1d5430a47b22.png)
+
+
 ## Run Tests and Benchmarks
 
 ```bash
