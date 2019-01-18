@@ -1,7 +1,7 @@
-use crate::tracer::{Hitable, HitRecord, Vec3, Ray, AABB};
+use crate::tracer::{HitRecord, Hitable, Ray, Vec3, AABB};
 
 pub struct FlipNormals {
-    pub hitable: Box<dyn Hitable>
+    pub hitable: Box<dyn Hitable>,
 }
 
 impl FlipNormals {
@@ -17,7 +17,7 @@ impl Hitable for FlipNormals {
                 normal: -hit_rec.normal,
                 ..hit_rec
             }),
-            None => None
+            None => None,
         }
     }
     fn bounding_box(&self) -> Option<AABB> {

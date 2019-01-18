@@ -2,14 +2,14 @@ use crate::tracer::{
     materials::{Dielectric, DiffuseLight, Lambertian, Metal},
     objects::{RectXY, Sphere},
     textures::{ConstantTexture, NoiseTexture},
-    Camera, Vec3, World,
+    Camera, HitableList, Vec3,
 };
 
 use std::sync::Arc;
 
-pub fn simple_scene_1() -> (World, Camera) {
+pub fn simple_scene_1() -> (HitableList, Camera) {
     (
-        World {
+        HitableList {
             hitables: vec![
                 Box::new(Sphere {
                     center: Vec3::new(1.0, 0.0, -1.0),
@@ -52,9 +52,9 @@ pub fn simple_scene_1() -> (World, Camera) {
     )
 }
 
-pub fn simple_scene_2() -> (World, Camera) {
+pub fn simple_scene_2() -> (HitableList, Camera) {
     (
-        World {
+        HitableList {
             hitables: vec![
                 Box::new(Sphere {
                     center: Vec3::new(1.0, 0.0, -1.0),
@@ -97,9 +97,9 @@ pub fn simple_scene_2() -> (World, Camera) {
     )
 }
 
-pub fn simple_scene_perlin_noise() -> (World, Camera) {
+pub fn simple_scene_perlin_noise() -> (HitableList, Camera) {
     (
-        World {
+        HitableList {
             hitables: vec![
                 Box::new(Sphere {
                     center: Vec3::new(1.5, 0.0, -1.0),
@@ -138,9 +138,9 @@ pub fn simple_scene_perlin_noise() -> (World, Camera) {
     )
 }
 
-pub fn simple_scene_perlin_noise_with_light() -> (World, Camera) {
+pub fn simple_scene_perlin_noise_with_light() -> (HitableList, Camera) {
     (
-        World {
+        HitableList {
             hitables: vec![
                 Box::new(Sphere {
                     center: Vec3::new(1.5, 0.0, -1.0),

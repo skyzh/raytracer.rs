@@ -1,12 +1,12 @@
 use super::Renderer;
 use crate::tracer::{
     utils::{gamma_correct, in_range},
-    Camera, Ray, Vec3, World,
+    Camera, HitableList, Ray, Vec3,
 };
 use rand::Rng;
 
 pub struct BasicRenderer<'a> {
-    pub world: &'a World,
+    pub hitable_list: &'a HitableList,
     pub camera: &'a Camera,
     pub size: (u32, u32),
     pub anti_aliasing: u32,
@@ -16,7 +16,7 @@ pub struct BasicRenderer<'a> {
 
 impl BasicRenderer<'_> {
     fn color(&self, ray: &Ray, depth: u32) -> Vec3 {
-        match self.world.hit(ray, 0.001, std::f32::MAX) {
+        match self.hitable_list.hit(ray, 0.001, std::f32::MAX) {
             Some(hit_record) => {
                 let emitted = hit_record
                     .material

@@ -1,10 +1,10 @@
 use super::{BasicRenderer, Renderer};
-use crate::tracer::{Camera, World};
+use crate::tracer::{Camera, HitableList};
 use std::sync::{mpsc::channel, Arc};
 use threadpool::ThreadPool;
 
 pub struct ThreadedRenderer {
-    pub world: Arc<World>,
+    pub hitable_list: Arc<HitableList>,
     pub camera: Arc<Camera>,
     pub size: (u32, u32),
     pub anti_aliasing: u32,
@@ -36,12 +36,12 @@ impl Renderer for ThreadedRenderer {
         for col in 0..block_col {
             for row in 0..block_row {
                 let tx = tx.clone();
-                let world = self.world.clone();
+                let hitable_list = self.hitable_list.clone();
                 let camera = self.camera.clone();
                 pool.execute(move || {
                     let start_time = time::get_time();
                     let renderer = BasicRenderer {
-                        world: &world,
+                        hitable_list: &hitable_list,
                         camera: &camera,
                         size: (render_width, render_height),
                         anti_aliasing: antialiasing,

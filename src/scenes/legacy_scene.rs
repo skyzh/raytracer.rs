@@ -3,38 +3,38 @@ use crate::tracer::{
     materials::{Dielectric, DiffuseLight, Lambertian, Material, Metal},
     objects::Sphere,
     textures::{CheckerTexture, ConstantTexture},
-    Camera, Hitable, Vec3, World,
+    Camera, Hitable, HitableList, Vec3,
 };
 use rand::Rng;
 use std::sync::Arc;
 
-pub fn legacy_scene() -> (World, Camera) {
+pub fn legacy_scene() -> (HitableList, Camera) {
     let from = Vec3::new(-2.0, 0.3, 0.5) * 2.0;
     let to = Vec3::new(0.0, 0.0, -1.0);
     let dist_to_focus = (from - to).length();
 
-    let mut world_items: Vec<Box<dyn Hitable>> = Vec::new();
+    let mut hitable_list_items: Vec<Box<dyn Hitable>> = Vec::new();
     let mut positions = vec![
         (Vec3::new(0.0, 0.0, -1.0), 0.8 as f32),
         (Vec3::new(1.0, 0.0, -1.0), 0.5 as f32),
         (Vec3::new(-1.0, 0.0, -1.0), 0.5 as f32),
     ] as Vec<(Vec3, f32)>;
 
-    world_items.push(Box::new(Sphere {
+    hitable_list_items.push(Box::new(Sphere {
         center: Vec3::new(0.0, -100.5, -1.0),
         radius: 100.0,
         material: Arc::new(Lambertian::new(ConstantTexture::new(Vec3::new(
             0.3, 0.3, 0.3,
         )))),
     }));
-    world_items.push(Box::new(Sphere {
+    hitable_list_items.push(Box::new(Sphere {
         center: Vec3::new(0.0, 0.0, -1.0),
         radius: 0.5,
         material: Arc::new(Lambertian::new(ConstantTexture::new(Vec3::new(
             0.8, 0.6, 0.3,
         )))),
     }));
-    world_items.push(Box::new(Sphere {
+    hitable_list_items.push(Box::new(Sphere {
         center: Vec3::new(1.0, 0.0, -1.0),
         radius: 0.3,
         material: Arc::new(Metal {
@@ -42,7 +42,7 @@ pub fn legacy_scene() -> (World, Camera) {
             fuzz: 0.0,
         }),
     }));
-    world_items.push(Box::new(Sphere {
+    hitable_list_items.push(Box::new(Sphere {
         center: Vec3::new(-1.0, 0.0, -1.0),
         radius: 0.3,
         material: Arc::new(Dielectric { ref_idx: 1.5 }),
@@ -79,15 +79,15 @@ pub fn legacy_scene() -> (World, Camera) {
                 ref_idx: rng.gen_range(1.5, 2.0),
             }) as Arc<dyn Material>,
         };
-        world_items.push(Box::new(Sphere {
+        hitable_list_items.push(Box::new(Sphere {
             center: pos,
             radius: size,
             material,
         }));
     }
     (
-        World {
-            hitables: world_items,
+        HitableList {
+            hitables: hitable_list_items,
         },
         Camera::new(
             from,
@@ -101,19 +101,19 @@ pub fn legacy_scene() -> (World, Camera) {
     )
 }
 
-pub fn legacy_scene_texture() -> (World, Camera) {
+pub fn legacy_scene_texture() -> (HitableList, Camera) {
     let from = Vec3::new(-2.0, 0.3, 0.5) * 2.0;
     let to = Vec3::new(0.0, 0.0, -1.0);
     let dist_to_focus = (from - to).length();
 
-    let mut world_items: Vec<Box<dyn Hitable>> = Vec::new();
+    let mut hitable_list_items: Vec<Box<dyn Hitable>> = Vec::new();
     let mut positions = vec![
         (Vec3::new(0.0, 0.0, -1.0), 0.8 as f32),
         (Vec3::new(1.0, 0.0, -1.0), 0.5 as f32),
         (Vec3::new(-1.0, 0.0, -1.0), 0.5 as f32),
     ] as Vec<(Vec3, f32)>;
 
-    world_items.push(Box::new(Sphere {
+    hitable_list_items.push(Box::new(Sphere {
         center: Vec3::new(0.0, -100.5, -1.0),
         radius: 100.0,
         material: Arc::new(Lambertian::new(CheckerTexture::new(
@@ -121,14 +121,14 @@ pub fn legacy_scene_texture() -> (World, Camera) {
             ConstantTexture::new(Vec3::new(0.9, 0.9, 0.9)),
         ))),
     }));
-    world_items.push(Box::new(Sphere {
+    hitable_list_items.push(Box::new(Sphere {
         center: Vec3::new(0.0, 0.0, -1.0),
         radius: 0.5,
         material: Arc::new(Lambertian::new(ConstantTexture::new(Vec3::new(
             0.8, 0.6, 0.3,
         )))),
     }));
-    world_items.push(Box::new(Sphere {
+    hitable_list_items.push(Box::new(Sphere {
         center: Vec3::new(1.0, 0.0, -1.0),
         radius: 0.3,
         material: Arc::new(Metal {
@@ -136,7 +136,7 @@ pub fn legacy_scene_texture() -> (World, Camera) {
             fuzz: 0.0,
         }),
     }));
-    world_items.push(Box::new(Sphere {
+    hitable_list_items.push(Box::new(Sphere {
         center: Vec3::new(-1.0, 0.0, -1.0),
         radius: 0.3,
         material: Arc::new(Dielectric { ref_idx: 1.5 }),
@@ -173,15 +173,15 @@ pub fn legacy_scene_texture() -> (World, Camera) {
                 ref_idx: rng.gen_range(1.5, 2.0),
             }) as Arc<dyn Material>,
         };
-        world_items.push(Box::new(Sphere {
+        hitable_list_items.push(Box::new(Sphere {
             center: pos,
             radius: size,
             material,
         }));
     }
     (
-        World {
-            hitables: world_items,
+        HitableList {
+            hitables: hitable_list_items,
         },
         Camera::new(
             from,
@@ -195,19 +195,19 @@ pub fn legacy_scene_texture() -> (World, Camera) {
     )
 }
 
-pub fn legacy_scene_light() -> (World, Camera) {
+pub fn legacy_scene_light() -> (HitableList, Camera) {
     let from = Vec3::new(-3.0, 1.0, -3.0) * 2.0;
     let to = Vec3::new(0.0, 0.0, -1.0);
     let dist_to_focus = (from - to).length();
 
-    let mut world_items: Vec<Box<dyn Hitable>> = Vec::new();
+    let mut hitable_list_items: Vec<Box<dyn Hitable>> = Vec::new();
     let mut positions = vec![
         (Vec3::new(0.0, 0.0, -1.0), 0.8 as f32),
         (Vec3::new(1.0, 0.0, -1.0), 0.5 as f32),
         (Vec3::new(-1.0, 0.0, -1.0), 0.5 as f32),
     ] as Vec<(Vec3, f32)>;
 
-    world_items.push(Box::new(Sphere {
+    hitable_list_items.push(Box::new(Sphere {
         center: Vec3::new(0.0, -100.5, -1.0),
         radius: 100.0,
         material: Arc::new(Lambertian::new(CheckerTexture::new(
@@ -215,7 +215,7 @@ pub fn legacy_scene_light() -> (World, Camera) {
             ConstantTexture::new(Vec3::new(0.9, 0.9, 0.9)),
         ))),
     }));
-    world_items.push(Box::new(Sphere {
+    hitable_list_items.push(Box::new(Sphere {
         center: Vec3::new(0.0, 0.0, -1.0),
         radius: 0.5,
         material: Arc::new(DiffuseLight::new(CheckerTexture::new(
@@ -223,7 +223,7 @@ pub fn legacy_scene_light() -> (World, Camera) {
             ConstantTexture::new(Vec3::new(1.0, 0.75, 0.3)),
         ))),
     }));
-    world_items.push(Box::new(Sphere {
+    hitable_list_items.push(Box::new(Sphere {
         center: Vec3::new(1.0, 0.0, -1.0),
         radius: 0.3,
         material: Arc::new(Metal {
@@ -231,7 +231,7 @@ pub fn legacy_scene_light() -> (World, Camera) {
             fuzz: 0.0,
         }),
     }));
-    world_items.push(Box::new(Sphere {
+    hitable_list_items.push(Box::new(Sphere {
         center: Vec3::new(-1.0, 0.0, -1.0),
         radius: 0.3,
         material: Arc::new(Dielectric { ref_idx: 1.5 }),
@@ -269,15 +269,15 @@ pub fn legacy_scene_light() -> (World, Camera) {
             }) as Arc<dyn Material>,
             _ => Arc::new(DiffuseLight::new(ConstantTexture::new(color))) as Arc<dyn Material>,
         };
-        world_items.push(Box::new(Sphere {
+        hitable_list_items.push(Box::new(Sphere {
             center: pos,
             radius: size,
             material,
         }));
     }
     (
-        World {
-            hitables: world_items,
+        HitableList {
+            hitables: hitable_list_items,
         },
         Camera::new(
             from,

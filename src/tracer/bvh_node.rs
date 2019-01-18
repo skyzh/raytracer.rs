@@ -1,4 +1,4 @@
-use super::{HitRecord, Hitable, Ray, World, AABB};
+use super::{HitRecord, Hitable, HitableList, Ray, AABB};
 use rand::Rng;
 
 pub struct BVHNode {
@@ -8,8 +8,8 @@ pub struct BVHNode {
 }
 
 impl BVHNode {
-    pub fn new(world: World) -> Box<dyn Hitable> {
-        Self::construct(world.hitables)
+    pub fn new(hitable_list: HitableList) -> Box<dyn Hitable> {
+        Self::construct(hitable_list.hitables)
     }
     fn construct(mut hitable_list: Vec<Box<dyn Hitable>>) -> Box<dyn Hitable> {
         match hitable_list.len() {

@@ -3,12 +3,12 @@ use crate::tracer::{
     materials::{Dielectric, Lambertian, Material, Metal},
     objects::Sphere,
     textures::ConstantTexture,
-    Camera, Hitable, Vec3, World,
+    Camera, Hitable, HitableList, Vec3,
 };
 use rand::Rng;
 use std::sync::Arc;
 
-pub fn complex_scene_1() -> (World, Camera) {
+pub fn complex_scene_1() -> (HitableList, Camera) {
     let mut rng = rand::thread_rng();
     let mut items = vec![] as Vec<Box<dyn Hitable>>;
     let mut positions = vec![] as Vec<(Vec3, f32)>;
@@ -53,7 +53,7 @@ pub fn complex_scene_1() -> (World, Camera) {
         }));
     }
     (
-        World { hitables: items },
+        HitableList { hitables: items },
         Camera::new(
             Vec3::new(0.0, 0.0, 0.0),
             Vec3::new(0.0, 0.0, 10.0),
@@ -66,7 +66,7 @@ pub fn complex_scene_1() -> (World, Camera) {
     )
 }
 
-pub fn complex_scene_2() -> (World, Camera) {
+pub fn complex_scene_2() -> (HitableList, Camera) {
     let mut rng = rand::thread_rng();
     let mut items = vec![] as Vec<Box<dyn Hitable>>;
     let mut positions = vec![] as Vec<(Vec3, f32)>;
@@ -113,7 +113,7 @@ pub fn complex_scene_2() -> (World, Camera) {
         }));
     }
     (
-        World { hitables: items },
+        HitableList { hitables: items },
         Camera::new(
             Vec3::new(0.0, 0.0, 0.0),
             Vec3::new(0.0, 0.0, 10.0),

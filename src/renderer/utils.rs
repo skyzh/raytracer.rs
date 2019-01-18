@@ -1,5 +1,5 @@
 use super::{Renderer, ThreadedRenderer};
-use crate::tracer::{BVHNode, Camera, World};
+use crate::tracer::{BVHNode, Camera, HitableList};
 use std::sync::Arc;
 
 pub fn render_to_file(renderer: impl Renderer, path: &'static str) -> Result<(), std::io::Error> {
@@ -16,19 +16,19 @@ pub fn render_to_file(renderer: impl Renderer, path: &'static str) -> Result<(),
 }
 
 pub fn render_high_quality(
-    world: World,
+    hitable_list: HitableList,
     camera: Camera,
     path: &'static str,
     ambient_light: bool,
 ) -> Result<(), std::io::Error> {
     info!("constructing bvh node...");
-    let world = World {
-        hitables: vec![BVHNode::new(world)],
+    let hitable_list = HitableList {
+        hitables: vec![BVHNode::new(hitable_list)],
     };
     info!("rendering in progress...");
     render_to_file(
         ThreadedRenderer {
-            world: Arc::new(world),
+            hitable_list: Arc::new(hitable_list),
             camera: Arc::new(camera),
             size: (1600, 1600),
             anti_aliasing: 256,
@@ -41,19 +41,19 @@ pub fn render_high_quality(
 }
 
 pub fn render_preview(
-    world: World,
+    hitable_list: HitableList,
     camera: Camera,
     path: &'static str,
     ambient_light: bool,
 ) -> Result<(), std::io::Error> {
     info!("constructing bvh node...");
-    let world = World {
-        hitables: vec![BVHNode::new(world)],
+    let hitable_list = HitableList {
+        hitables: vec![BVHNode::new(hitable_list)],
     };
     info!("rendering in progress...");
     render_to_file(
         ThreadedRenderer {
-            world: Arc::new(world),
+            hitable_list: Arc::new(hitable_list),
             camera: Arc::new(camera),
             size: (600, 600),
             anti_aliasing: 64,

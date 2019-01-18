@@ -16,7 +16,7 @@ use self::scenes::simple_scene::simple_scene_perlin_noise as scene;
 Here you can change `render_high_quality` to `render_preview` to render faster. And you can select from examples scenes by changing `self::scenes::****::****`.    
 
 ```rust
-render(world, camera, "scene.png", true)?;
+render(hitable_list, camera, "scene.png", true)?;
 ```    
 The third parameter indicates that with previous rendering settings, the image will be rendered to `output/scene.png`. 
 

@@ -9,9 +9,9 @@ use raytracer::{
 use std::sync::Arc;
 
 fn render_simple_scene_threaded_1() {
-    let (world, camera) = simple_scene_1();
+    let (hitable_list, camera) = simple_scene_1();
     let renderer = ThreadedRenderer {
-        world: Arc::new(world),
+        hitable_list: Arc::new(hitable_list),
         camera: Arc::new(camera),
         size: (400, 200),
         anti_aliasing: 50,
@@ -23,9 +23,9 @@ fn render_simple_scene_threaded_1() {
 }
 
 fn render_simple_scene_basic_1() {
-    let (world, camera) = simple_scene_1();
+    let (hitable_list, camera) = simple_scene_1();
     let renderer = BasicRenderer {
-        world: &world,
+        hitable_list: &hitable_list,
         camera: &camera,
         size: (400, 200),
         anti_aliasing: 50,
@@ -36,9 +36,9 @@ fn render_simple_scene_basic_1() {
 }
 
 fn render_simple_scene_threaded_2() {
-    let (world, camera) = simple_scene_2();
+    let (hitable_list, camera) = simple_scene_2();
     let renderer = ThreadedRenderer {
-        world: Arc::new(world),
+        hitable_list: Arc::new(hitable_list),
         camera: Arc::new(camera),
         size: (400, 200),
         anti_aliasing: 50,
@@ -50,9 +50,9 @@ fn render_simple_scene_threaded_2() {
 }
 
 fn render_simple_scene_basic_2() {
-    let (world, camera) = simple_scene_2();
+    let (hitable_list, camera) = simple_scene_2();
     let renderer = BasicRenderer {
-        world: &world,
+        hitable_list: &hitable_list,
         camera: &camera,
         size: (400, 200),
         anti_aliasing: 50,
