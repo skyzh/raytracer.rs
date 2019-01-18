@@ -2,7 +2,7 @@ use crate::tracer::{
     materials::{DiffuseLight, Lambertian},
     objects::{BoxEntity, RectXY, RectXZ, RectYZ},
     textures::ConstantTexture,
-    transforms::FlipNormals,
+    transforms::{FlipNormals, RotateY, Translate},
     Camera, HitableList, Vec3,
 };
 
@@ -27,8 +27,28 @@ pub fn cornell_box() -> (HitableList, Camera) {
                 FlipNormals::new(RectXZ::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
                 RectXZ::new(0.0, 555.0, 0.0, 555.0, 0.0, white.clone()),
                 FlipNormals::new(RectXY::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
-                BoxEntity::new(Vec3::new(130.0, 0.0, 65.0), Vec3::new(295.0, 165.0, 230.0), white.clone()),
-                BoxEntity::new(Vec3::new(265.0, 0.0, 295.0), Vec3::new(430.0, 330.0, 460.0), white.clone())
+                Translate::new(
+                    RotateY::new(
+                        BoxEntity::new(
+                            Vec3::new(0.0, 0.0, 0.0),
+                            Vec3::new(165.0, 165.0, 165.0),
+                            white.clone(),
+                        ),
+                        -18.0,
+                    ),
+                    Vec3::new(130.0, 0.0, 65.0),
+                ),
+                Translate::new(
+                    RotateY::new(
+                        BoxEntity::new(
+                            Vec3::new(0.0, 0.0, 0.0),
+                            Vec3::new(165.0, 330.0, 165.0),
+                            white.clone(),
+                        ),
+                        15.0,
+                    ),
+                    Vec3::new(265.0, 0.0, 295.0),
+                ),
             ],
         },
         Camera::new(

@@ -1,4 +1,5 @@
-use std::ops::{Add, Div, Index, Mul, Neg, Sub};
+use std::f32::{MAX as f32_MAX, MIN as f32_MIN};
+use std::ops::{Add, Div, Index, IndexMut, Mul, Neg, Sub};
 
 #[derive(Clone, Copy, Default, Debug, PartialEq)]
 pub struct Vec3 {
@@ -79,15 +80,51 @@ impl Index<usize> for Vec3 {
     }
 }
 
+impl IndexMut<usize> for Vec3 {
+    fn index_mut(&mut self, idx: usize) -> &mut f32 {
+        match idx {
+            0 => &mut self.x,
+            1 => &mut self.y,
+            2 => &mut self.z,
+            _ => panic!("out of range"),
+        }
+    }
+}
+
 impl Vec3 {
     pub fn new(x: f32, y: f32, z: f32) -> Vec3 {
-        Vec3 { x: x, y: y, z: z }
+        Vec3 { x, y, z }
     }
+
+    pub fn vec_max() -> Vec3 {
+        Vec3 {
+            x: f32_MAX,
+            y: f32_MAX,
+            z: f32_MAX,
+        }
+    }
+
+    pub fn vec_min() -> Vec3 {
+        Vec3 {
+            x: f32_MIN,
+            y: f32_MIN,
+            z: f32_MIN,
+        }
+    }
+
     pub fn zero() -> Vec3 {
         Vec3 {
             x: 0.0,
             y: 0.0,
             z: 0.0,
+        }
+    }
+
+    pub fn ones() -> Vec3 {
+        Vec3 {
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
         }
     }
 
@@ -225,6 +262,15 @@ mod tests {
         assert_eq!(vec[0], 1.0);
         assert_eq!(vec[1], 2.0);
         assert_eq!(vec[2], 3.0);
+    }
+
+    #[test]
+    fn test_index_mut() {
+        let mut vec = Vec3::new(1.0, 2.0, 3.0);
+        vec[0] = 2.0;
+        vec[1] = 3.0;
+        vec[2] = 0.0;
+        assert_eq!(vec, Vec3::new(2.0, 3.0, 0.0));
     }
 
     #[test]
