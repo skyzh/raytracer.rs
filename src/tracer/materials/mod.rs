@@ -8,6 +8,8 @@ mod dielectric;
 pub use self::dielectric::Dielectric;
 mod diffuse_light;
 pub use self::diffuse_light::DiffuseLight;
+mod isotropic;
+pub use self::isotropic::Isotropic;
 
 pub trait Material: Send + Sync {
     fn scatter(&self, ray_in: &Ray, hit_record: &HitRecord) -> Option<(Vec3, Ray)> {
