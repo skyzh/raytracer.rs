@@ -21,10 +21,6 @@ pub fn render_high_quality(
     path: &'static str,
     ambient_light: bool,
 ) -> Result<(), std::io::Error> {
-    info!("constructing bvh node...");
-    let hitable_list = HitableList {
-        hitables: vec![BVHNode::new(hitable_list)],
-    };
     info!("rendering in progress...");
     render_to_file(
         ThreadedRenderer {
@@ -33,7 +29,7 @@ pub fn render_high_quality(
             size: (1600, 1600),
             anti_aliasing: 256,
             block_count: (16, 16),
-            workers: 4,
+            workers: 6,
             ambient_light,
         },
         path,
@@ -46,10 +42,6 @@ pub fn render_preview(
     path: &'static str,
     ambient_light: bool,
 ) -> Result<(), std::io::Error> {
-    info!("constructing bvh node...");
-    let hitable_list = HitableList {
-        hitables: vec![BVHNode::new(hitable_list)],
-    };
     info!("rendering in progress...");
     render_to_file(
         ThreadedRenderer {
@@ -58,7 +50,7 @@ pub fn render_preview(
             size: (600, 600),
             anti_aliasing: 64,
             block_count: (3, 3),
-            workers: 4,
+            workers: 8,
             ambient_light,
         },
         path,

@@ -13,6 +13,7 @@ pub mod mediums;
 pub mod objects;
 pub mod textures;
 pub mod transforms;
+pub mod pdf;
 
 pub use self::camera::Camera;
 pub use self::hit_record::HitRecord;

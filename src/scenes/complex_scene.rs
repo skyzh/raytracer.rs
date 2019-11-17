@@ -3,7 +3,7 @@ use crate::tracer::{
     materials::{Dielectric, Lambertian, Material, Metal},
     objects::Sphere,
     textures::ConstantTexture,
-    Camera, Hitable, HitableList, Vec3,
+    Camera, Hitable, HitableList, Vec3, BVHNode
 };
 use rand::Rng;
 use std::sync::Arc;
@@ -53,7 +53,7 @@ pub fn complex_scene_1() -> (HitableList, Camera) {
         }));
     }
     (
-        HitableList { hitables: items },
+        HitableList { hitables: vec![BVHNode::new(HitableList { hitables: items })] },
         Camera::new(
             Vec3::new(0.0, 0.0, 0.0),
             Vec3::new(0.0, 0.0, 10.0),
@@ -113,7 +113,7 @@ pub fn complex_scene_2() -> (HitableList, Camera) {
         }));
     }
     (
-        HitableList { hitables: items },
+        HitableList { hitables: vec![BVHNode::new(HitableList { hitables: items })] },
         Camera::new(
             Vec3::new(0.0, 0.0, 0.0),
             Vec3::new(0.0, 0.0, 10.0),

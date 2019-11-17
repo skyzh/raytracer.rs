@@ -25,6 +25,17 @@ pub fn random_in_unit_disk() -> Vec3 {
     }
 }
 
+pub fn random_cosine_direction() -> Vec3 {
+    let mut rng = rand::thread_rng();
+    let r1 = rng.gen::<f32>();
+    let r2 = rng.gen::<f32>();
+    let z = (1.0 - r2).sqrt();
+    let phi = 2.0 * PI * r1;
+    let x = phi.cos() * r2.sqrt();
+    let y = phi.sin() * r2.sqrt();
+    Vec3::new(x, y, z)
+}
+
 use std::f32::consts::PI;
 
 pub fn get_sphere_uv(p: Vec3) -> (f32, f32) {

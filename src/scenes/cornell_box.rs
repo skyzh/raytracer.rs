@@ -20,9 +20,9 @@ pub fn cornell_box() -> (HitableList, Camera) {
     (
         HitableList {
             hitables: vec![
+                FlipNormals::new(RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light)),
                 FlipNormals::new(RectYZ::new(0.0, 555.0, 0.0, 555.0, 555.0, green)),
                 RectYZ::new(0.0, 555.0, 0.0, 555.0, 0.0, red),
-                FlipNormals::new(RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light)),
                 FlipNormals::new(RectXZ::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
                 RectXZ::new(0.0, 555.0, 0.0, 555.0, 0.0, white.clone()),
                 FlipNormals::new(RectXY::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
