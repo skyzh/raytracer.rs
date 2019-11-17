@@ -7,7 +7,7 @@ pub struct Metal {
 }
 
 impl Material for Metal {
-    fn scatter(&self, ray_in: &Ray, hit_record: &HitRecord) -> Option<(Vec3, Ray)> {
+    fn scatter(&self, ray_in: &Ray, hit_record: &HitRecord) -> Option<(Vec3, Ray, f32)> {
         let reflected = reflect(ray_in.direction.unit(), hit_record.normal);
         if Vec3::dot(reflected, hit_record.normal) > 0.0 {
             return Some((
@@ -16,6 +16,7 @@ impl Material for Metal {
                     hit_record.p,
                     reflected + random_in_unit_sphere() * self.fuzz,
                 ),
+                1.0
             ));
         } else {
             return None;

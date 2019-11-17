@@ -7,7 +7,7 @@ pub struct Dielectric {
 }
 
 impl Material for Dielectric {
-    fn scatter(&self, ray_in: &Ray, hit_record: &HitRecord) -> Option<(Vec3, Ray)> {
+    fn scatter(&self, ray_in: &Ray, hit_record: &HitRecord) -> Option<(Vec3, Ray, f32)> {
         let outward_normal: Vec3;
         let ratio: f32;
         let cosine: f32;
@@ -27,12 +27,12 @@ impl Material for Dielectric {
             Some(refracted) => {
                 let reflect_prob = schlick(cosine, self.ref_idx);
                 if rand::thread_rng().gen::<f32>() < reflect_prob {
-                    Some((attenuation, Ray::new(hit_record.p, reflected)))
+                    Some((attenuation, Ray::new(hit_record.p, reflected), 1.0))
                 } else {
-                    Some((attenuation, Ray::new(hit_record.p, refracted)))
+                    Some((attenuation, Ray::new(hit_record.p, refracted), 1.0))
                 }
             }
-            None => Some((attenuation, Ray::new(hit_record.p, reflected))),
+            None => Some((attenuation, Ray::new(hit_record.p, reflected), 1.0)),
         }
     }
 }

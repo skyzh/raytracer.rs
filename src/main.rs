@@ -7,9 +7,10 @@ extern crate lazy_static;
 mod renderer;
 mod scenes;
 mod tracer;
+mod tests;
 
-use self::renderer::utils::render_high_quality as render;
-use self::scenes::cornell_box::cornell_smoke as scene;
+use self::renderer::utils::render_preview as render;
+use self::scenes::cornell_box::cornell_box as scene;
 use std::env;
 
 fn main() -> Result<(), std::io::Error> {
@@ -17,6 +18,6 @@ fn main() -> Result<(), std::io::Error> {
     pretty_env_logger::init_custom_env("RUST_LOG");
     info!("generating scene...");
     let (hitable_list, camera) = scene();
-    render(hitable_list, camera, "cornell_smoke.png", false)?;
+    render(hitable_list, camera, "cornell.png", false)?;
     Ok(())
 }

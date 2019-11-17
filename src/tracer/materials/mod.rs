@@ -12,10 +12,13 @@ mod isotropic;
 pub use self::isotropic::Isotropic;
 
 pub trait Material: Send + Sync {
-    fn scatter(&self, ray_in: &Ray, hit_record: &HitRecord) -> Option<(Vec3, Ray)> {
+    fn scatter(&self, ray_in: &Ray, hit_record: &HitRecord) -> Option<(Vec3, Ray, f32)> {
         None
     }
-    fn emitted(&self, u: f32, v: f32, p: Vec3) -> Vec3 {
+    fn emitted(&self, ray_in: &Ray, hit_record: &HitRecord, u: f32, v: f32, p: Vec3) -> Vec3 {
         Vec3::zero()
+    }
+    fn scattering_pdf(&self, ray_in: &Ray, hit_record: &HitRecord, scattered: &Ray) -> f32 {
+        0.0
     }
 }

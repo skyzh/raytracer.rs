@@ -16,15 +16,38 @@ pub struct BasicRenderer<'a> {
 
 impl BasicRenderer<'_> {
     fn color(&self, ray: &Ray, depth: u32) -> Vec3 {
-        match self.hitable_list.hit(ray, 0.001, std::f32::MAX) {
+        match self.hitable_list.hit(&ray, 0.001, std::f32::MAX) {
             Some(hit_record) => {
                 let emitted = hit_record
                     .material
-                    .emitted(hit_record.u, hit_record.v, hit_record.p);
+                    .emitted(&ray, &hit_record, hit_record.u, hit_record.v, hit_record.p);
                 if depth > 0 {
                     match hit_record.material.scatter(&ray, &hit_record) {
-                        Some((attenuation, scattered)) => {
-                            emitted + Vec3::elemul(attenuation, self.color(&scattered, depth - 1))
+                        Some((attenuation, scattered, pdf)) => {
+                            let mut rng = rand::thread_rng();
+                            let on_light = Vec3::new(
+                                rng.gen_range(213.0 ,343.0),
+                                554.0,
+                                rng.gen_range(227.0 ,332.0)
+                            );
+                            let to_light = on_light - hit_record.p;
+                            let dist_squared = to_light.squared_length();
+                            let to_light = to_light.unit();
+                            if Vec3::dot(to_light, hit_record.normal) < 0.0 {
+                                emitted
+                            } else {
+                                let light_area = ((343 - 213) * (332 - 227)) as f32;
+                                let light_cosine = to_light.y.abs();
+                                if light_cosine < 0.000001 {
+                                    emitted
+                                } else {
+                                    let pdf = dist_squared / (light_cosine * light_area);
+                                    let scattered = Ray::new(hit_record.p, to_light);
+                                    emitted + Vec3::elemul(attenuation, self.color(&scattered, depth - 1)) 
+                                              * (hit_record.material.scattering_pdf(&ray, &hit_record, &scattered) / pdf)
+                                }
+
+                            }
                         }
                         None => emitted,
                     }

@@ -1,4 +1,4 @@
-use super::{super::Texture, Material, Vec3};
+use super::{super::Texture, Material, Vec3, HitRecord, Ray};
 use std::sync::Arc;
 pub struct DiffuseLight {
     emit: Box<dyn Texture>,
@@ -14,7 +14,11 @@ impl DiffuseLight {
 }
 
 impl Material for DiffuseLight {
-    fn emitted(&self, u: f32, v: f32, p: Vec3) -> Vec3 {
-        self.emit.value(u, v, p)
+    fn emitted(&self, ray_in: &Ray, hit_record: &HitRecord, u: f32, v: f32, p: Vec3) -> Vec3 {
+        if Vec3::dot(hit_record.normal, ray_in.direction) < 0.0 {
+            self.emit.value(u, v, p)
+        } else {
+            Vec3::zero()
+        }
     }
 }
