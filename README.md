@@ -35,7 +35,7 @@ Note that since the latest commit, some functionalities may be broken due to new
 **Cornell Box** `scenes/cornell_box.rs:cornell_box`    
 **Updated: mixture pdf and reduced noise**
 
-<img width="30%" src="https://user-images.githubusercontent.com/4198311/51380265-4922e980-1b4c-11e9-85e2-1d5430a47b22.png"> <img width="30%" src="https://user-images.githubusercontent.com/4198311/69005795-ee237400-0961-11ea-82dd-2345c9aecabd.png"> <img width="30%" src="https://user-images.githubusercontent.com/4198311/69006131-ec5baf80-0965-11ea-8b1a-f9905f357196.png">
+<img width="30%" src="https://user-images.githubusercontent.com/4198311/51380265-4922e980-1b4c-11e9-85e2-1d5430a47b22.png"> <img width="30%" src="https://user-images.githubusercontent.com/4198311/69005795-ee237400-0961-11ea-82dd-2345c9aecabd.png"> <img width="30%" src="https://user-images.githubusercontent.com/4198311/69006152-275de300-0966-11ea-892e-3ba2d475ed40.png">
 
 ### Cover Scene
 
