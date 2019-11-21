@@ -1,13 +1,14 @@
 use super::PDF;
 use crate::tracer::{Vec3, Hitable};
+use rand::{Rng, SeedableRng, rngs::SmallRng};
 
-pub struct HitablePDF {
-    hitable: Box<dyn Hitable>,
+pub struct HitablePDF <'a> {
+    hitable: &'a dyn Hitable,
     o: Vec3
 }
 
-impl HitablePDF {
-    pub fn new(hitable: Box<dyn Hitable>, o: Vec3) -> Self {
+impl <'a> HitablePDF <'a> {
+    pub fn new(hitable: &'a dyn Hitable, o: Vec3) -> Self {
         Self {
             hitable,
             o
@@ -15,11 +16,11 @@ impl HitablePDF {
     }
 }
 
-impl PDF for HitablePDF {
+impl PDF for HitablePDF <'_> {
     fn value(&self, direction: Vec3) -> f32 {
         self.hitable.pdf_value(self.o, direction)
     }
-    fn generate(&self) -> Vec3 {
+    fn generate(&self, rng: &mut SmallRng) -> Vec3 {
         self.hitable.random(self.o)
     }
 }

@@ -1,6 +1,7 @@
 use super::{Onb, PDF};
 use crate::tracer::{Vec3, utils::random_cosine_direction};
 use std::f32::consts::PI;
+use rand::{Rng, rngs::SmallRng};
 
 pub struct CosinePDF {
     uvw: Onb
@@ -23,7 +24,7 @@ impl PDF for CosinePDF {
             0.0
         }
     }
-    fn generate(&self) -> Vec3 {
-        self.uvw.local(random_cosine_direction())
+    fn generate(&self, rng: &mut SmallRng) -> Vec3 {
+        self.uvw.local(random_cosine_direction(rng))
     }
 }

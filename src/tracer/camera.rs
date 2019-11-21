@@ -1,4 +1,5 @@
 use super::{utils::random_in_unit_disk, Ray, Vec3};
+use rand::{Rng, rngs::SmallRng};
 
 pub struct Camera {
     lower_left_corner: Vec3,
@@ -37,8 +38,8 @@ impl Camera {
         }
     }
 
-    pub fn get_ray(&self, s: f32, t: f32) -> Ray {
-        let rd = random_in_unit_disk() * self.lens_radius;
+    pub fn get_ray(&self, s: f32, t: f32, rng: &mut SmallRng) -> Ray {
+        let rd = random_in_unit_disk(rng) * self.lens_radius;
         let offset = self.u * rd.x + self.v * rd.y;
         Ray::new(
             self.origin + offset,

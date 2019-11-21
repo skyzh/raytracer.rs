@@ -1,8 +1,8 @@
 use super::Vec3;
-use rand::Rng;
+use rand::{Rng, SeedableRng};
+use rand::rngs::SmallRng;
 
-pub fn random_in_unit_sphere() -> Vec3 {
-    let mut rng = rand::thread_rng();
+pub fn random_in_unit_sphere(rng: &mut SmallRng) -> Vec3 {
     loop {
         let vec = Vec3::new(
             rng.gen_range(-1.0, 1.0),
@@ -15,8 +15,7 @@ pub fn random_in_unit_sphere() -> Vec3 {
     }
 }
 
-pub fn random_in_unit_disk() -> Vec3 {
-    let mut rng = rand::thread_rng();
+pub fn random_in_unit_disk(rng: &mut SmallRng) -> Vec3 {
     loop {
         let vec = Vec3::new(rng.gen_range(-1.0, 1.0), rng.gen_range(-1.0, 1.0), 0.0);
         if vec.squared_length() < 1.0 {
@@ -25,8 +24,7 @@ pub fn random_in_unit_disk() -> Vec3 {
     }
 }
 
-pub fn random_cosine_direction() -> Vec3 {
-    let mut rng = rand::thread_rng();
+pub fn random_cosine_direction(rng: &mut SmallRng) -> Vec3 {
     let r1 = rng.gen::<f32>();
     let r2 = rng.gen::<f32>();
     let z = (1.0 - r2).sqrt();
@@ -94,16 +92,19 @@ pub fn schlick(cosine: f32, ref_idx: f32) -> f32 {
 #[cfg(test)]
 mod tests {
     use super::{random_in_unit_disk, random_in_unit_sphere};
+    use rand::{Rng, SeedableRng, rngs::SmallRng};
 
     #[test]
     fn test_random_in_unit_shpere() {
-        let vec = random_in_unit_sphere();
+        let mut rng = SmallRng::from_entropy();
+        let vec = random_in_unit_sphere(&mut rng);
         assert!(vec.squared_length() < 1.0);
     }
 
     #[test]
     fn test_random_in_unit_disk() {
-        let vec = random_in_unit_disk();
+        let mut rng = SmallRng::from_entropy();
+        let vec = random_in_unit_disk(&mut rng);
         assert!(vec.squared_length() < 1.0 && vec.z == 0.0);
     }
 }

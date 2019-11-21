@@ -1,11 +1,11 @@
 [package]
 name = "raytracer"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Alex Chi <iskyzh@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-rand = "0.6"
+rand = { version = "0.7", features = ["small_rng"] }
 image = "0.20"
 time = "0.1"
 threadpool = "1.7"
