@@ -1,15 +1,15 @@
 use crate::tracer::{HitRecord, Hitable, Ray, Vec3, AABB};
 use std::f32::consts::PI;
 
-pub struct RotateY {
+pub struct RotateY <'a> {
     sin_theta: f32,
     cos_theta: f32,
     bbox: Option<AABB>,
-    hitable: Box<Hitable>,
+    hitable: &'a dyn Hitable,
 }
 
-impl RotateY {
-    pub fn new(hitable: Box<Hitable>, angle: f32) -> Box<Self> {
+impl <'a> RotateY <'a> {
+    pub fn new(hitable: &'a dyn Hitable, angle: f32) -> Self {
         let radians = (PI / 180.0) * angle;
         let sin_theta = radians.sin();
         let cos_theta = radians.cos();
@@ -44,16 +44,16 @@ impl RotateY {
             }
             None => None,
         };
-        Box::new(Self {
+        Self {
             sin_theta,
             cos_theta,
             bbox,
             hitable,
-        })
+        }
     }
 }
 
-impl Hitable for RotateY {
+impl Hitable for RotateY <'_> {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let mut origin = ray.origin;
         let mut direction = ray.direction;

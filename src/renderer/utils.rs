@@ -1,5 +1,5 @@
 use super::{Renderer, ThreadedRenderer};
-use crate::tracer::{BVHNode, Camera, HitableList};
+use crate::tracer::{Camera, HitableList};
 use std::sync::Arc;
 
 pub fn render_to_file(renderer: impl Renderer, path: &'static str) -> Result<(), std::io::Error> {
@@ -16,7 +16,7 @@ pub fn render_to_file(renderer: impl Renderer, path: &'static str) -> Result<(),
 }
 
 pub fn render_high_quality(
-    hitable_list: HitableList,
+    hitable_list: HitableList<'static>,
     camera: Camera,
     path: &'static str,
     ambient_light: bool,
@@ -37,7 +37,7 @@ pub fn render_high_quality(
 }
 
 pub fn render_preview(
-    hitable_list: HitableList,
+    hitable_list: HitableList<'static>,
     camera: Camera,
     path: &'static str,
     ambient_light: bool,

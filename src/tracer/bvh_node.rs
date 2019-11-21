@@ -1,9 +1,9 @@
 use super::{HitRecord, Hitable, HitableList, Ray, AABB};
 use rand::Rng;
 
-pub struct BVHNode {
-    left: Box<dyn Hitable>,
-    right: Box<dyn Hitable>,
+pub struct BVHNode <'a> {
+    left:  &'a dyn Hitable,
+    right: &'a dyn Hitable,
     bounding_box: AABB,
 }
 

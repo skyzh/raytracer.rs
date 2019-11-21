@@ -2,25 +2,24 @@ use crate::tracer::{materials::Isotropic, HitRecord, Hitable, Material, Ray, Tex
 
 use rand::Rng;
 use std::f32::{MAX as FLT_MAX, MIN as FLT_MIN};
-use std::sync::Arc;
 
-pub struct ConstantMedium {
-    pub phase_function: Arc<dyn Material>,
+pub struct ConstantMedium <'a> {
+    pub phase_function: &'a dyn Material,
     pub density: f32,
-    pub boundary: Box<dyn Hitable>,
+    pub boundary: &'a dyn Hitable,
 }
 
-impl ConstantMedium {
-    pub fn new(boundary: Box<dyn Hitable>, density: f32, texture: Box<dyn Texture>) -> Box<Self> {
+impl <'a> ConstantMedium <'a> {
+    pub fn new(boundary: &'a dyn Hitable, density: f32, texture: &'a dyn Texture) -> Box<Self> {
         Box::new(Self {
             boundary,
             density,
-            phase_function: Isotropic::new(texture),
+            phase_function: &Isotropic::new(texture),
         })
     }
 }
 
-impl Hitable for ConstantMedium {
+impl Hitable for ConstantMedium <'_> {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let mut rng = rand::thread_rng();
         match self.boundary.hit(&ray, FLT_MIN, FLT_MAX) {

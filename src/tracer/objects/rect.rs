@@ -1,37 +1,36 @@
 use crate::tracer::{HitRecord, Hitable, Material, Ray, Vec3, AABB};
-use std::sync::Arc;
 use rand::Rng;
 
-pub struct RectXY {
+pub struct RectXY <'a> {
     pub x0: f32,
     pub x1: f32,
     pub y0: f32,
     pub y1: f32,
     pub k: f32,
-    pub material: Arc<dyn Material>,
+    pub material: &'a dyn Material,
 }
 
-impl RectXY {
+impl <'a> RectXY <'a> {
     pub fn new(
         x0: f32,
         x1: f32,
         y0: f32,
         y1: f32,
         k: f32,
-        material: Arc<dyn Material>,
-    ) -> Box<Self> {
-        Box::new(Self {
+        material: &'a dyn Material,
+    ) -> Self {
+        Self {
             x0,
             x1,
             y0,
             y1,
             k,
             material,
-        })
+        }
     }
 }
 
-impl Hitable for RectXY {
+impl Hitable for RectXY <'_> {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let t = (self.k - ray.origin.z) / ray.direction.z;
         if t < t_min || t > t_max {
@@ -80,36 +79,36 @@ impl Hitable for RectXY {
         random_point - o
     }
 }
-pub struct RectXZ {
+pub struct RectXZ <'a> {
     pub x0: f32,
     pub x1: f32,
     pub z0: f32,
     pub z1: f32,
     pub k: f32,
-    pub material: Arc<dyn Material>,
+    pub material: &'a dyn Material,
 }
 
-impl RectXZ {
+impl <'a> RectXZ <'a> {
     pub fn new(
         x0: f32,
         x1: f32,
         z0: f32,
         z1: f32,
         k: f32,
-        material: Arc<dyn Material>,
-    ) -> Box<Self> {
-        Box::new(Self {
+        material: &'a dyn Material,
+    ) -> Self {
+        Self {
             x0,
             x1,
             z0,
             z1,
             k,
             material,
-        })
+        }
     }
 }
 
-impl Hitable for RectXZ {
+impl Hitable for RectXZ <'_> {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let t = (self.k - ray.origin.y) / ray.direction.y;
         if t < t_min || t > t_max {
@@ -159,36 +158,36 @@ impl Hitable for RectXZ {
     }
 }
 
-pub struct RectYZ {
+pub struct RectYZ <'a> {
     pub y0: f32,
     pub y1: f32,
     pub z0: f32,
     pub z1: f32,
     pub k: f32,
-    pub material: Arc<dyn Material>,
+    pub material: &'a dyn Material,
 }
 
-impl RectYZ {
+impl <'a> RectYZ <'a> {
     pub fn new(
         y0: f32,
         y1: f32,
         z0: f32,
         z1: f32,
         k: f32,
-        material: Arc<dyn Material>,
-    ) -> Box<Self> {
-        Box::new(Self {
+        material: &'a dyn Material,
+    ) -> Self {
+        Self {
             y0,
             y1,
             z0,
             z1,
             k,
             material,
-        })
+        }
     }
 }
 
-impl Hitable for RectYZ {
+impl Hitable for RectYZ <'_> {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let t = (self.k - ray.origin.x) / ray.direction.x;
         if t < t_min || t > t_max {

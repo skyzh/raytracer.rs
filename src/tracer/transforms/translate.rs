@@ -1,17 +1,17 @@
 use crate::tracer::{HitRecord, Hitable, Ray, Vec3, AABB};
 
-pub struct Translate {
-    hitable: Box<dyn Hitable>,
+pub struct Translate <'a> {
+    hitable: &'a dyn Hitable,
     offset: Vec3,
 }
 
-impl Translate {
-    pub fn new(hitable: Box<dyn Hitable>, offset: Vec3) -> Box<Self> {
-        Box::new(Self { hitable, offset })
+impl <'a> Translate <'a> {
+    pub fn new(hitable: &'a dyn Hitable, offset: Vec3) -> Self {
+        Self { hitable, offset }
     }
 }
 
-impl Hitable for Translate {
+impl Hitable for Translate <'_> {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let ray_moved = Ray {
             origin: ray.origin - self.offset,

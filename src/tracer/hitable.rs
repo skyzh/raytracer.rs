@@ -7,11 +7,11 @@ pub trait Hitable: Send + Sync {
     fn random(&self, o: Vec3) -> Vec3 { Vec3::new(1.0, 0.0, 0.0) }
 }
 
-pub struct HitableList {
-    pub hitables: Vec<Box<dyn Hitable>>,
+pub struct HitableList <'a> {
+    pub hitables: Vec<&'a dyn Hitable>,
 }
 
-impl HitableList {
+impl HitableList <'_> {
     pub fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let mut closest_so_far = t_max;
         let mut hit_record: Option<HitRecord> = None;

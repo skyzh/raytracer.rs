@@ -1,13 +1,12 @@
 use crate::tracer::{utils::get_sphere_uv, HitRecord, Hitable, Material, Ray, Vec3, AABB};
-use std::sync::Arc;
 
-pub struct Sphere {
+pub struct Sphere <'a> {
     pub center: Vec3,
     pub radius: f32,
-    pub material: Arc<dyn Material>,
+    pub material: &'a dyn Material,
 }
 
-impl Hitable for Sphere {
+impl Hitable for Sphere <'_> {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let oc = ray.origin - self.center;
         let a = Vec3::dot(ray.direction, ray.direction);
@@ -41,7 +40,7 @@ impl Hitable for Sphere {
                     normal,
                     u,
                     v,
-                    material: self.material.clone(),
+                    material: self.material
                 });
             }
         }

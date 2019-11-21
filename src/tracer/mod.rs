@@ -7,8 +7,10 @@ mod ray;
 pub mod utils;
 mod vec3;
 pub use self::aabb::AABB;
+/*
 mod bvh_node;
 pub use self::bvh_node::BVHNode;
+*/
 pub mod mediums;
 pub mod objects;
 pub mod textures;

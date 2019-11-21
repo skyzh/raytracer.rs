@@ -1,16 +1,16 @@
 use crate::tracer::{HitRecord, Hitable, Ray, Vec3, AABB};
 
-pub struct FlipNormals {
-    pub hitable: Box<dyn Hitable>,
+pub struct FlipNormals <'a> {
+    pub hitable: &'a dyn Hitable,
 }
 
-impl FlipNormals {
-    pub fn new(hitable: Box<dyn Hitable>) -> Box<Self> {
-        Box::new(Self { hitable })
+impl <'a> FlipNormals <'a> {
+    pub fn new(hitable: &'a dyn Hitable) -> Self {
+        Self { hitable }
     }
 }
 
-impl Hitable for FlipNormals {
+impl Hitable for FlipNormals <'_> {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         match self.hitable.hit(&ray, t_min, t_max) {
             Some(hit_rec) => Some(HitRecord {

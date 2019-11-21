@@ -10,7 +10,7 @@ use crate::tracer::{
 use rand::{Rng, SeedableRng, rngs::SmallRng};
 
 pub struct BasicRenderer<'a> {
-    pub hitable_list: &'a HitableList,
+    pub hitable_list: &'a HitableList<'a>,
     pub camera: &'a Camera,
     pub size: (u32, u32),
     pub anti_aliasing: u32,
@@ -29,10 +29,10 @@ impl BasicRenderer<'_> {
                     match hit_record.material.scatter(&ray, &hit_record, rng) {
                         Some((attenuation, scattered, pdf)) => {
                             
-                            let light = DiffuseLight::new_arc(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
-                            let hitable = RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light);
+                            let light = DiffuseLight::new(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
+                            let hitable = RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, &light);
                             let p1 = HitablePDF::new(
-                                &*hitable,
+                                &hitable,
                                 hit_record.p
                             );
                             

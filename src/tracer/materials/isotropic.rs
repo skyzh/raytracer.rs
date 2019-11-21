@@ -2,17 +2,17 @@ use crate::tracer::{utils::random_in_unit_sphere, HitRecord, Material, Ray, Text
 use std::sync::Arc;
 use rand::{Rng, SeedableRng, rngs::SmallRng};
 
-pub struct Isotropic {
-    pub texture: Box<dyn Texture>,
+pub struct Isotropic <'a> {
+    pub texture: &'a dyn Texture,
 }
 
-impl Isotropic {
-    pub fn new(texture: Box<dyn Texture>) -> Arc<Self> {
-        Arc::new(Self { texture })
+impl <'a> Isotropic <'a> {
+    pub fn new(texture: &'a dyn Texture) -> Self {
+        Self { texture }
     }
 }
 
-impl Material for Isotropic {
+impl Material for Isotropic <'_> {
     fn scatter(&self, ray_in: &Ray, hit_record: &HitRecord, rng: &mut SmallRng) -> Option<(Vec3, Ray, f32)> {
         return Some((
             self.texture.value(hit_record.u, hit_record.v, hit_record.p),

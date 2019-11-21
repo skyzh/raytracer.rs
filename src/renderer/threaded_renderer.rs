@@ -4,7 +4,7 @@ use std::sync::{mpsc::channel, Arc};
 use threadpool::ThreadPool;
 
 pub struct ThreadedRenderer {
-    pub hitable_list: Arc<HitableList>,
+    pub hitable_list: Arc<HitableList<'static>>,
     pub camera: Arc<Camera>,
     pub size: (u32, u32),
     pub anti_aliasing: u32,
@@ -41,7 +41,7 @@ impl Renderer for ThreadedRenderer {
                 pool.execute(move || {
                     let start_time = time::get_time();
                     let renderer = BasicRenderer {
-                        hitable_list: &hitable_list,
+                        hitable_list: &*hitable_list,
                         camera: &camera,
                         size: (render_width, render_height),
                         anti_aliasing: antialiasing,
