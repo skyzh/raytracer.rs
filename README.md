@@ -32,10 +32,15 @@ Note that since the latest commit, some functionalities may be broken due to new
 ## Showcases
 
 ### Cornell Box
+
+**support mixture pdf for reducing noise**
+
 **Cornell Box** `scenes/cornell_box.rs:cornell_box`    
-**Updated: mixture pdf and reduced noise**
 
 <img width="30%" src="https://user-images.githubusercontent.com/4198311/51380265-4922e980-1b4c-11e9-85e2-1d5430a47b22.png"> <img width="30%" src="https://user-images.githubusercontent.com/4198311/69005795-ee237400-0961-11ea-82dd-2345c9aecabd.png"> <img width="30%" src="https://user-images.githubusercontent.com/4198311/69006152-275de300-0966-11ea-892e-3ba2d475ed40.png">
+
+
+You may not get the correct result when rendering the following scenes. After I integrated mixture pdf into the ray tracer, the program may not produce correct light scattering and may fail on some materials other than Lambertian. You may refer to branch `non-pdf` where I rollback those changes.
 
 ### Cover Scene
 
