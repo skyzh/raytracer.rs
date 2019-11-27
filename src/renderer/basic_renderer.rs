@@ -2,7 +2,7 @@ use super::Renderer;
 use crate::tracer::{
     utils::{gamma_correct, in_range},
     Camera, HitableList, Ray, Vec3,
-    pdf::{CosinePDF, HitablePDF, MixturePDF, PDF},
+    pdf::{CosinePDF, HitablePDF, NormalHitablePDF, MixturePDF, PDF, RectXZArea},
     textures::ConstantTexture,
     materials::DiffuseLight,
     objects::RectXZ, Hitable
@@ -19,7 +19,7 @@ pub struct BasicRenderer<'a> {
 }
 
 impl BasicRenderer<'_> {
-    fn color(&self, ray: &Ray, depth: u32, rng: &mut SmallRng) -> Vec3 {
+    fn color(&self, ray: &Ray, depth: u32, depth_map: bool, rng: &mut SmallRng) -> Vec3 {
         match self.hitable_list.hit(&ray, 0.001, std::f32::MAX) {
             Some(hit_record) => {
                 let emitted = hit_record
@@ -28,6 +28,17 @@ impl BasicRenderer<'_> {
                 if depth > 0 {
                     match hit_record.material.scatter(&ray, &hit_record, rng) {
                         Some((attenuation, scattered, pdf)) => {
+                            /*
+                            let light = DiffuseLight::new_arc(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
+                            let hitable = RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light);
+
+                            let p = NormalHitablePDF::new(
+                                &*hitable,
+                                hit_record.p,
+                                hit_record.normal
+                            );
+                            */
+                            
                             
                             let light = DiffuseLight::new_arc(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
                             let hitable = RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light);
@@ -35,19 +46,38 @@ impl BasicRenderer<'_> {
                                 &*hitable,
                                 hit_record.p
                             );
-                            
+
                             let p2 = CosinePDF::new(hit_record.normal);
+
                             let p = MixturePDF::new(&p1, &p2);
-                            let scattered = Ray::new(hit_record.p, p.generate(rng));
-                            let pdf = p.value(scattered.direction);
                             
-                            emitted + Vec3::elemul(attenuation, self.color(&scattered, depth - 1, rng)) 
+                            
+                            let scattered = Ray::new(hit_record.p, p.generate(rng).unit());
+                            let pdf = p.value(scattered.direction);
+
+                            if pdf < 0.0 && depth_map {
+                                return Vec3::new(0.0, 1.0, 1.0);
+                            }
+
+                            if depth_map {
+                                self.color(&scattered, depth - 1, depth_map, rng)
+                            } else {
+                                emitted + Vec3::elemul(attenuation, self.color(&scattered, depth - 1, depth_map, rng)) 
                                 * (hit_record.material.scattering_pdf(&ray, &hit_record, &scattered) / pdf)
+                            }
                         }
-                        None => emitted,
+                        None => if depth_map {
+                            Vec3::ones()
+                        } else {
+                            emitted
+                        },
                     }
                 } else {
-                    Vec3::zero()
+                    if depth_map {
+                        Vec3::new(1.0, 0.0, 0.0)
+                    } else {
+                        Vec3::zero()
+                    }
                 }
             }
             None => {
@@ -78,7 +108,7 @@ impl Renderer for BasicRenderer<'_> {
                 let target_y: f32 = y as f32 + crop_y as f32 + rng.gen_range(0.0, 1.0);
                 let v = 1.0 - target_y / render_height as f32;
                 let ray = self.camera.get_ray(u, v, &mut rng);
-                color = color + self.color(&ray, 50, &mut rng);
+                color = color + self.color(&ray, 50, false, &mut rng);
             }
             *pixel = in_range(gamma_correct(color / self.anti_aliasing as f32)).rgba()
         }
