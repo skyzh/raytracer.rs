@@ -1,7 +1,7 @@
 use super::utils::overlap;
 use crate::tracer::{
     materials::{Dielectric, Lambertian, Material, Metal},
-    objects::Sphere,
+    objects_dynamic::Sphere,
     textures::ConstantTexture,
     BVHNode, Camera, Hitable, HitableList, Vec3,
 };

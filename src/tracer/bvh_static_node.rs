@@ -1,47 +1,26 @@
-use super::{HitRecord, Hitable, HitableList, Ray, AABB};
-use rand::Rng;
+use super::{HitRecord, Hitable, Ray, AABB};
 
-pub struct BVHNode {
-    left: Box<dyn Hitable>,
-    right: Box<dyn Hitable>,
+pub struct BVHNode<L: Hitable, R: Hitable> {
+    left: Box<L>,
+    right: Box<R>,
     bounding_box: AABB,
 }
 
-impl BVHNode {
-    pub fn new(hitable_list: HitableList) -> Box<dyn Hitable> {
-        Self::construct(hitable_list.hitables)
-    }
-    fn construct(mut hitable_list: Vec<Box<dyn Hitable>>) -> Box<dyn Hitable> {
-        match hitable_list.len() {
-            0 => panic!("length mismatch"),
-            1 => hitable_list.remove(0),
-            _ => {
-                let axis = rand::thread_rng().gen_range(0, 3);
-                hitable_list.sort_by(|a, b| {
-                    a.bounding_box().unwrap().min[axis]
-                        .partial_cmp(&b.bounding_box().unwrap().min[axis])
-                        .unwrap()
-                });
-
-                let mut a = hitable_list;
-                let b = a.split_off(a.len() / 2);
-                let left = Self::construct(a);
-                let right = Self::construct(b);
-                let bounding_box = AABB::surrounding_box(
-                    &left.bounding_box().unwrap(),
-                    &right.bounding_box().unwrap(),
-                );
-                Box::new(Self {
-                    left,
-                    right,
-                    bounding_box,
-                })
-            }
+impl<L: Hitable, R: Hitable> BVHNode<L, R> {
+    fn construct(left: Box<L>, right: Box<R>) -> Self {
+        let bounding_box = AABB::surrounding_box(
+            left.bounding_box().as_ref().unwrap(),
+            right.bounding_box().as_ref().unwrap(),
+        );
+        Self {
+            left,
+            right,
+            bounding_box,
         }
     }
 }
 
-impl Hitable for BVHNode {
+impl<L: Hitable, R: Hitable> Hitable for BVHNode<L, R> {
     fn bounding_box(&self) -> Option<AABB> {
         Some(self.bounding_box)
     }
