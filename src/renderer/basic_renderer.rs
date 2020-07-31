@@ -2,10 +2,10 @@ use super::Renderer;
 use crate::tracer::{
     materials::DiffuseLight,
     objects::RectXZ,
-    pdf::{CosinePDF, HitablePDF, MixturePDF, NormalHitablePDF, RectXZArea, PDF},
+    pdf::{CosinePDF, HitablePDF, MixturePDF, PDF},
     textures::ConstantTexture,
     utils::{gamma_correct, in_range},
-    Camera, Hitable, HitableList, Ray, Vec3,
+    Camera, HitableList, Ray, Vec3,
 };
 use rand::{rngs::SmallRng, Rng, SeedableRng};
 
@@ -47,7 +47,7 @@ impl BasicRenderer<'_> {
                                 15.0, 15.0, 15.0,
                             )));
                             let hitable = RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light);
-                            let p1 = HitablePDF::new(&*hitable, hit_record.p);
+                            let p1 = HitablePDF::new(&hitable, hit_record.p);
 
                             let p2 = CosinePDF::new(hit_record.normal);
 

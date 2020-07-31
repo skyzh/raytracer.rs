@@ -20,13 +20,13 @@ pub fn cornell_box() -> (HitableList, Camera) {
     (
         HitableList {
             hitables: vec![
-                FlipNormals::new(RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light)),
-                FlipNormals::new(RectYZ::new(0.0, 555.0, 0.0, 555.0, 555.0, green)),
-                RectYZ::new(0.0, 555.0, 0.0, 555.0, 0.0, red),
-                FlipNormals::new(RectXZ::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
-                RectXZ::new(0.0, 555.0, 0.0, 555.0, 0.0, white.clone()),
-                FlipNormals::new(RectXY::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
-                Translate::new(
+                box FlipNormals::new(RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light)),
+                box FlipNormals::new(RectYZ::new(0.0, 555.0, 0.0, 555.0, 555.0, green)),
+                box RectYZ::new(0.0, 555.0, 0.0, 555.0, 0.0, red),
+                box FlipNormals::new(RectXZ::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
+                box RectXZ::new(0.0, 555.0, 0.0, 555.0, 0.0, white.clone()),
+                box FlipNormals::new(RectXY::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
+                box Translate::new(
                     RotateY::new(
                         BoxEntity::new(
                             Vec3::new(0.0, 0.0, 0.0),
@@ -37,7 +37,7 @@ pub fn cornell_box() -> (HitableList, Camera) {
                     ),
                     Vec3::new(130.0, 0.0, 65.0),
                 ),
-                Translate::new(
+                box Translate::new(
                     RotateY::new(
                         BoxEntity::new(
                             Vec3::new(0.0, 0.0, 0.0),
@@ -127,8 +127,8 @@ pub fn cornell_box_ambient() -> (HitableList, Camera) {
     (
         HitableList {
             hitables: vec![
-                RectXZ::new(0.0, 555.0, 0.0, 555.0, 0.0, white.clone()),
-                Translate::new(
+                box RectXZ::new(0.0, 555.0, 0.0, 555.0, 0.0, white.clone()),
+                box Translate::new(
                     RotateY::new(
                         BoxEntity::new(
                             Vec3::new(0.0, 0.0, 0.0),
@@ -139,7 +139,7 @@ pub fn cornell_box_ambient() -> (HitableList, Camera) {
                     ),
                     Vec3::new(130.0, 0.0, 65.0),
                 ),
-                Translate::new(
+                box Translate::new(
                     RotateY::new(
                         BoxEntity::new(
                             Vec3::new(0.0, 0.0, 0.0),

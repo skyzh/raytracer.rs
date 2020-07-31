@@ -1,5 +1,5 @@
 use super::{Renderer, ThreadedRenderer};
-use crate::tracer::{BVHNode, Camera, HitableList};
+use crate::tracer::{Camera, HitableList};
 use std::sync::Arc;
 
 pub fn render_to_file(renderer: impl Renderer, path: &'static str) -> Result<(), std::io::Error> {

@@ -4,8 +4,6 @@ extern crate log;
 #[macro_use]
 extern crate lazy_static;
 
-extern crate rand;
-
 mod renderer;
 mod scenes;
 mod tests;

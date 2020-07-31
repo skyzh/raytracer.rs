@@ -13,22 +13,15 @@ pub struct RectXY {
 }
 
 impl RectXY {
-    pub fn new(
-        x0: f32,
-        x1: f32,
-        y0: f32,
-        y1: f32,
-        k: f32,
-        material: Arc<dyn Material>,
-    ) -> Box<Self> {
-        Box::new(Self {
+    pub fn new(x0: f32, x1: f32, y0: f32, y1: f32, k: f32, material: Arc<dyn Material>) -> Self {
+        Self {
             x0,
             x1,
             y0,
             y1,
             k,
             material,
-        })
+        }
     }
 }
 
@@ -94,22 +87,15 @@ pub struct RectXZ {
 }
 
 impl RectXZ {
-    pub fn new(
-        x0: f32,
-        x1: f32,
-        z0: f32,
-        z1: f32,
-        k: f32,
-        material: Arc<dyn Material>,
-    ) -> Box<Self> {
-        Box::new(Self {
+    pub fn new(x0: f32, x1: f32, z0: f32, z1: f32, k: f32, material: Arc<dyn Material>) -> Self {
+        Self {
             x0,
             x1,
             z0,
             z1,
             k,
             material,
-        })
+        }
     }
 }
 
@@ -175,22 +161,15 @@ pub struct RectYZ {
 }
 
 impl RectYZ {
-    pub fn new(
-        y0: f32,
-        y1: f32,
-        z0: f32,
-        z1: f32,
-        k: f32,
-        material: Arc<dyn Material>,
-    ) -> Box<Self> {
-        Box::new(Self {
+    pub fn new(y0: f32, y1: f32, z0: f32, z1: f32, k: f32, material: Arc<dyn Material>) -> Self {
+        Self {
             y0,
             y1,
             z0,
             z1,
             k,
             material,
-        })
+        }
     }
 }
 
