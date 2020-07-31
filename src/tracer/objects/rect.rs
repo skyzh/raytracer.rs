@@ -3,6 +3,7 @@ use rand::rngs::SmallRng;
 use rand::Rng;
 use std::sync::Arc;
 
+#[derive(Clone)]
 pub struct RectXY {
     pub x0: f32,
     pub x1: f32,
@@ -77,6 +78,7 @@ impl PDFHitable for RectXY {
     }
 }
 
+#[derive(Clone)]
 pub struct RectXZ {
     pub x0: f32,
     pub x1: f32,
@@ -151,6 +153,7 @@ impl PDFHitable for RectXZ {
     }
 }
 
+#[derive(Clone)]
 pub struct RectYZ {
     pub y0: f32,
     pub y1: f32,

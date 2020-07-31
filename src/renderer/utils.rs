@@ -1,5 +1,5 @@
 use super::{Renderer, ThreadedRenderer};
-use crate::tracer::{Camera, HitableList};
+use crate::tracer::{pdf::PDFHitable, Camera, HitableList};
 use std::sync::Arc;
 
 pub fn render_to_file(renderer: impl Renderer, path: &'static str) -> Result<(), std::io::Error> {
@@ -20,6 +20,7 @@ pub fn render_high_quality(
     camera: Camera,
     path: &'static str,
     ambient_light: bool,
+    pdf: Arc<impl PDFHitable + 'static>,
 ) -> Result<(), std::io::Error> {
     info!("rendering in progress...");
     render_to_file(
@@ -31,6 +32,7 @@ pub fn render_high_quality(
             block_count: (16, 16),
             workers: 2,
             ambient_light,
+            pdf,
         },
         path,
     )
@@ -41,6 +43,7 @@ pub fn render_preview(
     camera: Camera,
     path: &'static str,
     ambient_light: bool,
+    pdf: Arc<impl PDFHitable + 'static>,
 ) -> Result<(), std::io::Error> {
     info!("rendering in progress...");
     render_to_file(
@@ -52,6 +55,7 @@ pub fn render_preview(
             block_count: (3, 3),
             workers: 8,
             ambient_light,
+            pdf,
         },
         path,
     )

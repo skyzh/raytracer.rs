@@ -20,7 +20,7 @@ fn main() -> Result<(), std::io::Error> {
     env::set_var("RUST_LOG", "raytracer=info");
     pretty_env_logger::init_custom_env("RUST_LOG");
     info!("generating scene...");
-    let (hitable_list, camera) = scene();
-    render(hitable_list, camera, "cornell.png", false)?;
+    let (hitable_list, camera, pdf) = scene();
+    render(hitable_list, camera, "cornell.png", false, pdf)?;
     Ok(())
 }

@@ -1,24 +1,22 @@
 use super::Renderer;
 use crate::tracer::{
-    materials::DiffuseLight,
-    objects::RectXZ,
-    pdf::{CosinePDF, HitablePDF, MixturePDF, PDF},
-    textures::ConstantTexture,
+    pdf::{CosinePDF, HitablePDF, MixturePDF, PDFHitable, PDF},
     utils::{gamma_correct, in_range},
     Camera, HitableList, Ray, Vec3,
 };
 use rand::{rngs::SmallRng, Rng, SeedableRng};
 
-pub struct BasicRenderer<'a> {
+pub struct BasicRenderer<'a, P: PDFHitable> {
     pub hitable_list: &'a HitableList,
     pub camera: &'a Camera,
+    pub pdf: &'a P,
     pub size: (u32, u32),
     pub anti_aliasing: u32,
     pub crop_region: ((u32, u32), (u32, u32)),
     pub ambient_light: bool,
 }
 
-impl BasicRenderer<'_> {
+impl<P: PDFHitable> BasicRenderer<'_, P> {
     fn color(&self, ray: &Ray, depth: u32, depth_map: bool, rng: &mut SmallRng) -> Vec3 {
         match self.hitable_list.hit(&ray, 0.001, std::f32::MAX) {
             Some(hit_record) => {
@@ -43,14 +41,8 @@ impl BasicRenderer<'_> {
                             );
                             */
 
-                            let light = DiffuseLight::new_arc(ConstantTexture::new(Vec3::new(
-                                15.0, 15.0, 15.0,
-                            )));
-                            let hitable = RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light);
-                            let p1 = HitablePDF::new(&hitable, hit_record.p);
-
+                            let p1 = HitablePDF::new(&*self.pdf, hit_record.p);
                             let p2 = CosinePDF::new(hit_record.normal);
-
                             let p = MixturePDF::new(&p1, &p2);
 
                             let scattered = Ray::new(hit_record.p, p.generate(rng).unit());
@@ -103,7 +95,7 @@ impl BasicRenderer<'_> {
     }
 }
 
-impl Renderer for BasicRenderer<'_> {
+impl<P: PDFHitable> Renderer for BasicRenderer<'_, P> {
     fn render(&self) -> image::RgbaImage {
         let (render_width, render_height) = self.size;
         let ((crop_x, crop_y), (crop_width, crop_height)) = self.crop_region;

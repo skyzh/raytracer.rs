@@ -8,13 +8,21 @@ use crate::tracer::{
     Camera, HitableList, Vec3,
 };
 
-pub fn cornell_box() -> (HitableList, Camera) {
+use std::sync::Arc;
+
+pub fn cornell_box() -> (HitableList, Camera, Arc<RectXZ>) {
     let green = LambertianStatic::new_arc(*ConstantTexture::new(Vec3::new(0.12, 0.45, 0.15)));
     let red = LambertianStatic::new_arc(*ConstantTexture::new(Vec3::new(0.65, 0.05, 0.05)));
     let white = LambertianStatic::new_arc(*ConstantTexture::new(Vec3::new(0.73, 0.73, 0.73)));
     let light = DiffuseLightStatic::new_arc(*ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
     let look_from = Vec3::new(278.0, 278.0, -800.0);
     let look_at = Vec3::new(278.0, 278.0, 0.0);
+
+    let pdf_hitable = {
+        let light = DiffuseLight::new_arc(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
+        let hitable = RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light);
+        hitable
+    };
 
     (
         HitableList {
@@ -58,6 +66,7 @@ pub fn cornell_box() -> (HitableList, Camera) {
             0.0,
             10.0,
         ),
+        Arc::new(pdf_hitable),
     )
 }
 

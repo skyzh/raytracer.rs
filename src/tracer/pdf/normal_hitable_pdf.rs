@@ -3,7 +3,7 @@ use crate::tracer::Vec3;
 use rand::rngs::SmallRng;
 
 pub struct NormalHitablePDF<'a> {
-    hpdf: HitablePDF<'a>,
+    hpdf: HitablePDF,
     cpdf: CosinePDF,
     n: Vec3,
 }

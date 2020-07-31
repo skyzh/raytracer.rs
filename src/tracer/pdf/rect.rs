@@ -4,6 +4,7 @@ use rand::rngs::SmallRng;
 use rand::Rng;
 use std::f32::consts::PI;
 
+#[derive(Clone)]
 pub struct RectXZArea {
     pub x0: f32,
     pub x1: f32,

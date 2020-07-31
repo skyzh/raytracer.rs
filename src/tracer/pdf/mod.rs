@@ -11,8 +11,8 @@ mod mixture_pdf;
 pub use mixture_pdf::MixturePDF;
 mod rect;
 pub use rect::RectXZArea;
-mod normal_hitable_pdf;
-pub use normal_hitable_pdf::NormalHitablePDF;
+// mod normal_hitable_pdf;
+// pub use normal_hitable_pdf::NormalHitablePDF;
 
 use rand::rngs::SmallRng;
 

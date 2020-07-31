@@ -2,18 +2,19 @@ use super::{PDFHitable, PDF};
 use crate::tracer::Vec3;
 use rand::rngs::SmallRng;
 
-pub struct HitablePDF<'a> {
-    hitable: &'a dyn PDFHitable,
+#[derive(Clone)]
+pub struct HitablePDF<'a, P: PDFHitable> {
+    hitable: &'a P,
     o: Vec3,
 }
 
-impl<'a> HitablePDF<'a> {
-    pub fn new(hitable: &'a dyn PDFHitable, o: Vec3) -> Self {
+impl<'a, P: PDFHitable> HitablePDF<'a, P> {
+    pub fn new(hitable: &'a P, o: Vec3) -> Self {
         Self { hitable, o }
     }
 }
 
-impl PDF for HitablePDF<'_> {
+impl<'a, P: PDFHitable> PDF for HitablePDF<'a, P> {
     fn value(&self, direction: Vec3) -> f32 {
         self.hitable.pdf_value(self.o, direction)
     }
