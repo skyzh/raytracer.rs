@@ -94,14 +94,14 @@ pub fn cornell_smoke() -> (HitableList, Camera) {
     (
         HitableList {
             hitables: vec![
-                FlipNormals::new(RectYZ::new(0.0, 555.0, 0.0, 555.0, 555.0, green)),
-                RectYZ::new(0.0, 555.0, 0.0, 555.0, 0.0, red),
-                RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light),
-                FlipNormals::new(RectXZ::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
-                RectXZ::new(0.0, 555.0, 0.0, 555.0, 0.0, white.clone()),
-                FlipNormals::new(RectXY::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
-                ConstantMedium::new(box1, 0.01, ConstantTexture::new(Vec3::new(1.0, 1.0, 1.0))),
-                ConstantMedium::new(box2, 0.01, ConstantTexture::new(Vec3::new(0.0, 0.0, 0.0))),
+                box FlipNormals::new(RectYZ::new(0.0, 555.0, 0.0, 555.0, 555.0, green)),
+                box RectYZ::new(0.0, 555.0, 0.0, 555.0, 0.0, red),
+                box RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light),
+                box FlipNormals::new(RectXZ::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
+                box RectXZ::new(0.0, 555.0, 0.0, 555.0, 0.0, white.clone()),
+                box FlipNormals::new(RectXY::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
+                ConstantMedium::new(box box1, 0.01, ConstantTexture::new(Vec3::new(1.0, 1.0, 1.0))),
+                ConstantMedium::new(box box2, 0.01, ConstantTexture::new(Vec3::new(0.0, 0.0, 0.0))),
             ],
         },
         Camera::new(

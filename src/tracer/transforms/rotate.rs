@@ -9,7 +9,7 @@ pub struct RotateY<T: Hitable> {
 }
 
 impl<T: Hitable> RotateY<T> {
-    pub fn new(hitable: T, angle: f32) -> Box<Self> {
+    pub fn new(hitable: T, angle: f32) -> Self {
         let radians = (PI / 180.0) * angle;
         let sin_theta = radians.sin();
         let cos_theta = radians.cos();
@@ -44,12 +44,12 @@ impl<T: Hitable> RotateY<T> {
             }
             None => None,
         };
-        Box::new(Self {
+        Self {
             sin_theta,
             cos_theta,
             bbox,
             hitable,
-        })
+        }
     }
 }
 

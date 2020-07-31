@@ -6,8 +6,8 @@ pub struct Translate<T: Hitable> {
 }
 
 impl<T: Hitable> Translate<T> {
-    pub fn new(hitable: T, offset: Vec3) -> Box<Self> {
-        Box::new(Self { hitable, offset })
+    pub fn new(hitable: T, offset: Vec3) -> Self {
+        Self { hitable, offset }
     }
 }
 

@@ -172,7 +172,7 @@ pub fn simple_scene_perlin_noise_with_light() -> (HitableList, Camera) {
                     radius: 1000.0,
                     material: Arc::new(Lambertian::new(NoiseTexture::new(4.0))),
                 }),
-                RectXY::new(
+                box RectXY::new(
                     3.0,
                     5.0,
                     1.0,
