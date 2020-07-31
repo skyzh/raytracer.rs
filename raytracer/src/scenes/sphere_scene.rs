@@ -49,7 +49,7 @@ pub fn light_scene() -> (HitableList, Camera, Option<Arc<PDFHitableNone>>) {
         material: Dielectric { ref_idx: 1.5 },
     });
 
-    objects.push(make_spheres_bvh());
+    objects.push(make_spheres_static_bvh());
 
     (
         HitableList { hitables: objects },
