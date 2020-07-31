@@ -1,13 +1,13 @@
 use super::Renderer;
 use crate::tracer::{
-    utils::{gamma_correct, in_range},
-    Camera, HitableList, Ray, Vec3,
-    pdf::{CosinePDF, HitablePDF, NormalHitablePDF, MixturePDF, PDF, RectXZArea},
-    textures::ConstantTexture,
     materials::DiffuseLight,
-    objects::RectXZ, Hitable
+    objects::RectXZ,
+    pdf::{CosinePDF, HitablePDF, MixturePDF, NormalHitablePDF, RectXZArea, PDF},
+    textures::ConstantTexture,
+    utils::{gamma_correct, in_range},
+    Camera, Hitable, HitableList, Ray, Vec3,
 };
-use rand::{Rng, SeedableRng, rngs::SmallRng};
+use rand::{rngs::SmallRng, Rng, SeedableRng};
 
 pub struct BasicRenderer<'a> {
     pub hitable_list: &'a HitableList,
@@ -22,9 +22,13 @@ impl BasicRenderer<'_> {
     fn color(&self, ray: &Ray, depth: u32, depth_map: bool, rng: &mut SmallRng) -> Vec3 {
         match self.hitable_list.hit(&ray, 0.001, std::f32::MAX) {
             Some(hit_record) => {
-                let emitted = hit_record
-                    .material
-                    .emitted(&ray, &hit_record, hit_record.u, hit_record.v, hit_record.p);
+                let emitted = hit_record.material.emitted(
+                    &ray,
+                    &hit_record,
+                    hit_record.u,
+                    hit_record.v,
+                    hit_record.p,
+                );
                 if depth > 0 {
                     match hit_record.material.scatter(&ray, &hit_record, rng) {
                         Some((attenuation, scattered, pdf)) => {
@@ -38,20 +42,17 @@ impl BasicRenderer<'_> {
                                 hit_record.normal
                             );
                             */
-                            
-                            
-                            let light = DiffuseLight::new_arc(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
+
+                            let light = DiffuseLight::new_arc(ConstantTexture::new(Vec3::new(
+                                15.0, 15.0, 15.0,
+                            )));
                             let hitable = RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light);
-                            let p1 = HitablePDF::new(
-                                &*hitable,
-                                hit_record.p
-                            );
+                            let p1 = HitablePDF::new(&*hitable, hit_record.p);
 
                             let p2 = CosinePDF::new(hit_record.normal);
 
                             let p = MixturePDF::new(&p1, &p2);
-                            
-                            
+
                             let scattered = Ray::new(hit_record.p, p.generate(rng).unit());
                             let pdf = p.value(scattered.direction);
 
@@ -62,15 +63,24 @@ impl BasicRenderer<'_> {
                             if depth_map {
                                 self.color(&scattered, depth - 1, depth_map, rng)
                             } else {
-                                emitted + Vec3::elemul(attenuation, self.color(&scattered, depth - 1, depth_map, rng)) 
-                                * (hit_record.material.scattering_pdf(&ray, &hit_record, &scattered) / pdf)
+                                emitted
+                                    + Vec3::elemul(
+                                        attenuation,
+                                        self.color(&scattered, depth - 1, depth_map, rng),
+                                    ) * (hit_record.material.scattering_pdf(
+                                        &ray,
+                                        &hit_record,
+                                        &scattered,
+                                    ) / pdf)
                             }
                         }
-                        None => if depth_map {
-                            Vec3::ones()
-                        } else {
-                            emitted
-                        },
+                        None => {
+                            if depth_map {
+                                Vec3::ones()
+                            } else {
+                                emitted
+                            }
+                        }
                     }
                 } else {
                     if depth_map {

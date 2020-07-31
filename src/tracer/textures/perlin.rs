@@ -1,6 +1,6 @@
 use super::Vec3;
-use rand::Rng;
 use rand::seq::SliceRandom;
+use rand::Rng;
 
 pub struct Perlin {
     perm_x: Vec<i32>,

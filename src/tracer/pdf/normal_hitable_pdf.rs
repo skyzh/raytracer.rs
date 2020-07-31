@@ -1,24 +1,24 @@
-use super::{PDF, PDFHitable, CosinePDF, HitablePDF};
-use crate::tracer::{Vec3, Hitable};
-use rand::{Rng, SeedableRng, rngs::SmallRng};
+use super::{CosinePDF, HitablePDF, PDFHitable, PDF};
+use crate::tracer::{Hitable, Vec3};
+use rand::{rngs::SmallRng, Rng, SeedableRng};
 
-pub struct NormalHitablePDF <'a> {
-    hpdf: HitablePDF <'a>,
+pub struct NormalHitablePDF<'a> {
+    hpdf: HitablePDF<'a>,
     cpdf: CosinePDF,
-    n: Vec3
+    n: Vec3,
 }
 
-impl <'a> NormalHitablePDF <'a> {
+impl<'a> NormalHitablePDF<'a> {
     pub fn new(hitable: &'a dyn PDFHitable, o: Vec3, n: Vec3) -> Self {
         Self {
             hpdf: HitablePDF::new(hitable, o),
             cpdf: CosinePDF::new(n),
-            n
+            n,
         }
     }
 }
 
-impl PDF for NormalHitablePDF <'_> {
+impl PDF for NormalHitablePDF<'_> {
     fn value(&self, direction: Vec3) -> f32 {
         let pdf = self.hpdf.value(direction);
         if pdf <= 0.001 {

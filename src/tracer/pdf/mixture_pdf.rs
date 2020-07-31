@@ -1,20 +1,18 @@
-use super::{PDF, Vec3};
-use rand::{Rng, SeedableRng, rngs::SmallRng};
+use super::{Vec3, PDF};
+use rand::{rngs::SmallRng, Rng, SeedableRng};
 
-pub struct MixturePDF <'a> {
+pub struct MixturePDF<'a> {
     p1: &'a dyn PDF,
-    p2: &'a dyn PDF
+    p2: &'a dyn PDF,
 }
 
-impl <'a> MixturePDF <'a> {
+impl<'a> MixturePDF<'a> {
     pub fn new(p1: &'a dyn PDF, p2: &'a dyn PDF) -> Self {
-        Self {
-            p1, p2
-        }
+        Self { p1, p2 }
     }
 }
 
-impl PDF for MixturePDF <'_> {
+impl PDF for MixturePDF<'_> {
     fn value(&self, direction: Vec3) -> f32 {
         0.5 * self.p1.value(direction) + 0.5 * self.p2.value(direction)
     }

@@ -1,8 +1,8 @@
 use super::{HitRecord, Material, Ray, Texture, Vec3};
 use crate::tracer::utils::random_in_unit_sphere;
-use std::sync::Arc;
+use rand::{rngs::SmallRng, Rng, SeedableRng};
 use std::f32::consts::PI;
-use rand::{Rng, SeedableRng, rngs::SmallRng};
+use std::sync::Arc;
 
 pub struct Lambertian {
     pub albedo: Box<dyn Texture>,
@@ -18,13 +18,18 @@ impl Lambertian {
 }
 
 impl Material for Lambertian {
-    fn scatter(&self, _: &Ray, hit_record: &HitRecord, rng: &mut SmallRng) -> Option<(Vec3, Ray, f32)> {
+    fn scatter(
+        &self,
+        _: &Ray,
+        hit_record: &HitRecord,
+        rng: &mut SmallRng,
+    ) -> Option<(Vec3, Ray, f32)> {
         let direction = hit_record.normal + random_in_unit_sphere(rng);
         let scattered = Ray::new(hit_record.p, direction);
         Some((
             self.albedo.value(hit_record.u, hit_record.v, hit_record.p),
             Ray::new(hit_record.p, direction),
-            Vec3::dot(hit_record.normal, scattered.direction) / PI
+            Vec3::dot(hit_record.normal, scattered.direction) / PI,
         ))
     }
 

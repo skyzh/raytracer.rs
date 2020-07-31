@@ -1,8 +1,8 @@
-use rand::{Rng, SeedableRng};
 use rand::rngs::SmallRng;
+use rand::{Rng, SeedableRng};
 
+use crate::tracer::{utils::random_cosine_direction, Vec3};
 use std::f32::consts::PI;
-use crate::tracer::{Vec3, utils::random_cosine_direction};
 
 pub fn generate_uniform_distribution() {
     let mut rng = SmallRng::from_entropy();
@@ -12,8 +12,6 @@ pub fn generate_uniform_distribution() {
     }
 }
 
-
 pub fn generate() {
     generate_uniform_distribution();
 }
-

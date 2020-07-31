@@ -101,7 +101,7 @@ pub fn cornell_smoke() -> (HitableList, Camera) {
                 RectXZ::new(0.0, 555.0, 0.0, 555.0, 0.0, white.clone()),
                 FlipNormals::new(RectXY::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
                 ConstantMedium::new(box1, 0.01, ConstantTexture::new(Vec3::new(1.0, 1.0, 1.0))),
-                ConstantMedium::new(box2, 0.01, ConstantTexture::new(Vec3::new(0.0, 0.0, 0.0)))
+                ConstantMedium::new(box2, 0.01, ConstantTexture::new(Vec3::new(0.0, 0.0, 0.0))),
             ],
         },
         Camera::new(

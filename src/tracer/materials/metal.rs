@@ -1,6 +1,6 @@
 use super::{HitRecord, Material, Ray, Vec3};
 use crate::tracer::utils::{random_in_unit_sphere, reflect};
-use rand::{Rng, SeedableRng, rngs::SmallRng};
+use rand::{rngs::SmallRng, Rng, SeedableRng};
 
 pub struct Metal {
     pub albedo: Vec3,
@@ -8,7 +8,12 @@ pub struct Metal {
 }
 
 impl Material for Metal {
-    fn scatter(&self, ray_in: &Ray, hit_record: &HitRecord, rng: &mut SmallRng) -> Option<(Vec3, Ray, f32)> {
+    fn scatter(
+        &self,
+        ray_in: &Ray,
+        hit_record: &HitRecord,
+        rng: &mut SmallRng,
+    ) -> Option<(Vec3, Ray, f32)> {
         let reflected = reflect(ray_in.direction.unit(), hit_record.normal);
         if Vec3::dot(reflected, hit_record.normal) > 0.0 {
             return Some((
@@ -17,7 +22,7 @@ impl Material for Metal {
                     hit_record.p,
                     reflected + random_in_unit_sphere(rng) * self.fuzz,
                 ),
-                1.0
+                1.0,
             ));
         } else {
             return None;

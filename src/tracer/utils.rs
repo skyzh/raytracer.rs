@@ -1,6 +1,6 @@
 use super::Vec3;
-use rand::{Rng, SeedableRng};
 use rand::rngs::SmallRng;
+use rand::{Rng, SeedableRng};
 
 pub fn random_in_unit_sphere(rng: &mut SmallRng) -> Vec3 {
     loop {
@@ -92,7 +92,7 @@ pub fn schlick(cosine: f32, ref_idx: f32) -> f32 {
 #[cfg(test)]
 mod tests {
     use super::{random_in_unit_disk, random_in_unit_sphere};
-    use rand::{Rng, SeedableRng, rngs::SmallRng};
+    use rand::{rngs::SmallRng, Rng, SeedableRng};
 
     #[test]
     fn test_random_in_unit_shpere() {

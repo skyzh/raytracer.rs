@@ -1,5 +1,5 @@
-use crate::tracer::{HitRecord, Ray, Vec3, AABB};
 use super::PDFHitable;
+use crate::tracer::{HitRecord, Ray, Vec3, AABB};
 use rand::rngs::SmallRng;
 use rand::{Rng, SeedableRng};
 use std::f32::consts::PI;
@@ -26,7 +26,7 @@ fn normal_distribution(rng: &mut SmallRng) -> (f32, f32) {
 }
 
 fn normal_distribution_density(x: f32, mu: f32, sigma: f32) -> f32 {
-    1.0 / (2.0 * PI).sqrt() / sigma * (- 0.5 * (x - mu) * (x - mu) / (sigma * sigma) / 2.0).exp()
+    1.0 / (2.0 * PI).sqrt() / sigma * (-0.5 * (x - mu) * (x - mu) / (sigma * sigma) / 2.0).exp()
 }
 
 impl RectXZArea {
@@ -76,8 +76,8 @@ impl PDFHitable for RectXZArea {
                 let distance_squared = t * t * v.squared_length();
                 let cosine = Vec3::dot(v, normal) / v.length();
                 distance_squared * f1 / cosine * f2
-            },
-            None => 0.0
+            }
+            None => 0.0,
         }
     }
     fn random(&self, o: Vec3, rng: &mut SmallRng) -> Vec3 {

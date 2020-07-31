@@ -1,4 +1,4 @@
-use super::{super::Texture, Material, Vec3, HitRecord, Ray};
+use super::{super::Texture, HitRecord, Material, Ray, Vec3};
 use std::sync::Arc;
 pub struct DiffuseLight {
     emit: Box<dyn Texture>,

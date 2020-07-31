@@ -11,9 +11,9 @@ mod bvh_node;
 pub use self::bvh_node::BVHNode;
 pub mod mediums;
 pub mod objects;
+pub mod pdf;
 pub mod textures;
 pub mod transforms;
-pub mod pdf;
 
 pub use self::camera::Camera;
 pub use self::hit_record::HitRecord;

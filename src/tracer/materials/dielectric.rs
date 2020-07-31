@@ -1,13 +1,18 @@
 use super::{HitRecord, Material, Ray, Vec3};
 use crate::tracer::utils::{reflect, refract, schlick};
-use rand::{Rng, SeedableRng, rngs::SmallRng};
+use rand::{rngs::SmallRng, Rng, SeedableRng};
 
 pub struct Dielectric {
     pub ref_idx: f32,
 }
 
 impl Material for Dielectric {
-    fn scatter(&self, ray_in: &Ray, hit_record: &HitRecord, rng: &mut SmallRng) -> Option<(Vec3, Ray, f32)> {
+    fn scatter(
+        &self,
+        ray_in: &Ray,
+        hit_record: &HitRecord,
+        rng: &mut SmallRng,
+    ) -> Option<(Vec3, Ray, f32)> {
         let outward_normal: Vec3;
         let ratio: f32;
         let cosine: f32;

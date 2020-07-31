@@ -8,8 +8,8 @@ extern crate rand;
 
 mod renderer;
 mod scenes;
-mod tracer;
 mod tests;
+mod tracer;
 
 use self::renderer::utils::render_high_quality as render;
 use self::scenes::cornell_box::cornell_box as scene;

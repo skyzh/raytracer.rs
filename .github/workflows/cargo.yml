@@ -29,11 +29,6 @@ jobs:
         with:
           command: fmt
           args: -- --check
-      - uses: actions-rs/cargo@v1
-        name: Lint with Clippy 🔧
-        with:
-          command: clippy
-          args: --all-targets --all-features -- -D warnings
   build:
     name: Build and Upload
     runs-on: ubuntu-latest
