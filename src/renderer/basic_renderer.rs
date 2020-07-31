@@ -31,7 +31,7 @@ impl BasicRenderer<'_> {
                 );
                 if depth > 0 {
                     match hit_record.material.scatter(&ray, &hit_record, rng) {
-                        Some((attenuation, scattered, pdf)) => {
+                        Some((attenuation, _scattered, _pdf)) => {
                             /*
                             let light = DiffuseLight::new_arc(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
                             let hitable = RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light);

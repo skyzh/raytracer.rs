@@ -1,7 +1,7 @@
 use crate::tracer::{
     objects::{RectXY, RectXZ, RectYZ},
     transforms::FlipNormals,
-    HitRecord, Hitable, HitableList, Material, Ray, Vec3, AABB,
+    HitRecord, Hitable, Material, Ray, Vec3, AABB,
 };
 use std::sync::Arc;
 

@@ -14,7 +14,7 @@ pub use rect::RectXZArea;
 mod normal_hitable_pdf;
 pub use normal_hitable_pdf::NormalHitablePDF;
 
-use rand::{rngs::SmallRng, Rng, SeedableRng};
+use rand::{rngs::SmallRng};
 
 pub trait PDF: Send + Sync {
     fn value(&self, direction: Vec3) -> f32;
@@ -22,10 +22,10 @@ pub trait PDF: Send + Sync {
 }
 
 pub trait PDFHitable: Send + Sync {
-    fn pdf_value(&self, o: Vec3, v: Vec3) -> f32 {
+    fn pdf_value(&self, _o: Vec3, _v: Vec3) -> f32 {
         0.0
     }
-    fn random(&self, o: Vec3, rng: &mut SmallRng) -> Vec3 {
+    fn random(&self, _o: Vec3, _rng: &mut SmallRng) -> Vec3 {
         Vec3::new(1.0, 0.0, 0.0)
     }
 }

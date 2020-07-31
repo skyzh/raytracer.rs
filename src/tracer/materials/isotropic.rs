@@ -1,5 +1,5 @@
 use crate::tracer::{utils::random_in_unit_sphere, HitRecord, Material, Ray, Texture, Vec3};
-use rand::{rngs::SmallRng, Rng, SeedableRng};
+use rand::{rngs::SmallRng};
 use std::sync::Arc;
 
 pub struct Isotropic {
@@ -15,7 +15,7 @@ impl Isotropic {
 impl Material for Isotropic {
     fn scatter(
         &self,
-        ray_in: &Ray,
+        _ray_in: &Ray,
         hit_record: &HitRecord,
         rng: &mut SmallRng,
     ) -> Option<(Vec3, Ray, f32)> {

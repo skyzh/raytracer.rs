@@ -1,5 +1,5 @@
 use super::{utils::random_in_unit_disk, Ray, Vec3};
-use rand::{rngs::SmallRng, Rng};
+use rand::{rngs::SmallRng};
 
 pub struct Camera {
     lower_left_corner: Vec3,

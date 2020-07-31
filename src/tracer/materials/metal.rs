@@ -1,6 +1,6 @@
 use super::{HitRecord, Material, Ray, Vec3};
 use crate::tracer::utils::{random_in_unit_sphere, reflect};
-use rand::{rngs::SmallRng, Rng, SeedableRng};
+use rand::{rngs::SmallRng};
 
 pub struct Metal {
     pub albedo: Vec3,

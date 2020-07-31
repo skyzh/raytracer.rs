@@ -1,7 +1,7 @@
 use super::PDFHitable;
 use crate::tracer::{HitRecord, Ray, Vec3, AABB};
 use rand::rngs::SmallRng;
-use rand::{Rng, SeedableRng};
+use rand::{Rng};
 use std::f32::consts::PI;
 
 pub struct RectXZArea {
@@ -33,8 +33,8 @@ impl RectXZArea {
     pub fn new(x0: f32, x1: f32, z0: f32, z1: f32, k: f32) -> Self {
         let mu_x = (x1 + x0) / 2.0;
         let mu_z = (z1 + z0) / 2.0;
-        let s_x = (x1 - x0);
-        let s_z = (z1 - z0);
+        let s_x = x1 - x0;
+        let s_z = z1 - z0;
         Self {
             x0,
             x1,

@@ -3,7 +3,7 @@ extern crate criterion;
 
 use criterion::Criterion;
 use raytracer::{
-    renderer::{utils::render_to_file, BasicRenderer, Renderer, ThreadedRenderer},
+    renderer::{BasicRenderer, Renderer, ThreadedRenderer},
     scenes::simple_scene::{simple_scene_1, simple_scene_2},
 };
 use std::sync::Arc;

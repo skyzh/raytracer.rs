@@ -1,5 +1,5 @@
 use super::{HitRecord, Ray, Texture, Vec3};
-use rand::{rngs::SmallRng, Rng, SeedableRng};
+use rand::{rngs::SmallRng};
 
 mod lambertian;
 pub use self::lambertian::Lambertian;
@@ -15,16 +15,16 @@ pub use self::isotropic::Isotropic;
 pub trait Material: Send + Sync {
     fn scatter(
         &self,
-        ray_in: &Ray,
-        hit_record: &HitRecord,
-        rng: &mut SmallRng,
+        _ray_in: &Ray,
+        _hit_record: &HitRecord,
+        _rng: &mut SmallRng,
     ) -> Option<(Vec3, Ray, f32)> {
         None
     }
-    fn emitted(&self, ray_in: &Ray, hit_record: &HitRecord, u: f32, v: f32, p: Vec3) -> Vec3 {
+    fn emitted(&self, _ray_in: &Ray, _hit_record: &HitRecord, _u: f32, _v: f32, _p: Vec3) -> Vec3 {
         Vec3::zero()
     }
-    fn scattering_pdf(&self, ray_in: &Ray, hit_record: &HitRecord, scattered: &Ray) -> f32 {
+    fn scattering_pdf(&self, _ray_in: &Ray, _hit_record: &HitRecord, _scattered: &Ray) -> f32 {
         0.0
     }
 }

@@ -1,6 +1,6 @@
 use super::{HitRecord, Material, Ray, Texture, Vec3};
 use crate::tracer::utils::random_in_unit_sphere;
-use rand::{rngs::SmallRng, Rng, SeedableRng};
+use rand::{rngs::SmallRng};
 use std::f32::consts::PI;
 use std::sync::Arc;
 

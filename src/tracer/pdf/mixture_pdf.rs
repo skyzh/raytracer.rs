@@ -1,5 +1,5 @@
 use super::{Vec3, PDF};
-use rand::{rngs::SmallRng, Rng, SeedableRng};
+use rand::{rngs::SmallRng, Rng};
 
 pub struct MixturePDF<'a> {
     p1: &'a dyn PDF,

@@ -1,6 +1,6 @@
-use super::{HitRecord, Ray, Vec3, AABB};
-use rand::rngs::SmallRng;
-use rand::{Rng, SeedableRng};
+use super::{HitRecord, Ray, AABB};
+
+
 
 pub trait Hitable: Send + Sync {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord>;

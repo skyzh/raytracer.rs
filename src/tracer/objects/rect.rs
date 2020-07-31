@@ -1,6 +1,6 @@
 use crate::tracer::{pdf::PDFHitable, HitRecord, Hitable, Material, Ray, Vec3, AABB};
 use rand::rngs::SmallRng;
-use rand::{Rng, SeedableRng};
+use rand::{Rng};
 use std::sync::Arc;
 
 pub struct RectXY {
@@ -215,7 +215,7 @@ impl PDFHitable for RectYZ {
             None => 0.0,
         }
     }
-    fn random(&self, o: Vec3, rng: &mut SmallRng) -> Vec3 {
+    fn random(&self, o: Vec3, _rng: &mut SmallRng) -> Vec3 {
         let mut rng = rand::thread_rng();
         let random_point = Vec3::new(
             self.k,

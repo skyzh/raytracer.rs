@@ -1,6 +1,6 @@
 use super::{CosinePDF, HitablePDF, PDFHitable, PDF};
-use crate::tracer::{Hitable, Vec3};
-use rand::{rngs::SmallRng, Rng, SeedableRng};
+use crate::tracer::{Vec3};
+use rand::{rngs::SmallRng};
 
 pub struct NormalHitablePDF<'a> {
     hpdf: HitablePDF<'a>,

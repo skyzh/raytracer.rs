@@ -154,7 +154,7 @@ impl Vec3 {
     }
 
     pub fn squared_length(&self) -> f32 {
-        (self.x * self.x + self.y * self.y + self.z * self.z)
+        self.x * self.x + self.y * self.y + self.z * self.z
     }
 
     pub fn unit(&self) -> Vec3 {
