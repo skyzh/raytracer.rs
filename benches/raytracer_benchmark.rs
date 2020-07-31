@@ -18,6 +18,7 @@ fn render_simple_scene_threaded_1() {
         block_count: (4, 2),
         workers: 2,
         ambient_light: true,
+        pdf: None
     };
     renderer.render();
 }
@@ -31,6 +32,7 @@ fn render_simple_scene_basic_1() {
         anti_aliasing: 50,
         crop_region: ((0, 0), (400, 200)),
         ambient_light: true,
+        pdf: None
     };
     renderer.render();
 }
@@ -45,6 +47,7 @@ fn render_simple_scene_threaded_2() {
         block_count: (4, 2),
         workers: 2,
         ambient_light: true,
+        pdf: None
     };
     renderer.render();
 }
@@ -58,6 +61,7 @@ fn render_simple_scene_basic_2() {
         anti_aliasing: 50,
         crop_region: ((0, 0), (400, 200)),
         ambient_light: true,
+        pdf: None
     };
     renderer.render();
 }

@@ -20,7 +20,7 @@ pub fn render_high_quality(
     camera: Camera,
     path: &'static str,
     ambient_light: bool,
-    pdf: Arc<impl PDFHitable + 'static>,
+    pdf: Option<Arc<impl PDFHitable + 'static>>,
 ) -> Result<(), std::io::Error> {
     info!("rendering in progress...");
     render_to_file(
@@ -43,7 +43,7 @@ pub fn render_preview(
     camera: Camera,
     path: &'static str,
     ambient_light: bool,
-    pdf: Arc<impl PDFHitable + 'static>,
+    pdf: Option<Arc<impl PDFHitable + 'static>>,
 ) -> Result<(), std::io::Error> {
     info!("rendering in progress...");
     render_to_file(

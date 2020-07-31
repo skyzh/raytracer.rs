@@ -21,6 +21,6 @@ fn main() -> Result<(), std::io::Error> {
     pretty_env_logger::init_custom_env("RUST_LOG");
     info!("generating scene...");
     let (hitable_list, camera, pdf) = scene();
-    render(hitable_list, camera, "cornell.png", false, pdf)?;
+    render(hitable_list, camera, "cornell.png", false, Some(pdf))?;
     Ok(())
 }

@@ -6,7 +6,7 @@ use threadpool::ThreadPool;
 pub struct ThreadedRenderer<P: PDFHitable + 'static> {
     pub hitable_list: Arc<HitableList>,
     pub camera: Arc<Camera>,
-    pub pdf: Arc<P>,
+    pub pdf: Option<Arc<P>>,
     pub size: (u32, u32),
     pub anti_aliasing: u32,
     pub workers: usize,
@@ -52,7 +52,7 @@ impl<P: PDFHitable + 'static> Renderer for ThreadedRenderer<P> {
                             (block_width, block_height),
                         ),
                         ambient_light,
-                        pdf: &*pdf,
+                        pdf: pdf.as_ref().map(|x| &**x),
                     };
                     tx.send(ThreadedRendererResult {
                         img: renderer.render(),

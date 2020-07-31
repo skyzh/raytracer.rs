@@ -9,7 +9,7 @@ use rand::{rngs::SmallRng, Rng, SeedableRng};
 pub struct BasicRenderer<'a, P: PDFHitable> {
     pub hitable_list: &'a HitableList,
     pub camera: &'a Camera,
-    pub pdf: &'a P,
+    pub pdf: Option<&'a P>,
     pub size: (u32, u32),
     pub anti_aliasing: u32,
     pub crop_region: ((u32, u32), (u32, u32)),
@@ -41,16 +41,33 @@ impl<P: PDFHitable> BasicRenderer<'_, P> {
                             );
                             */
 
-                            let p1 = HitablePDF::new(&*self.pdf, hit_record.p);
-                            let p2 = CosinePDF::new(hit_record.normal);
-                            let p = MixturePDF::new(&p1, &p2);
+                            let (scattered, pdf) = match self.pdf {
+                                Some(p1) => {
+                                    let p1 = HitablePDF::new(p1, hit_record.p);
+                                    let p2 = CosinePDF::new(hit_record.normal);
+                                    let p = MixturePDF::new(&p1, &p2);
 
-                            let scattered = Ray::new(hit_record.p, p.generate(rng).unit());
-                            let pdf = p.value(scattered.direction);
+                                    let scattered = Ray::new(hit_record.p, p.generate(rng).unit());
+                                    let pdf = p.value(scattered.direction);
 
-                            if pdf < 0.0 && depth_map {
-                                return Vec3::new(0.0, 1.0, 1.0);
-                            }
+                                    if pdf < 0.0 && depth_map {
+                                        return Vec3::new(0.0, 1.0, 1.0);
+                                    }
+
+                                    (scattered, pdf)
+                                }
+                                None => {
+                                    let p = CosinePDF::new(hit_record.normal);
+
+                                    let scattered = Ray::new(hit_record.p, p.generate(rng).unit());
+                                    let pdf = p.value(scattered.direction);
+
+                                    if pdf < 0.0 && depth_map {
+                                        return Vec3::new(0.0, 1.0, 1.0);
+                                    }
+                                    (scattered, pdf)
+                                }
+                            };
 
                             if depth_map {
                                 self.color(&scattered, depth - 1, depth_map, rng)
