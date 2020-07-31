@@ -1,4 +1,4 @@
-use super::{HitRecord, Material, Ray, Vec3};
+use super::{HitRecord, Material, Ray, ScatterRecord, Vec3};
 use crate::tracer::utils::{reflect, refract, schlick};
 use rand::{rngs::SmallRng, Rng};
 
@@ -12,7 +12,7 @@ impl Material for Dielectric {
         ray_in: &Ray,
         hit_record: &HitRecord,
         _rng: &mut SmallRng,
-    ) -> Option<(Vec3, Ray, f32)> {
+    ) -> Option<ScatterRecord> {
         let outward_normal: Vec3;
         let ratio: f32;
         let cosine: f32;
@@ -32,12 +32,21 @@ impl Material for Dielectric {
             Some(refracted) => {
                 let reflect_prob = schlick(cosine, self.ref_idx);
                 if rand::thread_rng().gen::<f32>() < reflect_prob {
-                    Some((attenuation, Ray::new(hit_record.p, reflected), 1.0))
+                    Some(ScatterRecord::Specular {
+                        attenuation,
+                        specular_ray: Ray::new(hit_record.p, reflected),
+                    })
                 } else {
-                    Some((attenuation, Ray::new(hit_record.p, refracted), 1.0))
+                    Some(ScatterRecord::Specular {
+                        attenuation,
+                        specular_ray: Ray::new(hit_record.p, refracted),
+                    })
                 }
             }
-            None => Some((attenuation, Ray::new(hit_record.p, reflected), 1.0)),
+            None => Some(ScatterRecord::Specular {
+                attenuation,
+                specular_ray: Ray::new(hit_record.p, reflected),
+            }),
         }
     }
 }

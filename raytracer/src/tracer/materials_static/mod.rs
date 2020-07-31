@@ -1,4 +1,4 @@
-use super::{HitRecord, Ray, Texture, Vec3};
+use super::{HitRecord, Ray, ScatterRecord, Texture, Vec3};
 
 use super::Material;
 

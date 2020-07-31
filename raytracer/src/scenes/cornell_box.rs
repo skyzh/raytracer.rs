@@ -1,8 +1,8 @@
 use crate::tracer::{
-    materials::{DiffuseLight, Lambertian, NoMaterial},
+    materials::{Dielectric, DiffuseLight, Lambertian, Metal, NoMaterial},
     materials_static::{DiffuseLight as DiffuseLightStatic, Lambertian as LambertianStatic},
     mediums::ConstantMedium,
-    objects::{BoxEntity, RectXY, RectXZ, RectYZ},
+    objects::{BoxEntity, RectXY, RectXZ, RectYZ, Sphere},
     textures::ConstantTexture,
     transforms::{FlipNormals, RotateY, Translate},
     Camera, HitableList, Vec3,
@@ -10,11 +10,12 @@ use crate::tracer::{
 
 use std::sync::Arc;
 
-pub fn cornell_box() -> (HitableList, Camera, Arc<RectXZ<NoMaterial>>) {
+pub fn cornell_box() -> (HitableList, Camera, Option<Arc<RectXZ<NoMaterial>>>) {
     let green = LambertianStatic::new(ConstantTexture::new(Vec3::new(0.12, 0.45, 0.15)));
     let red = LambertianStatic::new(ConstantTexture::new(Vec3::new(0.65, 0.05, 0.05)));
     let white = LambertianStatic::new(ConstantTexture::new(Vec3::new(0.73, 0.73, 0.73)));
     let light = DiffuseLightStatic::new(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
+    let metal = Metal::new(Vec3::new(0.8, 0.85, 0.88), 0.0);
     let look_from = Vec3::new(278.0, 278.0, -800.0);
     let look_at = Vec3::new(278.0, 278.0, 0.0);
 
@@ -45,12 +46,17 @@ pub fn cornell_box() -> (HitableList, Camera, Arc<RectXZ<NoMaterial>>) {
                         BoxEntity::new(
                             Vec3::new(0.0, 0.0, 0.0),
                             Vec3::new(165.0, 330.0, 165.0),
-                            white.clone(),
+                            metal,
                         ),
                         15.0,
                     ),
                     Vec3::new(265.0, 0.0, 295.0),
                 ),
+                box Sphere {
+                    center: Vec3::new(380.0, 90.0, 100.0),
+                    radius: 50.0,
+                    material: Dielectric { ref_idx: 1.5 },
+                },
             ],
         },
         Camera::new(
@@ -62,7 +68,7 @@ pub fn cornell_box() -> (HitableList, Camera, Arc<RectXZ<NoMaterial>>) {
             0.0,
             10.0,
         ),
-        Arc::new(pdf_hitable),
+        Some(Arc::new(pdf_hitable)),
     )
 }
 

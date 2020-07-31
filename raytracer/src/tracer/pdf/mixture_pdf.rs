@@ -25,3 +25,28 @@ impl<'a, P1: PDF, P2: PDF> PDF for MixturePDF<'a, P1, P2> {
         }
     }
 }
+
+#[derive(Clone)]
+pub struct DynMixturePDF<'a, P: PDF> {
+    p1: &'a P,
+    p2: &'a dyn PDF,
+}
+
+impl<'a, P1: PDF> DynMixturePDF<'a, P1> {
+    pub fn new(p1: &'a P1, p2: &'a dyn PDF) -> Self {
+        Self { p1, p2 }
+    }
+}
+
+impl<'a, P1: PDF> PDF for DynMixturePDF<'a, P1> {
+    fn value(&self, direction: Vec3) -> f32 {
+        0.5 * self.p1.value(direction) + 0.5 * self.p2.value(direction)
+    }
+    fn generate(&self, rng: &mut SmallRng) -> Vec3 {
+        if rng.gen::<f32>() < 0.5 {
+            self.p1.generate(rng)
+        } else {
+            self.p2.generate(rng)
+        }
+    }
+}

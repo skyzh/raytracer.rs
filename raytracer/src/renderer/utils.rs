@@ -50,10 +50,10 @@ pub fn render_preview(
         ThreadedRenderer {
             hitable_list: Arc::new(hitable_list),
             camera: Arc::new(camera),
-            size: (600, 600),
-            anti_aliasing: 64,
+            size: (800, 800),
+            anti_aliasing: 32,
             block_count: (3, 3),
-            workers: 8,
+            workers: 4,
             ambient_light,
             pdf,
         },

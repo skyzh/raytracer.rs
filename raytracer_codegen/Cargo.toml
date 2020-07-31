@@ -10,3 +10,5 @@ proc-macro = true
 [dependencies]
 rand = { version = "0.7", features = ["small_rng"] }
 quote = "1.0"
+syn = "1.0"
+proc-macro2 = "1.0"

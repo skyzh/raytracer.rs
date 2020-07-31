@@ -7,7 +7,7 @@ pub struct BVHNode<L: Hitable, R: Hitable> {
 }
 
 impl<L: Hitable, R: Hitable> BVHNode<L, R> {
-    fn construct(left: Box<L>, right: Box<R>) -> Self {
+    pub fn construct(left: Box<L>, right: Box<R>) -> Self {
         let bounding_box = AABB::surrounding_box(
             left.bounding_box().as_ref().unwrap(),
             right.bounding_box().as_ref().unwrap(),

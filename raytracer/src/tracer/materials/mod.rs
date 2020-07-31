@@ -1,16 +1,16 @@
-use super::{HitRecord, Ray, Texture, Vec3};
+use super::{HitRecord, Ray, ScatterRecord, Texture, Vec3};
 use rand::rngs::SmallRng;
 
 mod lambertian;
-pub use self::lambertian::Lambertian;
+pub use lambertian::Lambertian;
 mod metal;
-pub use self::metal::Metal;
+pub use metal::Metal;
 mod dielectric;
-pub use self::dielectric::Dielectric;
+pub use dielectric::Dielectric;
 mod diffuse_light;
-pub use self::diffuse_light::DiffuseLight;
+pub use diffuse_light::DiffuseLight;
 mod isotropic;
-pub use self::isotropic::Isotropic;
+pub use isotropic::Isotropic;
 
 pub trait Material: Send + Sync {
     fn scatter(
@@ -18,7 +18,7 @@ pub trait Material: Send + Sync {
         _ray_in: &Ray,
         _hit_record: &HitRecord,
         _rng: &mut SmallRng,
-    ) -> Option<(Vec3, Ray, f32)> {
+    ) -> Option<ScatterRecord> {
         None
     }
     fn emitted(&self, _ray_in: &Ray, _hit_record: &HitRecord, _u: f32, _v: f32, _p: Vec3) -> Vec3 {

@@ -8,7 +8,7 @@ pub use cosine_pdf::CosinePDF;
 mod hitable_pdf;
 pub use hitable_pdf::HitablePDF;
 mod mixture_pdf;
-pub use mixture_pdf::MixturePDF;
+pub use mixture_pdf::{DynMixturePDF, MixturePDF};
 mod rect;
 pub use rect::RectXZArea;
 // mod normal_hitable_pdf;

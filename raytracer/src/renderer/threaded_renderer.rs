@@ -29,8 +29,6 @@ impl<P: PDFHitable + 'static> Renderer for ThreadedRenderer<P> {
         let ambient_light = self.ambient_light;
         let mut img = image::RgbaImage::new(render_width, render_height);
         let n_jobs = (block_row * block_col) as usize;
-        let block_width = render_width / block_col;
-        let block_height = render_height / block_row;
         let pool = ThreadPool::new(self.workers);
 
         let (tx, rx) = channel();
@@ -40,6 +38,10 @@ impl<P: PDFHitable + 'static> Renderer for ThreadedRenderer<P> {
                 let hitable_list = self.hitable_list.clone();
                 let camera = self.camera.clone();
                 let pdf = self.pdf.clone();
+                let x1 = render_width * col / block_col;
+                let x2 = render_width * (col + 1) / block_col;
+                let y1 = render_height * row / block_row;
+                let y2 = render_height * (row + 1) / block_row;
                 pool.execute(move || {
                     let start_time = time::get_time();
                     let renderer = BasicRenderer {
@@ -47,10 +49,7 @@ impl<P: PDFHitable + 'static> Renderer for ThreadedRenderer<P> {
                         camera: &camera,
                         size: (render_width, render_height),
                         anti_aliasing: antialiasing,
-                        crop_region: (
-                            (col * block_width, row * block_height),
-                            (block_width, block_height),
-                        ),
+                        crop_region: ((x1, y1), (x2 - x1, y2 - y1)),
                         ambient_light,
                         pdf: pdf.as_ref().map(|x| &**x),
                     };
@@ -74,10 +73,10 @@ impl<P: PDFHitable + 'static> Renderer for ThreadedRenderer<P> {
                 result.col,
                 result.duration.num_milliseconds()
             );
-            let base_x = result.col * block_width;
-            let base_y = result.row * block_height;
+            let x1 = render_width * result.col / block_col;
+            let y1 = render_height * result.row / block_row;
             for (x, y, pixel) in result.img.enumerate_pixels() {
-                img.put_pixel(base_x + x, base_y + y, *pixel)
+                img.put_pixel(x1 + x, y1 + y, *pixel)
             }
         }
         info!("render complete");

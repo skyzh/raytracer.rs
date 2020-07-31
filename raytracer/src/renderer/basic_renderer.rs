@@ -1,6 +1,7 @@
 use super::Renderer;
+use crate::tracer::ScatterRecord;
 use crate::tracer::{
-    pdf::{CosinePDF, HitablePDF, MixturePDF, PDFHitable, PDF},
+    pdf::{DynMixturePDF, HitablePDF, PDFHitable, PDF},
     utils::{gamma_correct, in_range},
     Camera, HitableList, Ray, Vec3,
 };
@@ -29,12 +30,11 @@ impl<P: PDFHitable> BasicRenderer<'_, P> {
                 );
                 if depth > 0 {
                     match hit_record.material.scatter(&ray, &hit_record, rng) {
-                        Some((attenuation, _scattered, _pdf)) => {
+                        Some(ScatterRecord::Diffuse { attenuation, pdf }) => {
                             let (scattered, pdf) = match self.pdf {
                                 Some(p1) => {
                                     let p1 = HitablePDF::new(p1, hit_record.p);
-                                    let p2 = CosinePDF::new(hit_record.normal);
-                                    let p = MixturePDF::new(&p1, &p2);
+                                    let p = DynMixturePDF::new(&p1, &*pdf);
 
                                     let scattered = Ray::new(hit_record.p, p.generate(rng).unit());
                                     let pdf = p.value(scattered.direction);
@@ -45,15 +45,15 @@ impl<P: PDFHitable> BasicRenderer<'_, P> {
 
                                     (scattered, pdf)
                                 }
-                                None => {
-                                    let p = CosinePDF::new(hit_record.normal);
-
+                                _ => {
+                                    let p = pdf;
                                     let scattered = Ray::new(hit_record.p, p.generate(rng).unit());
                                     let pdf = p.value(scattered.direction);
 
                                     if pdf < 0.0 && depth_map {
                                         return Vec3::new(0.0, 1.0, 1.0);
                                     }
+
                                     (scattered, pdf)
                                 }
                             };
@@ -72,6 +72,13 @@ impl<P: PDFHitable> BasicRenderer<'_, P> {
                                     ) / pdf)
                             }
                         }
+                        Some(ScatterRecord::Specular {
+                            attenuation,
+                            specular_ray,
+                        }) => Vec3::elemul(
+                            attenuation,
+                            self.color(&specular_ray, depth - 1, depth_map, rng),
+                        ),
                         None => {
                             if depth_map {
                                 Vec3::ones()
