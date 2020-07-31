@@ -2,6 +2,7 @@ use super::utils::overlap;
 use crate::tracer::{
     materials::{Dielectric, DiffuseLight, Lambertian, Material, Metal},
     objects::Sphere,
+    pdf::PDFHitableNone,
     textures::{CheckerTexture, ConstantTexture},
     Camera, Hitable, HitableList, Vec3,
 };
@@ -195,7 +196,7 @@ pub fn legacy_scene_texture() -> (HitableList, Camera) {
     )
 }
 
-pub fn legacy_scene_light() -> (HitableList, Camera) {
+pub fn legacy_scene_light() -> (HitableList, Camera, Option<Arc<PDFHitableNone>>) {
     let from = Vec3::new(-3.0, 1.0, -3.0) * 2.0;
     let to = Vec3::new(0.0, 0.0, -1.0);
     let dist_to_focus = (from - to).length();
@@ -288,5 +289,6 @@ pub fn legacy_scene_light() -> (HitableList, Camera) {
             0.1,
             dist_to_focus,
         ),
+        None as Option<Arc<PDFHitableNone>>,
     )
 }

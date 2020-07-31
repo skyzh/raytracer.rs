@@ -13,7 +13,7 @@ mod tests;
 mod tracer;
 
 use self::renderer::utils::render_high_quality as render;
-use self::scenes::cornell_box::cornell_box as scene;
+use self::scenes::legacy_scene::legacy_scene_light as scene;
 use std::env;
 
 fn main() -> Result<(), std::io::Error> {
@@ -21,6 +21,6 @@ fn main() -> Result<(), std::io::Error> {
     pretty_env_logger::init_custom_env("RUST_LOG");
     info!("generating scene...");
     let (hitable_list, camera, pdf) = scene();
-    render(hitable_list, camera, "cornell.png", false, Some(pdf))?;
+    render(hitable_list, camera, "cornell.png", false, pdf)?;
     Ok(())
 }
