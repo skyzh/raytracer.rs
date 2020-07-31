@@ -1,0 +1,23 @@
+[package]
+name = "raytracer"
+version = "0.4.0"
+authors = ["Alex Chi <iskyzh@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+rand = { version = "0.7", features = ["small_rng"] }
+image = "0.20"
+time = "0.1"
+threadpool = "1.7"
+criterion = "0.2"
+log = "0.4"
+pretty_env_logger = "0.3"
+lazy_static = "1.2.0"
+raytracer_codegen = { path = "../raytracer_codegen" }
+
+[lib]
+bench = false
+
+[[bench]]
+name = "raytracer_benchmark"
+harness = false

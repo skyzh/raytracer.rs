@@ -16,6 +16,10 @@ use self::renderer::utils::render_high_quality as render;
 use self::scenes::cornell_box::cornell_box as scene;
 use std::env;
 
+use raytracer_codegen::make_answer;
+
+make_answer!{}
+
 fn main() -> Result<(), std::io::Error> {
     env::set_var("RUST_LOG", "raytracer=info");
     pretty_env_logger::init_custom_env("RUST_LOG");

@@ -5,7 +5,8 @@ use rand::Rng;
 pub fn random_in_unit_sphere(rng: &mut SmallRng) -> Vec3 {
     let a = rng.gen_range(0.0, 2.0 * std::f32::consts::PI);
     let z = rng.gen_range(-1.0, 1.0);
-    let r = 1.0 - z * z;
+    let r: f32 = 1.0 - z * z;
+    let r = r.sqrt();
     let (a_sin, a_cos) = a.sin_cos();
     Vec3::new(r * a_cos, r * a_sin, z)
 }
@@ -88,16 +89,17 @@ mod tests {
     use rand::{rngs::SmallRng, SeedableRng};
 
     #[test]
-    fn test_random_in_unit_shpere() {
+    fn test_random_in_unit_sphere() {
         let mut rng = SmallRng::from_entropy();
         let vec = random_in_unit_sphere(&mut rng);
-        assert!(vec.squared_length() <= 1.0);
+        println!("{:?}", vec.squared_length());
+        assert!((vec.squared_length() - 1.0).abs() <= std::f32::EPSILON);
     }
 
     #[test]
     fn test_random_in_unit_disk() {
         let mut rng = SmallRng::from_entropy();
         let vec = random_in_unit_disk(&mut rng);
-        assert!(vec.squared_length() <= 1.0 && vec.z == 0.0);
+        assert!((vec.squared_length() - 1.0).abs() <= std::f32::EPSILON && vec.z == 0.0);
     }
 }

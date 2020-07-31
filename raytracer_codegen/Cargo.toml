@@ -1,0 +1,12 @@
+[package]
+name = "raytracer_codegen"
+version = "0.1.0"
+authors = ["Alex Chi <iskyzh@gmail.com>"]
+edition = "2018"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+rand = { version = "0.7", features = ["small_rng"] }
+quote = "1.0"
