@@ -11,7 +11,7 @@ This is the new branch implemented in Rust 2018. For previous version, refer to 
 Write your specifications in `main.rs`:    
 ```rust
 use self::renderer::utils::render_high_quality as render;
-use self::scenes::simple_scene::simple_scene_PERLIN_NOISE as scene;
+use self::scenes::simple_scene::simple_scene_perlin_noise as scene;
 ```    
 Here you can change `render_high_quality` to `render_preview` to render faster. And you can select from examples scenes by changing `self::scenes::****::****`.    
 
