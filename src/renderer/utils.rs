@@ -29,7 +29,7 @@ pub fn render_high_quality(
             size: (1600, 1600),
             anti_aliasing: 256,
             block_count: (16, 16),
-            workers: 6,
+            workers: 2,
             ambient_light,
         },
         path,

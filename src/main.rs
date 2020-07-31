@@ -11,7 +11,7 @@ mod scenes;
 mod tracer;
 mod tests;
 
-use self::renderer::utils::render_preview as render;
+use self::renderer::utils::render_high_quality as render;
 use self::scenes::cornell_box::cornell_box as scene;
 use std::env;
 

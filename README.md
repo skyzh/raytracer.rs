@@ -1,10 +1,10 @@
 # Raytracer.rs
 
-[![Build Status](https://travis-ci.com/skyzh/raytracer.rs.svg?branch=master)](https://travis-ci.com/skyzh/raytracer.rs)
-
 _"Ray Tracing in One Weekend ([Amazon](https://www.amazon.com/Ray-Tracing-Weekend-Minibooks-Book-ebook/dp/B01B5AODD8/))" implemented in Rust 2018_
 
 This is the new branch implemented in Rust 2018. For previous version, refer to [legacy](https://github.com/SkyZH/raytracer.rs/tree/legacy) branch.
+
+**UPDATE** This project is part of the PPCA 2020 course, where I assisted several students to build their own ray-tracer with the Rust programming language. Here's the [showcase](https://github.com/skyzh/raytracer-tutorial/issues/9).
 
 ## Usage
 
