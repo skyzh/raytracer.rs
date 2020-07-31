@@ -1,17 +1,17 @@
 use super::{Texture, Vec3};
 
-pub struct CheckerTexture {
-    pub t0: Box<dyn Texture>,
-    pub t1: Box<dyn Texture>,
+pub struct CheckerTexture<T1: Texture, T2: Texture> {
+    pub t0: T1,
+    pub t1: T2,
 }
 
-impl CheckerTexture {
-    pub fn new(t0: Box<dyn Texture>, t1: Box<dyn Texture>) -> Box<Self> {
-        Box::new(Self { t0, t1 })
+impl<T1: Texture, T2: Texture> CheckerTexture<T1, T2> {
+    pub fn new(t0: T1, t1: T2) -> Self {
+        Self { t0, t1 }
     }
 }
 
-impl Texture for CheckerTexture {
+impl<T1: Texture, T2: Texture> Texture for CheckerTexture<T1, T2> {
     fn value(&self, u: f32, v: f32, p: Vec3) -> Vec3 {
         let sines = (10.0 * p.x).sin() * (10.0 * p.y).sin() * (10.0 * p.z).sin();
         if sines < 0.0 {

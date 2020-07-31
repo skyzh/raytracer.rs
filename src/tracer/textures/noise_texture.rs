@@ -15,11 +15,11 @@ lazy_static! {
 }
 
 impl NoiseTexture<'_> {
-    pub fn new(scale: f32) -> Box<Self> {
-        Box::new(Self {
+    pub fn new(scale: f32) -> Self {
+        Self {
             noise: &PERLIN_NOISE,
             scale,
-        })
+        }
     }
 
     fn turb(&self, p: Vec3, depth: u32) -> f32 {

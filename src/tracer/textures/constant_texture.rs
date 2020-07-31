@@ -5,8 +5,8 @@ pub struct ConstantTexture {
 }
 
 impl ConstantTexture {
-    pub fn new(color: Vec3) -> Box<Self> {
-        Box::new(Self { color })
+    pub fn new(color: Vec3) -> Self {
+        Self { color }
     }
 }
 

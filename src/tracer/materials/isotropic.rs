@@ -1,18 +1,17 @@
 use crate::tracer::{utils::random_in_unit_sphere, HitRecord, Material, Ray, Texture, Vec3};
 use rand::rngs::SmallRng;
-use std::sync::Arc;
 
-pub struct Isotropic {
-    pub texture: Box<dyn Texture>,
+pub struct Isotropic<T: Texture> {
+    pub texture: T,
 }
 
-impl Isotropic {
-    pub fn new(texture: Box<dyn Texture>) -> Arc<Self> {
-        Arc::new(Self { texture })
+impl<T: Texture> Isotropic<T> {
+    pub fn new(texture: T) -> Self {
+        Self { texture }
     }
 }
 
-impl Material for Isotropic {
+impl<T: Texture> Material for Isotropic<T> {
     fn scatter(
         &self,
         _ray_in: &Ray,
