@@ -6,23 +6,29 @@ This is the new branch implemented in Rust 2018. For previous version, refer to 
 
 **UPDATE** This project is part of the PPCA 2020 course, where I assisted several students to build their own ray-tracer with the Rust programming language. Here's the [showcase](https://github.com/skyzh/raytracer-tutorial/issues/9).
 
+**UPDATE** By using static dispatch (generics in Rust) and code generation, we achieved a 2x speedup in rendering most scenes.
+
 ## Usage
 
-Write your specifications in `main.rs`:    
+Write your specifications in `main.rs`:
+
 ```rust
 use self::renderer::utils::render_high_quality as render;
 use self::scenes::simple_scene::simple_scene_perlin_noise as scene;
-```    
-Here you can change `render_high_quality` to `render_preview` to render faster. And you can select from examples scenes by changing `self::scenes::****::****`.    
+```
+
+Here you can change `render_high_quality` to `render_preview` to render faster. And you can select from examples scenes by changing `self::scenes::****::****`.
 
 ```rust
-render(hitable_list, camera, "scene.png", true)?;
-```    
-The third parameter indicates that with previous rendering settings, the image will be rendered to `output/scene.png`. 
+render(hitable_list, camera, "scene.png", true, pdf)?;
+```
+
+The third parameter indicates that with these rendering settings, the image will be rendered to `output/scene.png`. 
 
 The fourth parameter indicates whether to enable ambient light or not.
 
-Finally run:    
+Finally run:
+
 ```bash
 cargo run --release
 ```
@@ -33,14 +39,9 @@ Note that since the latest commit, some functionalities may be broken due to new
 
 ### Cornell Box
 
-**support mixture pdf for reducing noise**
-
-**Cornell Box** `scenes/cornell_box.rs:cornell_box`    
+**Cornell Box** *support mixture pdf for reducing noise* `scenes/cornell_box.rs:cornell_box`
 
 <img width="30%" src="https://user-images.githubusercontent.com/4198311/51380265-4922e980-1b4c-11e9-85e2-1d5430a47b22.png"> <img width="30%" src="https://user-images.githubusercontent.com/4198311/69005795-ee237400-0961-11ea-82dd-2345c9aecabd.png"> <img width="30%" src="https://user-images.githubusercontent.com/4198311/69006152-275de300-0966-11ea-892e-3ba2d475ed40.png">
-
-
-You may not get the correct result when rendering the following scenes. After I integrated mixture pdf into the ray tracer, the program may not produce correct light scattering and may fail on some materials other than Lambertian. You may refer to branch `non-pdf` where I rollback those changes.
 
 ### Cover Scene
 

@@ -14,6 +14,8 @@ log = "0.4"
 pretty_env_logger = "0.3"
 lazy_static = "1.2.0"
 raytracer_codegen = { path = "../raytracer_codegen" }
+imageproc = "0.21"
+rusttype = "0.9"
 
 [lib]
 bench = false

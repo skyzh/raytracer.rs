@@ -1,4 +1,3 @@
-use super::PDFHitable;
 use crate::tracer::{Ray, Vec3};
 use rand::rngs::SmallRng;
 use rand::Rng;
@@ -65,26 +64,5 @@ impl RectXZArea {
                 Vec3::new(0.0, 1.0, 0.0),
             ))
         }
-    }
-}
-
-impl PDFHitable for RectXZArea {
-    fn pdf_value(&self, o: Vec3, v: Vec3) -> f32 {
-        match self.hit(&Ray::new(o, v), 0.001, std::f32::MAX) {
-            Some((_u, _v, t, p, normal)) => {
-                let f1 = normal_distribution_density(p.x, self.mu_x, self.s_x);
-                let f2 = normal_distribution_density(p.z, self.mu_z, self.s_z);
-                let distance_squared = t * t * v.squared_length();
-                let cosine = Vec3::dot(v, normal) / v.length();
-                distance_squared * f1 / cosine * f2
-            }
-            None => 0.0,
-        }
-    }
-    fn random(&self, o: Vec3, rng: &mut SmallRng) -> Vec3 {
-        let (x, z) = normal_distribution(rng);
-        let random_point = Vec3::new(x * self.s_x + self.mu_x, self.k, z * self.s_z + self.mu_z);
-        // println!("{} {}", random_point.x, random_point.z);
-        random_point - o
     }
 }

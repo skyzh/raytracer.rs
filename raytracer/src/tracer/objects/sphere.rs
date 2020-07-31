@@ -1,4 +1,11 @@
-use crate::tracer::{utils::get_sphere_uv, HitRecord, Hitable, Material, Ray, Vec3, AABB};
+use crate::tracer::{
+    pdf::{Onb, PDFHitable},
+    utils::get_sphere_uv,
+    utils::random_to_sphere,
+    HitRecord, Hitable, Material, Ray, Vec3, AABB,
+};
+use rand::rngs::SmallRng;
+use rand::Rng;
 
 pub struct Sphere<M: Material> {
     pub center: Vec3,
@@ -53,5 +60,26 @@ impl<M: Material> Hitable for Sphere<M> {
             min: self.center - Vec3::new(self.radius, self.radius, self.radius),
             max: self.center + Vec3::new(self.radius, self.radius, self.radius),
         })
+    }
+}
+
+impl<M: Material> PDFHitable for Sphere<M> {
+    fn pdf_value(&self, o: Vec3, v: Vec3) -> f32 {
+        match self.hit(&Ray::new(o, v), 0.001, std::f32::MAX) {
+            Some(_) => {
+                let cos_theta_max =
+                    1.0 - self.radius * self.radius / (self.center - o).squared_length();
+                let solid_angel = 2.0 * std::f32::consts::PI * (1.0 - cos_theta_max);
+
+                1.0 / solid_angel
+            }
+            None => 0.0,
+        }
+    }
+    fn random(&self, o: Vec3, rng: &mut SmallRng) -> Vec3 {
+        let direction = self.center - o;
+        let distance_squared = direction.squared_length();
+        let uvw = Onb::build_from_w(direction);
+        uvw.local(random_to_sphere(self.radius, distance_squared, rng))
     }
 }

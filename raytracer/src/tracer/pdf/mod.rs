@@ -1,4 +1,4 @@
-use super::Vec3;
+use super::{HitRecord, Hitable, Ray, Vec3, AABB};
 
 mod onb;
 pub use onb::Onb;
@@ -21,7 +21,7 @@ pub trait PDF: Send + Sync {
     fn generate(&self, rng: &mut SmallRng) -> Vec3;
 }
 
-pub trait PDFHitable: Send + Sync {
+pub trait PDFHitable: Send + Sync + Hitable {
     fn pdf_value(&self, _o: Vec3, _v: Vec3) -> f32 {
         0.0
     }
@@ -31,5 +31,14 @@ pub trait PDFHitable: Send + Sync {
 }
 
 pub struct PDFHitableNone;
+
+impl Hitable for PDFHitableNone {
+    fn hit(&self, _ray: &Ray, _t_min: f32, _t_max: f32) -> Option<HitRecord> {
+        None
+    }
+    fn bounding_box(&self) -> Option<AABB> {
+        None
+    }
+}
 
 impl PDFHitable for PDFHitableNone {}

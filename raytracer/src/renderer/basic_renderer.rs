@@ -3,7 +3,7 @@ use crate::tracer::ScatterRecord;
 use crate::tracer::{
     pdf::{DynMixturePDF, HitablePDF, PDFHitable, PDF},
     utils::{gamma_correct, in_range},
-    Camera, HitableList, Ray, Vec3,
+    Camera, Hitable, HitableList, Ray, Vec3,
 };
 use rand::{rngs::SmallRng, Rng, SeedableRng};
 

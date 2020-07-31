@@ -13,7 +13,8 @@ mod tests;
 mod tracer;
 
 use self::renderer::utils::{render_high_quality, render_preview};
-use self::scenes::sphere_scene::light_scene as scene;
+use self::scenes::cornell_box::cornell_box as scene;
+
 use std::env;
 
 fn is_ci() -> bool {

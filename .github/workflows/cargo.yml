@@ -19,6 +19,11 @@ jobs:
         name: Setup Cargo Toolchain 🛎️
         with:
           components: rustfmt, clippy
+      - name: Download Dependencies 🛎️
+        run: |
+            wget https://github.com/google/fonts/raw/master/ofl/encodesans/static/EncodeSans-Regular.ttf
+            wget https://github.com/google/fonts/raw/master/ofl/encodesansexpanded/EncodeSansExpanded-Medium.ttf
+            wget https://github.com/google/fonts/raw/master/apache/arimo/Arimo-Bold.ttf
       - uses: actions-rs/cargo@v1
         name: Running Tests 🚀
         with:
@@ -42,6 +47,11 @@ jobs:
         name: Checkout 🛎️
       - uses: actions-rs/toolchain@v1
         name: Setup Cargo Toolchain 🛎️
+      - name: Download Dependencies 🛎️
+        run: |
+            wget https://github.com/google/fonts/raw/master/ofl/encodesans/static/EncodeSans-Regular.ttf
+            wget https://github.com/google/fonts/raw/master/ofl/encodesansexpanded/EncodeSansExpanded-Medium.ttf
+            wget https://github.com/google/fonts/raw/master/apache/arimo/Arimo-Bold.ttf
       - uses: actions-rs/cargo@v1
         name: Build 🔧
         with:

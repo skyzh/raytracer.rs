@@ -8,7 +8,7 @@ pub fn random_in_unit_sphere(rng: &mut SmallRng) -> Vec3 {
     let r: f32 = 1.0 - z * z;
     let r = r.sqrt();
     let (a_sin, a_cos) = a.sin_cos();
-    Vec3::new(r * a_cos, r * a_sin, z).unit()
+    Vec3::new(r * a_cos, r * a_sin, z)
 }
 
 pub fn random_in_unit_disk(rng: &mut SmallRng) -> Vec3 {
@@ -83,6 +83,19 @@ pub fn schlick(cosine: f32, ref_idx: f32) -> f32 {
     r0 + (1.0 - r0) * (1.0 - cosine).powf(5.0)
 }
 
+pub fn random_to_sphere(radius: f32, distance_squared: f32, rng: &mut SmallRng) -> Vec3 {
+    let r1: f32 = rng.gen();
+    let r2: f32 = rng.gen();
+    let z = 1.0 + r2 * ((1.0 - radius * radius / distance_squared).sqrt() - 1.0);
+
+    let phi = 2.0 * std::f32::consts::PI * r1;
+    let (sin_phi, cos_phi) = phi.sin_cos();
+    let x = cos_phi * (1.0 - z * z).sqrt();
+    let y = sin_phi * (1.0 - z * z).sqrt();
+
+    Vec3::new(x, y, z)
+}
+
 #[cfg(test)]
 mod tests {
     use super::{random_in_unit_disk, random_in_unit_sphere};
@@ -93,7 +106,7 @@ mod tests {
         let mut rng = SmallRng::from_entropy();
         let vec = random_in_unit_sphere(&mut rng);
         println!("{:?}", vec.squared_length());
-        assert!((vec.squared_length() - 1.0).abs() <= std::f32::EPSILON);
+        assert!((vec.squared_length() - 1.0).abs() <= 0.1);
     }
 
     #[test]

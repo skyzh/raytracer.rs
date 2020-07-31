@@ -21,7 +21,7 @@ pub mod transforms;
 
 pub use camera::Camera;
 pub use hit_record::HitRecord;
-pub use hitable::{Hitable, HitableList};
+pub use hitable::{Hitable, HitableList, PDFHitableList};
 pub use materials::Material;
 pub use ray::Ray;
 pub use scatter_record::ScatterRecord;

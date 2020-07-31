@@ -5,12 +5,12 @@ use crate::tracer::{
     objects::{BoxEntity, RectXY, RectXZ, RectYZ, Sphere},
     textures::ConstantTexture,
     transforms::{FlipNormals, RotateY, Translate},
-    Camera, HitableList, Vec3,
+    Camera, HitableList, PDFHitableList, Vec3,
 };
 
 use std::sync::Arc;
 
-pub fn cornell_box() -> (HitableList, Camera, Option<Arc<RectXZ<NoMaterial>>>) {
+pub fn cornell_box() -> (HitableList, Camera, Option<Arc<PDFHitableList>>) {
     let green = LambertianStatic::new(ConstantTexture::new(Vec3::new(0.12, 0.45, 0.15)));
     let red = LambertianStatic::new(ConstantTexture::new(Vec3::new(0.65, 0.05, 0.05)));
     let white = LambertianStatic::new(ConstantTexture::new(Vec3::new(0.73, 0.73, 0.73)));
@@ -19,7 +19,12 @@ pub fn cornell_box() -> (HitableList, Camera, Option<Arc<RectXZ<NoMaterial>>>) {
     let look_from = Vec3::new(278.0, 278.0, -800.0);
     let look_at = Vec3::new(278.0, 278.0, 0.0);
 
-    let pdf_hitable = RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, NoMaterial);
+    let pdf_hitable_1 = RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, NoMaterial);
+    let pdf_hitable_2 = Sphere {
+        center: Vec3::new(380.0, 90.0, 100.0),
+        radius: 50.0,
+        material: NoMaterial,
+    };
 
     (
         HitableList {
@@ -68,7 +73,9 @@ pub fn cornell_box() -> (HitableList, Camera, Option<Arc<RectXZ<NoMaterial>>>) {
             0.0,
             10.0,
         ),
-        Some(Arc::new(pdf_hitable)),
+        Some(Arc::new(PDFHitableList {
+            hitables: vec![box pdf_hitable_1, box pdf_hitable_2],
+        })),
     )
 }
 
