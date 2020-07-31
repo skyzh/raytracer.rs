@@ -29,3 +29,7 @@ pub trait PDFHitable: Send + Sync {
         Vec3::new(1.0, 0.0, 0.0)
     }
 }
+
+pub struct PDFHitableNone;
+
+impl PDFHitable for PDFHitableNone {}
