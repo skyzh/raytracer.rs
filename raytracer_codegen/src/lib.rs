@@ -46,9 +46,9 @@ fn generate_spheres() -> Vec<Sphere> {
         };
 
         let color = Vec3(
-            rng.gen_range(0.3, 0.6),
-            rng.gen_range(0.3, 0.6),
-            rng.gen_range(0.3, 0.6),
+            rng.gen_range(0.3, 1.0),
+            rng.gen_range(0.3, 1.0),
+            rng.gen_range(0.3, 1.0),
         );
 
         let sphere = Sphere { pos, size, color };
@@ -94,7 +94,7 @@ fn sphere_code(sphere: &Sphere) -> TokenStream {
             radius: #size,
             material: DiffuseLight::new(
                 ConstantTexture::new(
-                    Vec3::new(#r, #g, #b)
+                    Vec3::elemul(Vec3::new(#r, #g, #b), Vec3::new(#r, #g, #b))
                 )
             )
         }
@@ -109,7 +109,7 @@ fn glass_code(sphere: &Sphere) -> TokenStream {
         box Sphere {
             center: Vec3::new(#x, #y, #z),
             radius: #size,
-            material: Dielectric { ref_idx: 1.5 },
+            material: Dielectric { ref_idx: 4.0 },
         }
     }
 }

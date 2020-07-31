@@ -30,6 +30,11 @@ pub fn light_scene() -> (HitableList, Camera, Option<Arc<PDFHitableNone>>) {
     objects.push(box Sphere {
         center: Vec3::new(0.0, 0.0, -1.0),
         radius: 0.5,
+        material: Dielectric { ref_idx: 4.0 },
+    });
+    objects.push(box Sphere {
+        center: Vec3::new(0.0, 0.0, -1.0),
+        radius: 0.49,
         material: DiffuseLight::new(CheckerTexture::new(
             ConstantTexture::new(Vec3::new(1.0, 0.6, 0.4)),
             ConstantTexture::new(Vec3::new(1.0, 0.75, 0.3)),

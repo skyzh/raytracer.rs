@@ -1,6 +1,5 @@
 use super::{HitRecord, Material, Ray, ScatterRecord, Texture, Vec3};
 use crate::tracer::pdf::CosinePDF;
-use crate::tracer::utils::random_in_unit_sphere;
 use rand::rngs::SmallRng;
 use std::f32::consts::PI;
 use std::sync::Arc;
@@ -24,9 +23,8 @@ impl<T: Texture> Material for Lambertian<T> {
         &self,
         _: &Ray,
         hit_record: &HitRecord,
-        rng: &mut SmallRng,
+        _rng: &mut SmallRng,
     ) -> Option<ScatterRecord> {
-        let direction = hit_record.normal + random_in_unit_sphere(rng);
         Some(ScatterRecord::Diffuse {
             attenuation: self.albedo.value(hit_record.u, hit_record.v, hit_record.p),
             pdf: box CosinePDF::new(hit_record.normal),

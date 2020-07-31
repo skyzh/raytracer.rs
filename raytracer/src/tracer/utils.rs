@@ -8,7 +8,7 @@ pub fn random_in_unit_sphere(rng: &mut SmallRng) -> Vec3 {
     let r: f32 = 1.0 - z * z;
     let r = r.sqrt();
     let (a_sin, a_cos) = a.sin_cos();
-    Vec3::new(r * a_cos, r * a_sin, z)
+    Vec3::new(r * a_cos, r * a_sin, z).unit()
 }
 
 pub fn random_in_unit_disk(rng: &mut SmallRng) -> Vec3 {
