@@ -1,5 +1,5 @@
 use crate::tracer::{utils::random_in_unit_sphere, HitRecord, Material, Ray, Texture, Vec3};
-use rand::{rngs::SmallRng};
+use rand::rngs::SmallRng;
 use std::sync::Arc;
 
 pub struct Isotropic {

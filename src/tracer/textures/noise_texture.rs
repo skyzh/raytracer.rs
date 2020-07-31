@@ -11,13 +11,13 @@ impl Texture for NoiseTexture<'_> {
     }
 }
 lazy_static! {
-    static ref perlin_noise: Perlin = Perlin::new();
+    static ref PERLIN_NOISE: Perlin = Perlin::new();
 }
 
 impl NoiseTexture<'_> {
     pub fn new(scale: f32) -> Box<Self> {
         Box::new(Self {
-            noise: &perlin_noise,
+            noise: &PERLIN_NOISE,
             scale,
         })
     }

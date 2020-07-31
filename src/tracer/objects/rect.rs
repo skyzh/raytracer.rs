@@ -1,6 +1,6 @@
 use crate::tracer::{pdf::PDFHitable, HitRecord, Hitable, Material, Ray, Vec3, AABB};
 use rand::rngs::SmallRng;
-use rand::{Rng};
+use rand::Rng;
 use std::sync::Arc;
 
 pub struct RectXY {

@@ -1,6 +1,6 @@
 use super::Vec3;
 use rand::rngs::SmallRng;
-use rand::{Rng};
+use rand::Rng;
 
 pub fn random_in_unit_sphere(rng: &mut SmallRng) -> Vec3 {
     loop {

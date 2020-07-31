@@ -1,5 +1,5 @@
 use super::{HitRecord, Ray, Texture, Vec3};
-use rand::{rngs::SmallRng};
+use rand::rngs::SmallRng;
 
 mod lambertian;
 pub use self::lambertian::Lambertian;

@@ -1,4 +1,4 @@
-use super::{HitRecord, Ray, Vec3, AABB};
+use super::Vec3;
 
 mod onb;
 pub use onb::Onb;
@@ -14,7 +14,7 @@ pub use rect::RectXZArea;
 mod normal_hitable_pdf;
 pub use normal_hitable_pdf::NormalHitablePDF;
 
-use rand::{rngs::SmallRng};
+use rand::rngs::SmallRng;
 
 pub trait PDF: Send + Sync {
     fn value(&self, direction: Vec3) -> f32;

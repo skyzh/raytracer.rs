@@ -1,8 +1,7 @@
 use rand::rngs::SmallRng;
-use rand::{SeedableRng};
+use rand::SeedableRng;
 
-use crate::tracer::{utils::random_cosine_direction};
-
+use crate::tracer::utils::random_cosine_direction;
 
 pub fn generate_uniform_distribution() {
     let mut rng = SmallRng::from_entropy();

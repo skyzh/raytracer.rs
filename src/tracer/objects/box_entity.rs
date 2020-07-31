@@ -63,6 +63,7 @@ impl Hitable for BoxEntity {
         hit!(hitable, ray, t_min, closest_so_far, hit_record);
         let hitable = &self.hitables.5;
         hit!(hitable, ray, t_min, closest_so_far, hit_record);
+        std::mem::drop(closest_so_far);
         hit_record
     }
     fn bounding_box(&self) -> Option<AABB> {

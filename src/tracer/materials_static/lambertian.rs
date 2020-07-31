@@ -4,20 +4,20 @@ use rand::rngs::SmallRng;
 use std::f32::consts::PI;
 use std::sync::Arc;
 
-pub struct Lambertian {
-    pub albedo: Box<dyn Texture>,
+pub struct Lambertian<T: Texture> {
+    pub albedo: T,
 }
 
-impl Lambertian {
-    pub fn new(albedo: Box<dyn Texture>) -> Self {
+impl<T: Texture> Lambertian<T> {
+    pub fn new(albedo: T) -> Self {
         Self { albedo }
     }
-    pub fn new_arc(albedo: Box<dyn Texture>) -> Arc<Self> {
+    pub fn new_arc(albedo: T) -> Arc<Self> {
         Arc::new(Self { albedo })
     }
 }
 
-impl Material for Lambertian {
+impl<T: Texture> Material for Lambertian<T> {
     fn scatter(
         &self,
         _: &Ray,

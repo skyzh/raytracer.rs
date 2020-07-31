@@ -1,5 +1,6 @@
 use crate::tracer::{
     materials::{DiffuseLight, Lambertian},
+    materials_static::{DiffuseLight as DiffuseLightStatic, Lambertian as LambertianStatic},
     mediums::ConstantMedium,
     objects::{BoxEntity, RectXY, RectXZ, RectYZ},
     textures::ConstantTexture,
@@ -7,13 +8,11 @@ use crate::tracer::{
     Camera, HitableList, Vec3,
 };
 
-
-
 pub fn cornell_box() -> (HitableList, Camera) {
-    let green = Lambertian::new_arc(ConstantTexture::new(Vec3::new(0.12, 0.45, 0.15)));
-    let red = Lambertian::new_arc(ConstantTexture::new(Vec3::new(0.65, 0.05, 0.05)));
-    let white = Lambertian::new_arc(ConstantTexture::new(Vec3::new(0.73, 0.73, 0.73)));
-    let light = DiffuseLight::new_arc(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
+    let green = LambertianStatic::new_arc(*ConstantTexture::new(Vec3::new(0.12, 0.45, 0.15)));
+    let red = LambertianStatic::new_arc(*ConstantTexture::new(Vec3::new(0.65, 0.05, 0.05)));
+    let white = LambertianStatic::new_arc(*ConstantTexture::new(Vec3::new(0.73, 0.73, 0.73)));
+    let light = DiffuseLightStatic::new_arc(*ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
     let look_from = Vec3::new(278.0, 278.0, -800.0);
     let look_at = Vec3::new(278.0, 278.0, 0.0);
 
@@ -100,8 +99,16 @@ pub fn cornell_smoke() -> (HitableList, Camera) {
                 box FlipNormals::new(RectXZ::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
                 box RectXZ::new(0.0, 555.0, 0.0, 555.0, 0.0, white.clone()),
                 box FlipNormals::new(RectXY::new(0.0, 555.0, 0.0, 555.0, 555.0, white.clone())),
-                ConstantMedium::new(box box1, 0.01, ConstantTexture::new(Vec3::new(1.0, 1.0, 1.0))),
-                ConstantMedium::new(box box2, 0.01, ConstantTexture::new(Vec3::new(0.0, 0.0, 0.0))),
+                ConstantMedium::new(
+                    box box1,
+                    0.01,
+                    ConstantTexture::new(Vec3::new(1.0, 1.0, 1.0)),
+                ),
+                ConstantMedium::new(
+                    box box2,
+                    0.01,
+                    ConstantTexture::new(Vec3::new(0.0, 0.0, 0.0)),
+                ),
             ],
         },
         Camera::new(

@@ -1,7 +1,7 @@
 use super::PDFHitable;
-use crate::tracer::{HitRecord, Ray, Vec3, AABB};
+use crate::tracer::{Ray, Vec3};
 use rand::rngs::SmallRng;
-use rand::{Rng};
+use rand::Rng;
 use std::f32::consts::PI;
 
 pub struct RectXZArea {

@@ -1,6 +1,6 @@
 use super::{Onb, PDF};
 use crate::tracer::{utils::random_cosine_direction, Vec3};
-use rand::{rngs::SmallRng};
+use rand::rngs::SmallRng;
 use std::f32::consts::PI;
 
 pub struct CosinePDF {

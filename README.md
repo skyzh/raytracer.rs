@@ -11,7 +11,7 @@ This is the new branch implemented in Rust 2018. For previous version, refer to 
 Write your specifications in `main.rs`:    
 ```rust
 use self::renderer::utils::render_high_quality as render;
-use self::scenes::simple_scene::simple_scene_perlin_noise as scene;
+use self::scenes::simple_scene::simple_scene_PERLIN_NOISE as scene;
 ```    
 Here you can change `render_high_quality` to `render_preview` to render faster. And you can select from examples scenes by changing `self::scenes::****::****`.    
 
@@ -61,7 +61,7 @@ It takes *~560 secs* to render.
 ### Textures
 
 **Light Scene** `scenes/legacy_scene.rs:legacy_scene_light`    
-**Perlin Noise** `scenes/simple_scene.rs:simple_scene_perlin_noise`    
+**Perlin Noise** `scenes/simple_scene.rs:simple_scene_PERLIN_NOISE`    
 **Checker Texture** `scenes/legacy_scene.rs:legacy_scene_texture`    
 
 <img width="30%" src="https://user-images.githubusercontent.com/4198311/51253655-e9a4cc80-19d9-11e9-9ea4-ddec4e4208eb.png"> <img width="30%" src="https://user-images.githubusercontent.com/4198311/51223750-1b884580-197e-11e9-93c8-f4c8779d1958.png"> <img width="30%" src="https://user-images.githubusercontent.com/4198311/51226964-f9e28a80-198c-11e9-95ee-374e3598adc2.png">
