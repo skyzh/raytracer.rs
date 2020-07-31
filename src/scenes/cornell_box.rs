@@ -1,5 +1,5 @@
 use crate::tracer::{
-    materials::{DiffuseLight, Lambertian},
+    materials::{DiffuseLight, Lambertian, NoMaterial},
     materials_static::{DiffuseLight as DiffuseLightStatic, Lambertian as LambertianStatic},
     mediums::ConstantMedium,
     objects::{BoxEntity, RectXY, RectXZ, RectYZ},
@@ -10,19 +10,15 @@ use crate::tracer::{
 
 use std::sync::Arc;
 
-pub fn cornell_box() -> (HitableList, Camera, Arc<RectXZ>) {
-    let green = LambertianStatic::new_arc(ConstantTexture::new(Vec3::new(0.12, 0.45, 0.15)));
-    let red = LambertianStatic::new_arc(ConstantTexture::new(Vec3::new(0.65, 0.05, 0.05)));
-    let white = LambertianStatic::new_arc(ConstantTexture::new(Vec3::new(0.73, 0.73, 0.73)));
-    let light = DiffuseLightStatic::new_arc(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
+pub fn cornell_box() -> (HitableList, Camera, Arc<RectXZ<NoMaterial>>) {
+    let green = LambertianStatic::new(ConstantTexture::new(Vec3::new(0.12, 0.45, 0.15)));
+    let red = LambertianStatic::new(ConstantTexture::new(Vec3::new(0.65, 0.05, 0.05)));
+    let white = LambertianStatic::new(ConstantTexture::new(Vec3::new(0.73, 0.73, 0.73)));
+    let light = DiffuseLightStatic::new(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
     let look_from = Vec3::new(278.0, 278.0, -800.0);
     let look_at = Vec3::new(278.0, 278.0, 0.0);
 
-    let pdf_hitable = {
-        let light = DiffuseLight::new_arc(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
-        let hitable = RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, light);
-        hitable
-    };
+    let pdf_hitable = RectXZ::new(213.0, 343.0, 227.0, 332.0, 554.0, NoMaterial);
 
     (
         HitableList {
@@ -71,10 +67,10 @@ pub fn cornell_box() -> (HitableList, Camera, Arc<RectXZ>) {
 }
 
 pub fn cornell_smoke() -> (HitableList, Camera) {
-    let green = Lambertian::new_arc(ConstantTexture::new(Vec3::new(0.12, 0.45, 0.15)));
-    let red = Lambertian::new_arc(ConstantTexture::new(Vec3::new(0.65, 0.05, 0.05)));
-    let white = Lambertian::new_arc(ConstantTexture::new(Vec3::new(0.73, 0.73, 0.73)));
-    let light = DiffuseLight::new_arc(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
+    let green = Lambertian::new(ConstantTexture::new(Vec3::new(0.12, 0.45, 0.15)));
+    let red = Lambertian::new(ConstantTexture::new(Vec3::new(0.65, 0.05, 0.05)));
+    let white = Lambertian::new(ConstantTexture::new(Vec3::new(0.73, 0.73, 0.73)));
+    let light = DiffuseLight::new(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
     let look_from = Vec3::new(278.0, 278.0, -800.0);
     let look_at = Vec3::new(278.0, 278.0, 0.0);
     let box1 = Translate::new(
@@ -125,10 +121,10 @@ pub fn cornell_smoke() -> (HitableList, Camera) {
 }
 
 pub fn cornell_box_ambient() -> (HitableList, Camera) {
-    let _green = Lambertian::new_arc(ConstantTexture::new(Vec3::new(0.12, 0.45, 0.15)));
-    let _red = Lambertian::new_arc(ConstantTexture::new(Vec3::new(0.65, 0.05, 0.05)));
-    let white = Lambertian::new_arc(ConstantTexture::new(Vec3::new(0.73, 0.73, 0.73)));
-    let _light = DiffuseLight::new_arc(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
+    let _green = Lambertian::new(ConstantTexture::new(Vec3::new(0.12, 0.45, 0.15)));
+    let _red = Lambertian::new(ConstantTexture::new(Vec3::new(0.65, 0.05, 0.05)));
+    let white = Lambertian::new(ConstantTexture::new(Vec3::new(0.73, 0.73, 0.73)));
+    let _light = DiffuseLight::new(ConstantTexture::new(Vec3::new(15.0, 15.0, 15.0)));
     let look_from = Vec3::new(278.0, 278.0, -800.0);
     let look_at = Vec3::new(278.0, 278.0, 0.0);
 

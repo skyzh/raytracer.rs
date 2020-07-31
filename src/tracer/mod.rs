@@ -9,6 +9,7 @@ mod vec3;
 pub use self::aabb::AABB;
 mod bvh_node;
 pub use self::bvh_node::BVHNode;
+mod bvh_static_node;
 pub mod materials_static;
 pub mod mediums;
 pub mod objects;

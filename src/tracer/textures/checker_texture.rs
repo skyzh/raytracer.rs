@@ -1,5 +1,6 @@
 use super::{Texture, Vec3};
 
+#[derive(Clone)]
 pub struct CheckerTexture<T1: Texture, T2: Texture> {
     pub t0: T1,
     pub t1: T2,

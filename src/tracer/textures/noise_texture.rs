@@ -1,5 +1,6 @@
 use super::{perlin::Perlin, Texture, Vec3};
 
+#[derive(Clone)]
 pub struct NoiseTexture<'a> {
     noise: &'a Perlin,
     scale: f32,

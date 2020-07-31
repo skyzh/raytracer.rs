@@ -3,23 +3,22 @@ use crate::tracer::{
     transforms::FlipNormals,
     HitRecord, Hitable, Material, Ray, Vec3, AABB,
 };
-use std::sync::Arc;
 
-pub struct BoxEntity {
+pub struct BoxEntity<M: Material + Clone> {
     hitables: (
-        RectXY,
-        FlipNormals<RectXY>,
-        RectXZ,
-        FlipNormals<RectXZ>,
-        RectYZ,
-        FlipNormals<RectYZ>,
+        RectXY<M>,
+        FlipNormals<RectXY<M>>,
+        RectXZ<M>,
+        FlipNormals<RectXZ<M>>,
+        RectYZ<M>,
+        FlipNormals<RectYZ<M>>,
     ),
     pmin: Vec3,
     pmax: Vec3,
 }
 
-impl BoxEntity {
-    pub fn new(p0: Vec3, p1: Vec3, material: Arc<dyn Material>) -> Self {
+impl<M: Material + Clone> BoxEntity<M> {
+    pub fn new(p0: Vec3, p1: Vec3, material: M) -> Self {
         Self {
             pmin: p0,
             pmax: p1,
@@ -47,7 +46,7 @@ macro_rules! hit {
     };
 }
 
-impl Hitable for BoxEntity {
+impl<M: Material + Clone> Hitable for BoxEntity<M> {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let mut closest_so_far = t_max;
         let mut hit_record: Option<HitRecord> = None;

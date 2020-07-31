@@ -3,7 +3,6 @@ use crate::tracer::{materials::Isotropic, HitRecord, Hitable, Material, Ray, Tex
 use rand::Rng;
 use std::f32::{MAX as FLT_MAX, MIN as FLT_MIN};
 
-
 pub struct ConstantMedium<M: Material, H: Hitable> {
     pub phase_function: M,
     pub density: f32,

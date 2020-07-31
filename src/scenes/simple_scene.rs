@@ -178,9 +178,7 @@ pub fn simple_scene_perlin_noise_with_light() -> (HitableList, Camera) {
                     1.0,
                     3.0,
                     -2.0,
-                    Arc::new(DiffuseLight::new(ConstantTexture::new(Vec3::new(
-                        4.0, 4.0, 4.0,
-                    )))),
+                    DiffuseLight::new(ConstantTexture::new(Vec3::new(4.0, 4.0, 4.0))),
                 ),
             ],
         },

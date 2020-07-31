@@ -1,20 +1,19 @@
 use crate::tracer::{pdf::PDFHitable, HitRecord, Hitable, Material, Ray, Vec3, AABB};
 use rand::rngs::SmallRng;
 use rand::Rng;
-use std::sync::Arc;
 
 #[derive(Clone)]
-pub struct RectXY {
+pub struct RectXY<M: Material> {
     pub x0: f32,
     pub x1: f32,
     pub y0: f32,
     pub y1: f32,
     pub k: f32,
-    pub material: Arc<dyn Material>,
+    pub material: M,
 }
 
-impl RectXY {
-    pub fn new(x0: f32, x1: f32, y0: f32, y1: f32, k: f32, material: Arc<dyn Material>) -> Self {
+impl<M: Material> RectXY<M> {
+    pub fn new(x0: f32, x1: f32, y0: f32, y1: f32, k: f32, material: M) -> Self {
         Self {
             x0,
             x1,
@@ -26,7 +25,7 @@ impl RectXY {
     }
 }
 
-impl Hitable for RectXY {
+impl<M: Material> Hitable for RectXY<M> {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let t = (self.k - ray.origin.z) / ray.direction.z;
         if t < t_min || t > t_max {
@@ -43,7 +42,7 @@ impl Hitable for RectXY {
                     t,
                     p: ray.at(t),
                     normal: Vec3::new(0.0, 0.0, 1.0),
-                    material: &*self.material,
+                    material: &self.material,
                 })
             }
         }
@@ -56,7 +55,7 @@ impl Hitable for RectXY {
     }
 }
 
-impl PDFHitable for RectXY {
+impl<M: Material> PDFHitable for RectXY<M> {
     fn pdf_value(&self, o: Vec3, v: Vec3) -> f32 {
         match self.hit(&Ray::new(o, v), 0.001, std::f32::MAX) {
             Some(rec) => {
@@ -79,17 +78,17 @@ impl PDFHitable for RectXY {
 }
 
 #[derive(Clone)]
-pub struct RectXZ {
+pub struct RectXZ<M: Material> {
     pub x0: f32,
     pub x1: f32,
     pub z0: f32,
     pub z1: f32,
     pub k: f32,
-    pub material: Arc<dyn Material>,
+    pub material: M,
 }
 
-impl RectXZ {
-    pub fn new(x0: f32, x1: f32, z0: f32, z1: f32, k: f32, material: Arc<dyn Material>) -> Self {
+impl<M: Material> RectXZ<M> {
+    pub fn new(x0: f32, x1: f32, z0: f32, z1: f32, k: f32, material: M) -> Self {
         Self {
             x0,
             x1,
@@ -101,7 +100,7 @@ impl RectXZ {
     }
 }
 
-impl Hitable for RectXZ {
+impl<M: Material> Hitable for RectXZ<M> {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let t = (self.k - ray.origin.y) / ray.direction.y;
         if t < t_min || t > t_max {
@@ -118,7 +117,7 @@ impl Hitable for RectXZ {
                     t,
                     p: ray.at(t),
                     normal: Vec3::new(0.0, 1.0, 0.0),
-                    material: &*self.material,
+                    material: &self.material,
                 })
             }
         }
@@ -131,7 +130,7 @@ impl Hitable for RectXZ {
     }
 }
 
-impl PDFHitable for RectXZ {
+impl<M: Material> PDFHitable for RectXZ<M> {
     fn pdf_value(&self, o: Vec3, v: Vec3) -> f32 {
         match self.hit(&Ray::new(o, v), 0.001, std::f32::MAX) {
             Some(rec) => {
@@ -154,17 +153,17 @@ impl PDFHitable for RectXZ {
 }
 
 #[derive(Clone)]
-pub struct RectYZ {
+pub struct RectYZ<M: Material> {
     pub y0: f32,
     pub y1: f32,
     pub z0: f32,
     pub z1: f32,
     pub k: f32,
-    pub material: Arc<dyn Material>,
+    pub material: M,
 }
 
-impl RectYZ {
-    pub fn new(y0: f32, y1: f32, z0: f32, z1: f32, k: f32, material: Arc<dyn Material>) -> Self {
+impl<M: Material> RectYZ<M> {
+    pub fn new(y0: f32, y1: f32, z0: f32, z1: f32, k: f32, material: M) -> Self {
         Self {
             y0,
             y1,
@@ -176,7 +175,7 @@ impl RectYZ {
     }
 }
 
-impl Hitable for RectYZ {
+impl<M: Material> Hitable for RectYZ<M> {
     fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
         let t = (self.k - ray.origin.x) / ray.direction.x;
         if t < t_min || t > t_max {
@@ -193,7 +192,7 @@ impl Hitable for RectYZ {
                     t,
                     p: ray.at(t),
                     normal: Vec3::new(1.0, 0.0, 0.0),
-                    material: &*self.material,
+                    material: &self.material,
                 })
             }
         }
@@ -206,7 +205,7 @@ impl Hitable for RectYZ {
     }
 }
 
-impl PDFHitable for RectYZ {
+impl<M: Material> PDFHitable for RectYZ<M> {
     fn pdf_value(&self, o: Vec3, v: Vec3) -> f32 {
         match self.hit(&Ray::new(o, v), 0.001, std::f32::MAX) {
             Some(rec) => {

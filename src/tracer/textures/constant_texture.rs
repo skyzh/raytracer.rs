@@ -1,5 +1,6 @@
 use super::{Texture, Vec3};
 
+#[derive(Clone)]
 pub struct ConstantTexture {
     pub color: Vec3,
 }

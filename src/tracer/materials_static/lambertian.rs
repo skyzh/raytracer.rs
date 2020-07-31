@@ -4,6 +4,7 @@ use rand::rngs::SmallRng;
 use std::f32::consts::PI;
 use std::sync::Arc;
 
+#[derive(Clone)]
 pub struct Lambertian<T: Texture> {
     pub albedo: T,
 }

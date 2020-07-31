@@ -9,6 +9,6 @@ mod perlin;
 
 use super::Vec3;
 
-pub trait Texture: Send + Sync {
+pub trait Texture: Send + Sync + Clone {
     fn value(&self, u: f32, v: f32, p: Vec3) -> Vec3;
 }

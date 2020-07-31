@@ -28,3 +28,7 @@ pub trait Material: Send + Sync {
         0.0
     }
 }
+
+pub struct NoMaterial;
+
+impl Material for NoMaterial {}
