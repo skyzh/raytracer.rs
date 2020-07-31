@@ -3,25 +3,17 @@ use rand::rngs::SmallRng;
 use rand::Rng;
 
 pub fn random_in_unit_sphere(rng: &mut SmallRng) -> Vec3 {
-    loop {
-        let vec = Vec3::new(
-            rng.gen_range(-1.0, 1.0),
-            rng.gen_range(-1.0, 1.0),
-            rng.gen_range(-1.0, 1.0),
-        );
-        if vec.squared_length() < 1.0 {
-            break vec;
-        }
-    }
+    let a = rng.gen_range(0.0, 2.0 * std::f32::consts::PI);
+    let z = rng.gen_range(-1.0, 1.0);
+    let r = 1.0 - z * z;
+    let (a_sin, a_cos) = a.sin_cos();
+    Vec3::new(r * a_cos, r * a_sin, z)
 }
 
 pub fn random_in_unit_disk(rng: &mut SmallRng) -> Vec3 {
-    loop {
-        let vec = Vec3::new(rng.gen_range(-1.0, 1.0), rng.gen_range(-1.0, 1.0), 0.0);
-        if vec.squared_length() < 1.0 {
-            break vec;
-        }
-    }
+    let a = rng.gen_range(0.0, 2.0 * std::f32::consts::PI);
+    let (a_sin, a_cos) = a.sin_cos();
+    Vec3::new(a_cos, a_sin, 0.0)
 }
 
 pub fn random_cosine_direction(rng: &mut SmallRng) -> Vec3 {
@@ -29,8 +21,9 @@ pub fn random_cosine_direction(rng: &mut SmallRng) -> Vec3 {
     let r2 = rng.gen::<f32>();
     let z = (1.0 - r2).sqrt();
     let phi = 2.0 * PI * r1;
-    let x = phi.cos() * r2.sqrt();
-    let y = phi.sin() * r2.sqrt();
+    let (phi_sin, phi_cos) = phi.sin_cos();
+    let x = phi_cos * r2.sqrt();
+    let y = phi_sin * r2.sqrt();
     Vec3::new(x, y, z)
 }
 
@@ -98,13 +91,13 @@ mod tests {
     fn test_random_in_unit_shpere() {
         let mut rng = SmallRng::from_entropy();
         let vec = random_in_unit_sphere(&mut rng);
-        assert!(vec.squared_length() < 1.0);
+        assert!(vec.squared_length() <= 1.0);
     }
 
     #[test]
     fn test_random_in_unit_disk() {
         let mut rng = SmallRng::from_entropy();
         let vec = random_in_unit_disk(&mut rng);
-        assert!(vec.squared_length() < 1.0 && vec.z == 0.0);
+        assert!(vec.squared_length() <= 1.0 && vec.z == 0.0);
     }
 }

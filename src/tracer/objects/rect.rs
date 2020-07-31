@@ -43,7 +43,7 @@ impl Hitable for RectXY {
                     t,
                     p: ray.at(t),
                     normal: Vec3::new(0.0, 0.0, 1.0),
-                    material: self.material.clone(),
+                    material: &*self.material,
                 })
             }
         }
@@ -118,7 +118,7 @@ impl Hitable for RectXZ {
                     t,
                     p: ray.at(t),
                     normal: Vec3::new(0.0, 1.0, 0.0),
-                    material: self.material.clone(),
+                    material: &*self.material,
                 })
             }
         }
@@ -193,7 +193,7 @@ impl Hitable for RectYZ {
                     t,
                     p: ray.at(t),
                     normal: Vec3::new(1.0, 0.0, 0.0),
-                    material: self.material.clone(),
+                    material: &*self.material,
                 })
             }
         }

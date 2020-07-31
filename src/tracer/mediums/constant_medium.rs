@@ -47,7 +47,7 @@ impl Hitable for ConstantMedium {
                                 t,
                                 p,
                                 normal: Vec3::new(1.0, 0.0, 0.0),
-                                material: self.phase_function.clone(),
+                                material: &*self.phase_function,
                                 u: 0.0,
                                 v: 0.0,
                             })

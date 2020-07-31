@@ -27,7 +27,7 @@ impl Hitable for Sphere {
                     normal,
                     u,
                     v,
-                    material: self.material.clone(),
+                    material: &*self.material,
                 });
             }
             let temp = (-b + discriminant.sqrt()) / a / 2.0;
@@ -41,7 +41,7 @@ impl Hitable for Sphere {
                     normal,
                     u,
                     v,
-                    material: self.material.clone(),
+                    material: &*self.material,
                 });
             }
         }
