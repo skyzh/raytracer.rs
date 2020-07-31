@@ -89,12 +89,12 @@ impl Hitable for PDFHitableList {
 
 impl PDFHitable for PDFHitableList {
     fn pdf_value(&self, o: Vec3, v: Vec3) -> f32 {
-        let weight = 1.0 / self.hitables.len() as f32;
+        let weight = 1.0 / self.hitables.len() as f64;
         let mut sum = 0.0;
         for object in self.hitables.iter() {
-            sum += weight * object.pdf_value(o, v);
+            sum += weight * object.pdf_value(o, v) as f64;
         }
-        sum
+        sum as f32
     }
 
     fn random(&self, o: Vec3, rng: &mut SmallRng) -> Vec3 {

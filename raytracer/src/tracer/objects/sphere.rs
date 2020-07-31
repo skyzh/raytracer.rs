@@ -5,7 +5,6 @@ use crate::tracer::{
     HitRecord, Hitable, Material, Ray, Vec3, AABB,
 };
 use rand::rngs::SmallRng;
-use rand::Rng;
 
 pub struct Sphere<M: Material> {
     pub center: Vec3,

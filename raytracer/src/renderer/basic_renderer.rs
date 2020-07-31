@@ -125,6 +125,9 @@ impl<P: PDFHitable> Renderer for BasicRenderer<'_, P> {
                 let ray = self.camera.get_ray(u, v, &mut rng);
                 color = color + self.color(&ray, 50, false, &mut rng);
             }
+            if color.x.is_nan() { color.x = 0.0; }
+            if color.y.is_nan() { color.y = 0.0; }
+            if color.z.is_nan() { color.z = 0.0; }
             *pixel = in_range(gamma_correct(color / self.anti_aliasing as f32)).rgba()
         }
         imgbuf
