@@ -29,6 +29,7 @@ pub trait Material: Send + Sync {
     }
 }
 
+#[derive(Clone)]
 pub struct NoMaterial;
 
 impl Material for NoMaterial {}

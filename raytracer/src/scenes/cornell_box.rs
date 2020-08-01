@@ -1,6 +1,8 @@
 use crate::tracer::{
-    materials::{Dielectric, DiffuseLight, Lambertian, NoMaterial},
-    materials_static::{DiffuseLight as DiffuseLightStatic, Lambertian as LambertianStatic},
+    materials::{DiffuseLight, Lambertian, NoMaterial},
+    materials_static::{
+        ColorDielectric, DiffuseLight as DiffuseLightStatic, Lambertian as LambertianStatic,
+    },
     mediums::ConstantMedium,
     objects::{BoxEntity, RectXY, RectXZ, RectYZ, Sphere},
     textures::ConstantTexture,
@@ -59,7 +61,14 @@ pub fn cornell_box() -> (HitableList, Camera, Option<Arc<PDFHitableList>>) {
                 box Sphere {
                     center: Vec3::new(380.0, 90.0, 100.0),
                     radius: 50.0,
-                    material: Dielectric { ref_idx: 1.5 },
+                    material: ColorDielectric {
+                        ref_idx: 4.0,
+                        attenuation: ConstantTexture::new(Vec3::new(
+                            132.0 / 256.0,
+                            181.0 / 256.0,
+                            248.0 / 256.0,
+                        )),
+                    },
                 },
             ],
         },
